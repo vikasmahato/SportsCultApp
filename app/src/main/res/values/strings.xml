@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">SportscultApp</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
+    <string name="registraion">SportsCult Reg.</string>
+    <string name="team_name">Team Name</string>
+    <string name="coach_name">Coach Name</string>
+    <string name="coach_contact">Coach Contact</string>
+    <string name="coach_email">Coach Email</string>
+    <string name="team_location">Team Location</string>
+    <string name="add_more_players">Add Player Info</string>
+    <string name="player_contact">Player Contact</string>
+    <string name="player_name">Player Name</string>
+    <string name="submit">Submit</string>
+</resources>
