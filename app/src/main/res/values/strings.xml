@@ -15,4 +15,8 @@
     <string name="player_contact">Player Contact</string>
     <string name="player_name">Player Name</string>
     <string name="submit">Submit</string>
+    <string name="status">status</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
