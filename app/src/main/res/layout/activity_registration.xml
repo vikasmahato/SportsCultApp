@@ -18,7 +18,7 @@
 <TextView
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:text="@string/registraion"/>
+    android:text="@string/registration"/>
     <EditText
         android:id="@+id/reg_team_name"
         android:layout_width="match_parent"
@@ -40,10 +40,16 @@
         android:layout_height="wrap_content"
         android:hint="@string/coach_email"/>
     <EditText
-        android:id="@+id/reg_team_location"
+        android:id="@+id/reg_password"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/team_location"/>
+        android:hint="Password"/>
+    <EditText
+        android:id="@+id/reg_confirm_password"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Confirm Password"/>
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -58,13 +64,15 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_gravity="right"
-    app:srcCompat="@drawable/ic_control_point_black_24dp"/>
+    app:srcCompat="@drawable/ic_control_point_black_24dp"
+    />
 
     <Button
         android:id="@+id/submit_btn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/submit"/>
+        android:text="@string/submit"
+        android:onClick="register_team"/>
 
 </LinearLayout>
 </ScrollView>
