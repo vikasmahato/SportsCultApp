@@ -1,5 +1,7 @@
 package in.sportscult.sportscultapp;
 
+import android.app.FragmentTransaction;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -8,6 +10,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -135,13 +138,16 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_settings) {
 
         } else if (id == R.id.nav_about) {
-
+            Intent aboutIntent = new Intent(this, AboutActivity.class);
+            startActivity(aboutIntent);
         } else if (id == R.id.nav_sponsors) {
-
+            Intent sponsorsIntent = new Intent(this, SponsorsActivity.class);
+            startActivity(sponsorsIntent);
         } else if (id == R.id.nav_leader) {
 
         } else if (id == R.id.nav_help) {
-
+            Intent helpIntent = new Intent(this, HelpActivity.class);
+            startActivity(helpIntent);
         } else if (id == R.id.nav_signout) {
 
         }
@@ -149,5 +155,12 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    public void replaceFragment(Fragment someFragment) {
+        android.support.v4.app.FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.frame_container, someFragment);
+        transaction.addToBackStack(null);
+        transaction.commit();
     }
 }
