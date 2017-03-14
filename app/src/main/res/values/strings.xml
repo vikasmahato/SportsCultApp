@@ -22,4 +22,12 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="history">Our History</string>
+    <string name="content_history">Founded with a Mission to ‘Make Sports a Culture’ and a belief that it’s never too early or too late to learn a sport, we deliver well-structured comprehensive programs suited for all ages and skill levels – be it amateurs, professionals or recreational and leisure. Great Quality Facilities, Standardized Training (in skill and fitness), balanced nutrition guidance and technology driven assessment process are the cornerstones of Sports Cult’s training programs.</string>
+    <string name="philosophy">Our Philosophy</string>
+    <string name="content_philosophy">Playing sports at any level is enjoyable and doing it regularly improves your overall personality and makes you a healthier person. Some of us take up a sport with a goal to become a champion. It is our endeavor to create a structured, scientific journey for you to reach your goal.</string>
+    <string name="commitment">Our Commitment</string>
+    <string name="content_commitment">SportsCult is committed to excellence in all aspects of sports education that provides an inspiring environment for high performance. This commitment includes the training curriculum, well qualified trainers / coaches as well as the sporting facility.</string>
+    <string name="sponsors">Our Sponsors</string>
+    <string name="backdrop_subtitle">We are thankful to</string>
 </resources>
