@@ -1,24 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
+
     <EditText
         android:id="@+id/player_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/player_name"/>
+
     <EditText
         android:id="@+id/player_contact"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/player_contact"/>
     <ImageView
+        android:id="@+id/id_proof_scan"
         android:layout_width="300dip"
         android:layout_height="300dip"
+        android:layout_gravity="center_horizontal"
         android:visibility="gone"/>
     <Button
+        android:id="@+id/upload_id_proof_scan"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/upload_id_proof"/>
+        android:text="@string/upload_id_proof"
+        android:layout_gravity="center_horizontal"/>
 
 </LinearLayout>
