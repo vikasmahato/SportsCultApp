@@ -31,4 +31,6 @@
     <string name="sponsors">Our Sponsors</string>
     <string name="backdrop_subtitle">We are thankful to</string>
     <string name="refree_name">Refree Name</string>
+    <string name="prompt_password">Password</string>
+    <string name="hint_password_confirm">Confirm Password</string>
 </resources>
