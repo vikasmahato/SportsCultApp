@@ -1,6 +1,7 @@
 package in.sportscult.sportscultapp;
 
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -25,6 +26,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -34,16 +37,21 @@ public class RegistrationActivity extends AppCompatActivity {
     private EditText reg_team_name,reg_coach_name,reg_coach_contact,reg_coach_email,reg_password,reg_confirm_password;
     private String team_name,coach_name,coach_contact,coach_email,age_group,location,password,confirm_password;
     private static ListView player_list;
-    static boolean unique_team_name = true;
     private static final int GAlLERY_ACCESS = 1000;
     private static Uri id_proof_scan_uri;
     private static ArrayList<String> names_of_players,contact_of_players;
     private static ArrayList<Uri> uri_of_players;
     private static View AlertDialogView;
     private static Player_List_Adapter player_list_adapter;
+    static View focus;
+    static boolean verification_success;
+    private static ProgressDialog progressDialog;
+    //Provide the minimum number of permissable team members in a team
+    private static final int minimum_number_of_players = 2;
 
-    private DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
-    DatabaseReference databaseReference1;
+    private DatabaseReference databaseReference;
+    private DatabaseReference databaseReference1;
+    private StorageReference storageReference;
 
     //Add Team Profile Pic, Group Jersey,Password Field
     //Dropdown Menu for Location, Age Group
@@ -66,11 +74,16 @@ public class RegistrationActivity extends AppCompatActivity {
         uri_of_players = new ArrayList<Uri>();
 
         //Comment this section out after adding additional functionality for them
-        age_group = "A";
+        age_group = "Group - A";
         location = "Rohini";
         //Till here
 
         test();
+    }
+
+    public void test(){
+
+        //player_list = (ListView) findViewById(R.id.player_list);
 //        int len = names_of_players.size();
 //        String namearray[] = new String[len];
 //        String contactsarray[] = new String[len];
@@ -83,22 +96,7 @@ public class RegistrationActivity extends AppCompatActivity {
 //
 //        player_list_adapter = new Player_List_Adapter(this,namearray,contactsarray,uriarray);
 //        player_list.setAdapter(player_list_adapter);
-    }
-
-    public void test(){
-
-        //player_list = (ListView) findViewById(R.id.player_list);
-        int len = names_of_players.size();
-        String namearray[] = new String[len];
-        String contactsarray[] = new String[len];
-        Uri uriarray[] = new Uri[len];
-        for(int i=0;i<len;i++) {
-            namearray[i] = names_of_players.get(i);
-            contactsarray[i] = contact_of_players.get(i);
-            uriarray[i] = uri_of_players.get(i);
-        }
-
-        player_list_adapter = new Player_List_Adapter(this,namearray,contactsarray,uriarray);
+        player_list_adapter = new Player_List_Adapter(this,names_of_players,contact_of_players,uri_of_players);
         player_list.setAdapter(player_list_adapter);
 
     }
@@ -178,6 +176,11 @@ public class RegistrationActivity extends AppCompatActivity {
     //Register Your Team
     public void register_team(View view){
 
+        progressDialog = new ProgressDialog(RegistrationActivity.this);
+        progressDialog.setMessage("Registering Your Team...");
+        progressDialog.setCancelable(false);
+        progressDialog.show();
+
         //Get the contents from fields
         team_name = reg_team_name.getText().toString().trim().toUpperCase();
         coach_name = reg_coach_name.getText().toString().trim().toUpperCase();
@@ -189,34 +192,56 @@ public class RegistrationActivity extends AppCompatActivity {
         //Verify if the details were entered correctly
         boolean correct = verify_details();
 
-        if(!correct)
+        if(!correct) {
+            progressDialog.dismiss();
             return;
-
-        databaseReference1 = databaseReference.child(age_group).child("Team Names");
+        }
 
         //Verify if a team name with the same name in that age group already exists
-        correct = verify_team_name();
-        if(!correct)
-            return;
+//        correct = verify_team_name();
+//        if(!correct){
+//            progressDialog.dismiss();
+//            return;
+//        }
 
         //Add Team Name along with payment status and password
-        databaseReference1 = databaseReference1.child(team_name);
+        databaseReference1 = FirebaseDatabase.getInstance().getReference().child(age_group).child("Team Names").child(team_name);
         databaseReference1.child("Payment Status").setValue("No");
         databaseReference1.child("Password").setValue(password);
 
         //Add Team Details
-        databaseReference = databaseReference.child(age_group).child(team_name);
+        storageReference = FirebaseStorage.getInstance().getReference().child(age_group).child(team_name);
+        //Add Team Profile Pic
+        //storageReference.child("Team Profile Pic").putFile(uri_of_team_profile_pic);
+        databaseReference = FirebaseDatabase.getInstance().getReference().child(age_group).child(team_name);
         databaseReference.child("Coach Name").setValue(coach_name);
         databaseReference.child("Contact Number").setValue(coach_contact);
         databaseReference.child("Email").setValue(coach_email);
         databaseReference.child("Location").setValue(location);
 
+        //Adding information about players
+        storageReference = storageReference.child("Player ID Scans");
+        databaseReference.child("Number Of Players").setValue(names_of_players.size());
+        databaseReference = databaseReference.child("Players");
+        for(int i=0;i<names_of_players.size();i++){
+            //Remove this player code after creating a proper one
+            String player_code = ""+((char)(i+65));
+            //Proper player code
+            //name_of_player+jersey_number_of_player
+            storageReference.child(player_code).putFile(uri_of_players.get(i));
+            DatabaseReference tempreference = databaseReference.child(player_code);
+            tempreference.child("Name").setValue(names_of_players.get(i));
+            tempreference.child("Contact").setValue(contact_of_players.get(i));
+        }
+
+        progressDialog.dismiss();
+        //Start a new Activity here which take to payment page
     }
 
     boolean verify_details(){
 
-        View focus = null;
-        boolean verification_success = true;
+        focus = null;
+        verification_success = true;
         if(password.length()<6){
             reg_confirm_password.setText("");
             reg_password.setError("Password Must Atleast 6 characters");
@@ -258,6 +283,12 @@ public class RegistrationActivity extends AppCompatActivity {
             focus = reg_team_name;
             verification_success = false;
         }
+        if(names_of_players.size()<minimum_number_of_players){
+            Toast.makeText(RegistrationActivity.this,("You need to add atleast "+(minimum_number_of_players-names_of_players.size())+" players."),Toast.LENGTH_LONG).show();
+            verification_success = false;
+            if(focus==null)
+                focus = reg_team_name;
+        }
 
         if(!verification_success)
             focus.requestFocus();
@@ -265,15 +296,17 @@ public class RegistrationActivity extends AppCompatActivity {
     }
 
     boolean verify_team_name(){
-
-        View focus = null;
-        boolean verification_success = true;
-            databaseReference1.addValueEventListener(new ValueEventListener() {
+        verification_success = true;
+        DatabaseReference tempDatabaseReference = FirebaseDatabase.getInstance().getReference().child(age_group).child("Team Names");
+        tempDatabaseReference.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     Map<String,String> map = (Map<String,String>)dataSnapshot.getValue();
-                    if(map.get(team_name)!=null)
-                        unique_team_name = false;
+                    if(map.get(team_name)!=null){
+                        reg_team_name.setError("Team Name Already Exists");
+                        reg_team_name.requestFocus();
+                        verification_success = false;
+                    }
                 }
 
                 @Override
@@ -281,14 +314,6 @@ public class RegistrationActivity extends AppCompatActivity {
 
                 }
             });
-            if(!unique_team_name){
-                reg_team_name.setError("Team Name Already Exists");
-                focus = reg_team_name;
-                verification_success = false;
-            }
-
-        if(!verification_success)
-            focus.requestFocus();
         return verification_success;
     }
 
@@ -298,11 +323,11 @@ public class RegistrationActivity extends AppCompatActivity {
     //Adapter for displaying player details in listview
     class Player_List_Adapter extends ArrayAdapter<String>{
 
-        String[] names,contacts;
-        Uri uris[];
+        ArrayList<String> names,contacts;
+        ArrayList<Uri> uris;
         Context context;
 
-        public Player_List_Adapter(Context context,String names[],String[] contacts,Uri[] uris) {
+        public Player_List_Adapter(Context context,ArrayList<String> names,ArrayList<String> contacts,ArrayList<Uri> uris) {
             super(context, R.layout.player_row,names);
             this.context = context;
             this.names = names;
@@ -342,9 +367,9 @@ public class RegistrationActivity extends AppCompatActivity {
             TextView individual_contact = (TextView) current_view.findViewById(R.id.individual_contact);
             ImageView individual_id_proof = (ImageView) current_view.findViewById(R.id.individual_id_proof);
 
-            individual_name.setText(names[position]);
-            individual_contact.setText(contacts[position]);
-            individual_id_proof.setImageURI(uris[position]);
+            individual_name.setText(names.get(position));
+            individual_contact.setText(contacts.get(position));
+            individual_id_proof.setImageURI(uris.get(position));
 
             return current_view;
         }
