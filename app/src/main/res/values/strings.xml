@@ -30,4 +30,13 @@
     <string name="content_commitment">SportsCult is committed to excellence in all aspects of sports education that provides an inspiring environment for high performance. This commitment includes the training curriculum, well qualified trainers / coaches as well as the sporting facility.</string>
     <string name="sponsors">Our Sponsors</string>
     <string name="backdrop_subtitle">We are thankful to</string>
+
+
+    <string-array name="age_groups">
+        <item>Select Age Group</item>
+        <item>9yrs - 10yrs</item>
+        <item>10yrs - 11yrs</item>
+        <item>11yrs - 12yrs</item>
+        <item>12yrs - 13yrs</item>
+    </string-array>
 </resources>

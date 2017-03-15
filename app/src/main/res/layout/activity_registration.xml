@@ -23,11 +23,23 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/registration"/>
+    <ImageView
+        android:id="@+id/reg_team_profile_pic"
+        android:layout_width="150dip"
+        android:layout_height="150dip"
+        android:layout_gravity="center_horizontal"
+        android:background="@android:drawable/ic_menu_gallery"
+        android:onClick="add_team_profile_pic"
+        android:clickable="true"/>
     <EditText
         android:id="@+id/reg_team_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/team_name"/>
+    <Spinner
+        android:id="@+id/age_group_dropdown"
+        android:layout_width="match_parent"
+        android:layout_height="35dip" />
     <EditText
         android:id="@+id/reg_coach_name"
         android:layout_width="match_parent"
@@ -37,22 +49,26 @@
         android:id="@+id/reg_coach_contact"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/coach_contact"/>
+        android:hint="@string/coach_contact"
+        android:inputType="phone"/>
     <EditText
         android:id="@+id/reg_coach_email"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/coach_email"/>
+        android:hint="@string/coach_email"
+        android:inputType="textEmailAddress"/>
     <EditText
         android:id="@+id/reg_password"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Password"/>
+        android:hint="Password"
+        android:inputType="textPassword"/>
     <EditText
         android:id="@+id/reg_confirm_password"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Confirm Password"/>
+        android:hint="Confirm Password"
+        android:inputType="textPassword"/>
 
     <TextView
         android:layout_width="wrap_content"

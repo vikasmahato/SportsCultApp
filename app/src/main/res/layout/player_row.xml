@@ -18,6 +18,13 @@
         android:text="Contact Of Player"
         android:textSize="20dip"
         />
+    <TextView
+        android:id="@+id/player_jersey"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Jersey Number Of Player"
+        android:textSize="20dip"
+        />
     <ImageView
         android:layout_width="300dip"
         android:layout_height="300dip"
