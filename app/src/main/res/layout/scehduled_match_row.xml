@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/colorAccent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="5dip">
+
+        <TextView
+            android:layout_width="60dip"
+            android:layout_height="60dip"
+            android:textColor="#FFFFFF"
+            android:text="VS"
+            android:gravity="center"
+            android:textSize="40dip"
+            android:id="@+id/textView3"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true" />
+
+        <ImageView
+            android:layout_width="60dip"
+            android:layout_height="60dip"
+            android:id="@+id/TeamA_profile_pic"
+            android:background="#000000"
+            android:layout_marginStart="40dip"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentStart="true" />
+
+        <ImageView
+            android:layout_width="60dip"
+            android:layout_height="60dip"
+            android:id="@+id/TeamB_profile_pic"
+            android:background="#000000"
+            android:layout_marginEnd="40dip"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true" />
+    </RelativeLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:layout_width="60dip"
+            android:layout_height="wrap_content"
+            android:id="@+id/TeamA_Name"
+            android:textColor="#FFFFFF"
+            android:text="TEAM A"
+            android:textStyle="bold"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="45dip"/>
+        <TextView
+            android:layout_width="60dip"
+            android:layout_height="wrap_content"
+            android:id="@+id/TeamB_Name"
+            android:textColor="#FFFFFF"
+            android:text="TEAM B"
+            android:textStyle="bold"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="45dip"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="5dip">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="07:30 PM"
+            android:textColor="#FFFFFF"
+            android:id="@+id/time_of_match"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="28dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Time : "
+            android:textColor="#FFFFFF"
+            android:id="@+id/textView4"
+            android:layout_alignParentTop="true"
+            android:layout_toStartOf="@+id/time_of_match" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Date : "
+            android:textColor="#FFFFFF"
+            android:layout_marginStart="34dp"
+            android:id="@+id/textView5"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentStart="true" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="25-03-2017"
+            android:textColor="#FFFFFF"
+            android:id="@+id/date_of_match"
+            android:layout_alignParentTop="true"
+            android:layout_toEndOf="@+id/textView5" />
+    </RelativeLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/venue_of_match"
+            android:text="Venue : DTU"
+            android:textColor="#FFFFFF"
+            android:gravity="center_horizontal"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/refree_of_the_match"
+            android:text="Refree : Vishal"
+            android:textColor="#FFFFFF"
+            android:gravity="center_horizontal"
+            android:padding="5dip"/>
+    </LinearLayout>
+
+</LinearLayout>
