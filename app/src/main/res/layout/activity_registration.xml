@@ -4,8 +4,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_height="wrap_content"
     android:layout_width="match_parent"
+    android:background="@color/viewBg"
     android:orientation="vertical">
-
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -23,7 +23,11 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textColor="@color/colorAccent"
+            android:textStyle="bold"
+            android:textSize="@dimen/backdrop_title"
             android:text="@string/registration"/>
+
         <ImageView
             android:id="@+id/reg_team_profile_pic"
             android:layout_width="150dip"
@@ -32,71 +36,130 @@
             android:background="@android:drawable/ic_menu_gallery"
             android:onClick="add_team_profile_pic"
             android:clickable="true"/>
-        <EditText
-            android:id="@+id/reg_team_name"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/team_name"/>
+
         <Spinner
             android:id="@+id/age_group_dropdown"
             android:layout_width="match_parent"
             android:layout_height="35dip" />
-        <EditText
-            android:id="@+id/reg_coach_name"
+
+        <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/coach_name"/>
-        <EditText
-            android:id="@+id/reg_coach_contact"
+            android:layout_height="wrap_content">
+
+            <AutoCompleteTextView
+                android:id="@+id/reg_team_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/team_name"
+                android:inputType="textCapWords"
+                android:maxLines="1"
+                android:singleLine="true" />
+
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/coach_contact"
-            android:inputType="phone"/>
-        <EditText
+            android:layout_height="wrap_content">
+
+            <AutoCompleteTextView
+                android:id="@+id/reg_coach_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/coach_name"
+                android:inputType="textCapWords"
+                android:maxLines="1"
+                android:singleLine="true" />
+
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <AutoCompleteTextView
+                android:hint="@string/coach_contact"
+                android:id="@+id/reg_coach_contact"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textCapWords"
+                android:maxLines="1"
+                android:singleLine="true" />
+
+        </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <AutoCompleteTextView
+            android:hint="@string/coach_email"
             android:id="@+id/reg_coach_email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/coach_email"
-            android:inputType="textEmailAddress"/>
+            android:inputType="textCapWords"
+            android:maxLines="1"
+            android:singleLine="true" />
+
+    </android.support.design.widget.TextInputLayout>
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
         <EditText
             android:id="@+id/reg_password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Password"
-            android:inputType="textPassword"/>
+            android:hint="@string/prompt_password"
+            android:imeActionId="@+id/login"
+            android:imeOptions="actionUnspecified"
+            android:inputType="textPassword"
+            android:maxLines="1"
+            android:singleLine="true" />
+
+    </android.support.design.widget.TextInputLayout>
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
         <EditText
             android:id="@+id/reg_confirm_password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Confirm Password"
-            android:inputType="textPassword"/>
+            android:hint="@string/hint_password_confirm"
+            android:imeActionId="@+id/login"
+            android:imeOptions="actionUnspecified"
+            android:inputType="textPassword"
+            android:maxLines="1"
+            android:singleLine="true" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/add_more_players"
-            android:id="@+id/textView2" />
-        <ImageButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="right"
-            app:srcCompat="@drawable/ic_control_point_black_24dp"
-            android:id="@+id/new_player"
-            android:onClick="add_new_player"
-            />
-        <Button
-            android:id="@+id/submit_btn"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/submit"
-            android:onClick="register_team"/>
-    </LinearLayout>
-        </ScrollView>
-
-    <ListView
+    </android.support.design.widget.TextInputLayout>
+    <TextView
+        android:textSize="@dimen/album_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/primaryText"
+        android:text="@string/add_more_players"
+        android:id="@+id/textView2" />
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"
+        app:srcCompat="@drawable/ic_control_point_black_24dp"
+        android:id="@+id/new_player"
+        android:onClick="add_new_player"
+        />
+    <Button
+        android:id="@+id/submit_btn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/player_list"/>
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-</LinearLayout>
+        android:text="@string/submit"
+        android:onClick="register_team"/>
+        </LinearLayout>
+    </ScrollView>
+<ListView
+android:layout_width="match_parent"
+android:layout_height="wrap_content"
+android:id="@+id/player_list"/>
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    </LinearLayout>
