@@ -2,24 +2,23 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:paddingTop="30dp"
+    android:paddingLeft="@dimen/activity_vertical_margin"
+    android:paddingRight="@dimen/activity_vertical_margin"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools">
-<de.hdodenhof.circleimageview.CircleImageView
-    android:layout_margin="@dimen/fab_margin"
-    android:id="@+id/teamA"
-    android:layout_width="50dp"
-    android:layout_height="50dp"
-    android:src="@mipmap/ic_launcher"
-    android:layout_alignParentTop="true"
-    android:layout_alignParentStart="true"/>
+    <include
+        layout="@layout/team_a"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
 
 
     <TextView
         android:layout_margin="@dimen/fab_margin"
         android:id="@+id/dash"
         android:text="-"
-        android:textSize="24sp"
+        android:textColor="@android:color/white"
+        android:textSize="@dimen/backdrop_title"
         android:layout_centerHorizontal="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
@@ -27,32 +26,33 @@
         android:id="@+id/scoreB"
         android:text="1"
         android:layout_margin="@dimen/fab_margin"
-        android:textSize="24sp"
+        android:textColor="@android:color/white"
+        android:textSize="@dimen/backdrop_title"
         android:layout_toRightOf="@id/dash"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
     <TextView
         android:id="@+id/status"
         android:text="Going on"
-        android:textSize="24sp"
+        android:textColor="@android:color/white"
+        android:textSize="@dimen/backdrop_subtitle"
         android:layout_below="@id/dash"
         android:layout_centerHorizontal="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:layout_margin="@dimen/fab_margin"
-        android:id="@+id/teamB"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:src="@mipmap/ic_launcher"
+    <include
+        layout="@layout/team_b"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true" />
     <TextView
         android:layout_toLeftOf="@id/dash"
         android:id="@+id/scoreA"
         android:text="1"
-        android:textSize="24sp"
+        android:textColor="@android:color/white"
+        android:textSize="@dimen/backdrop_title"
         android:layout_centerHorizontal="true"
         android:layout_margin="@dimen/fab_margin"
         android:layout_width="wrap_content"
