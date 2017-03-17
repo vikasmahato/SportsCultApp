@@ -27,6 +27,21 @@
         android:textStyle="bold"
         android:textSize="@dimen/backdrop_title"
         android:text="@string/registration"/>
+
+    <ImageView
+        android:id="@+id/reg_team_profile_pic"
+        android:layout_width="150dip"
+        android:layout_height="150dip"
+        android:layout_gravity="center_horizontal"
+        android:background="@android:drawable/ic_menu_gallery"
+        android:onClick="add_team_profile_pic"
+        android:clickable="true"/>
+   
+    <Spinner
+        android:id="@+id/age_group_dropdown"
+        android:layout_width="match_parent"
+        android:layout_height="35dip" />
+    
     <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -58,7 +73,9 @@
     </android.support.design.widget.TextInputLayout>
     <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"/>
+   
+  
 
         <AutoCompleteTextView
             android:hint="@string/coach_contact"

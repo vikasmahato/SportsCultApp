@@ -14,7 +14,15 @@
         android:id="@+id/player_contact"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/player_contact"/>
+        android:hint="@string/player_contact"
+        android:inputType="phone"/>
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Jersey Number"
+        android:inputType="number"
+        android:maxLength="3"
+        android:id="@+id/player_jersey"/>
     <ImageView
         android:id="@+id/id_proof_scan"
         android:layout_width="300dip"
