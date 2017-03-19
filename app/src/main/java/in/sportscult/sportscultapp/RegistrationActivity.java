@@ -79,6 +79,7 @@ public class RegistrationActivity extends AppCompatActivity {
         jersey_number_of_players = new ArrayList<String>();
         uri_of_players = new ArrayList<Uri>();
         profile_pic_uri = null;
+        age_group = "Group - 0";
 
         //Set Up Spinner For Age Group
         ArrayAdapter<String> ageGroupAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,getResources().getStringArray(R.array.age_groups));
@@ -92,7 +93,7 @@ public class RegistrationActivity extends AppCompatActivity {
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-                age_group = "Group - 0";
+
             }
         });
         //Comment this section out after adding additional functionality for them
@@ -246,7 +247,7 @@ public class RegistrationActivity extends AppCompatActivity {
                     //Add Team Profile Pic
                     if(profile_pic_uri!=null)
                         storageReference.child("Team Profile Pic").putFile(profile_pic_uri);
-                    databaseReference = FirebaseDatabase.getInstance().getReference().child(age_group).child(team_name);
+                    databaseReference = FirebaseDatabase.getInstance().getReference().child(age_group).child("Team Description").child(team_name);
                     databaseReference.child("Coach Name").setValue(coach_name);
                     databaseReference.child("Contact Number").setValue(coach_contact);
                     databaseReference.child("Email").setValue(coach_email);
@@ -396,21 +397,6 @@ public class RegistrationActivity extends AppCompatActivity {
             viewHolder.individual_id_proof.setImageURI(uris.get(position));
 
             return row;
-
-//            LayoutInflater layoutInflater = LayoutInflater.from(context);
-//            View current_view = layoutInflater.inflate(R.layout.player_row,parent,false);
-//
-//            TextView individual_name = (TextView) current_view.findViewById(R.id.individual_name);
-//            TextView individual_contact = (TextView) current_view.findViewById(R.id.individual_contact);
-//            TextView player_jersey = (TextView) current_view.findViewById(R.id.player_jersey);
-//            ImageView individual_id_proof = (ImageView) current_view.findViewById(R.id.individual_id_proof);
-//
-//            individual_name.setText(names.get(position));
-//            individual_contact.setText(contacts.get(position));
-//            player_jersey.setText(jersey.get(position));
-//            individual_id_proof.setImageURI(uris.get(position));
-//
-//            return current_view;
         }
     }
 
