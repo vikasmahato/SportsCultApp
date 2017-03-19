@@ -33,4 +33,5 @@
     <string name="refree_name">Refree Name</string>
     <string name="prompt_password">Password</string>
     <string name="hint_password_confirm">Confirm Password</string>
+    <string name="rank">Rank</string>
 </resources>
