@@ -5,12 +5,17 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.media.ThumbnailUtils;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +29,9 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -31,7 +39,10 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
+import com.squareup.picasso.Picasso;
 
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.Map;
 
@@ -188,12 +199,14 @@ public class RegistrationActivity extends AppCompatActivity {
             id_proof_scan_uri = data.getData();
             id_proof_scan.setVisibility(View.VISIBLE);
             id_proof_scan.setImageURI(id_proof_scan_uri);
+            Picasso.with(this).load(id_proof_scan_uri).resize(300,300).centerCrop().into(id_proof_scan);
         }
         else if(requestCode==PROFILE_PIC_ACCESS && resultCode==RESULT_OK){
             ImageView reg_team_profile_pic = (ImageView)findViewById(R.id.reg_team_profile_pic);
             profile_pic_uri = data.getData();
             reg_team_profile_pic.setBackgroundColor(Color.BLACK);
             reg_team_profile_pic.setImageURI(profile_pic_uri);
+            Picasso.with(this).load(profile_pic_uri).resize(150,150).centerCrop().into(reg_team_profile_pic);
         }
     }
 
@@ -237,16 +250,34 @@ public class RegistrationActivity extends AppCompatActivity {
                     progressDialog.dismiss();
                 }
                 else{
-                    //Add Team Name along with payment status and password
+                    //Add Team Name along with password
                     databaseReference1 = FirebaseDatabase.getInstance().getReference().child(age_group).child("Team Names").child(team_name);
-                    databaseReference1.child("Payment Status").setValue("No");
                     databaseReference1.child("Password").setValue(password);
 
                     //Add Team Details
                     storageReference = FirebaseStorage.getInstance().getReference().child(age_group).child(team_name);
                     //Add Team Profile Pic
-                    if(profile_pic_uri!=null)
-                        storageReference.child("Team Profile Pic").putFile(profile_pic_uri);
+                    if(profile_pic_uri!=null) {
+
+                        //Generate thumbnail and save it and its download url
+                        byte[] thumbnailForProfilePic = generateThumbnailForImage(profile_pic_uri);
+                        storageReference.child("Team Profile Pic Thumbnail").putBytes(thumbnailForProfilePic).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                            @Override
+                            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                                Uri downloadUri = taskSnapshot.getDownloadUrl();
+                                databaseReference1.child("Team Profile Pic Thumbnail Url").setValue(downloadUri.toString());
+                            }
+                        });
+
+                        //Save image and its download url
+                        storageReference.child("Team Profile Pic").putFile(profile_pic_uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                            @Override
+                            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                                Uri downloadUri = taskSnapshot.getDownloadUrl();
+                                databaseReference1.child("Team Profile Pic Url").setValue(downloadUri.toString());
+                            }
+                        });
+                    }
                     databaseReference = FirebaseDatabase.getInstance().getReference().child(age_group).child("Team Description").child(team_name);
                     databaseReference.child("Coach Name").setValue(coach_name);
                     databaseReference.child("Contact Number").setValue(coach_contact);
@@ -260,15 +291,22 @@ public class RegistrationActivity extends AppCompatActivity {
                     for(int i=0;i<names_of_players.size();i++){
                         //Generate a proper player code so that players can be distinguished
                         String player_code = jersey_number_of_players.get(i)+"-"+ names_of_players.get(i);
-                        storageReference.child(player_code).putFile(uri_of_players.get(i));
-                        DatabaseReference tempreference = databaseReference.child(player_code);
+                        final DatabaseReference tempreference = databaseReference.child(player_code);
                         tempreference.child("Name").setValue(names_of_players.get(i));
                         tempreference.child("Contact").setValue(contact_of_players.get(i));
                         tempreference.child("Jersey Number").setValue(jersey_number_of_players.get(i));
+                        storageReference.child(player_code).putFile(uri_of_players.get(i)).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                            @Override
+                            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                                Uri downloadUri = taskSnapshot.getDownloadUrl();
+                                tempreference.child("Player ID Scans Url").setValue(downloadUri.toString());
+                                progressDialog.dismiss();
+                            }
+                        });
                     }
 
-                    progressDialog.dismiss();
-                    Intent intent = new Intent(RegistrationActivity.this,AboutActivity.class);
+                    Intent intent = new Intent(RegistrationActivity.this,MainActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY|Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(intent);
                 }
             }
@@ -348,6 +386,28 @@ public class RegistrationActivity extends AppCompatActivity {
     //Till here Register Your Team
 
 
+    public byte[] generateThumbnailForImage(Uri uri){
+        final int THUMBSIZE = 100;
+
+        Bitmap thumbImage = ThumbnailUtils.extractThumbnail(
+                BitmapFactory.decodeFile(getPath(uri)),
+                THUMBSIZE,
+                THUMBSIZE);
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        thumbImage.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+        return baos.toByteArray();
+    }
+
+    public String getPath(Uri uri) {
+        String[] projection = { MediaStore.Images.Media.DATA };
+        Cursor cursor = managedQuery(uri, projection, null, null, null);
+        int column_index = cursor
+                .getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+
+        cursor.moveToFirst();
+        return cursor.getString(column_index);
+    }
+
     //Adapter for displaying player details in listview
     class Player_List_Adapter extends ArrayAdapter<String>{
 
@@ -394,7 +454,8 @@ public class RegistrationActivity extends AppCompatActivity {
             viewHolder.individual_name.setText(names.get(position));
             viewHolder.individual_contact.setText(contacts.get(position));
             viewHolder.individual_jersey.setText(jersey.get(position));
-            viewHolder.individual_id_proof.setImageURI(uris.get(position));
+            //viewHolder.individual_id_proof.setImageURI(uris.get(position));
+            Picasso.with(RegistrationActivity.this).load(uris.get(position)).resize(150,150).centerCrop().into(viewHolder.individual_id_proof);
 
             return row;
         }

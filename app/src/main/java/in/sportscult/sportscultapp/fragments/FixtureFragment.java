@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -18,8 +19,12 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Callback;
+import com.squareup.picasso.NetworkPolicy;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 
 import in.sportscult.sportscultapp.R;
@@ -34,6 +39,7 @@ public class FixtureFragment extends Fragment {
     private static String age_group;
     private static ArrayList<Fixture> list_of_fixtures;
     private static FixtureListAdapter fixtureListAdapter;
+    private static Map<String,String> team_profile_pic_download_urls;
 
     public FixtureFragment() {
         // Required empty public constructor
@@ -52,14 +58,18 @@ public class FixtureFragment extends Fragment {
         age_group_fixture = (Spinner) view.findViewById(R.id.age_group_fixture);
         upcoming_matches_fixture = (ListView) view.findViewById(R.id.upcoming_matches_fixture);
         list_of_fixtures = new ArrayList<Fixture>();
+        team_profile_pic_download_urls = new HashMap<String, String>();
 
         final ArrayAdapter<String> age_group_adapter = new ArrayAdapter<String>(getActivity(),android.R.layout.simple_list_item_1,getResources().getStringArray(R.array.age_groups));
         age_group_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         age_group_fixture.setAdapter(age_group_adapter);
         //Add The Functionality to get the selection_for_age_group from Shared Preferences
         //If no data stored in Shared Preferences then do nothing,it will work on the default value
+        //Initial Run
         age_group_fixture.setSelection(selection_for_age_group);
         age_group = "Group - "+age_group_codes[selection_for_age_group];
+        Fetching_Fixtures_From_Firebase();
+        //Listening for change in age groups
         age_group_fixture.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -82,20 +92,40 @@ public class FixtureFragment extends Fragment {
 
     public void Fetching_Fixtures_From_Firebase(){
 
-        databaseReference = FirebaseDatabase.getInstance().getReference().child(age_group).child("Fixtures");
-        databaseReference.addValueEventListener(new ValueEventListener() {
+        list_of_fixtures = new ArrayList<Fixture>();
+        team_profile_pic_download_urls = new HashMap<String, String>();
+        databaseReference = FirebaseDatabase.getInstance().getReference().child(age_group);
+        databaseReference.child("Fixtures").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+                if(dataSnapshot.getValue()==null){
+                    fixtureListAdapter = new FixtureListAdapter(getActivity(),list_of_fixtures,team_profile_pic_download_urls);
+                    upcoming_matches_fixture.setAdapter(fixtureListAdapter);
+                }
                 for(DataSnapshot ChildSnapshot : dataSnapshot.getChildren()){
                     Map<String,String> fixture_description = (Map<String,String>)ChildSnapshot.getValue();
                     Fixture fixture = new Fixture(fixture_description.get("Team A"),fixture_description.get("Team B"),fixture_description.get("Date"),
                             fixture_description.get("Time"),fixture_description.get("Venue"),fixture_description.get("Referee"));
                     list_of_fixtures.add(fixture);
                 }
+                databaseReference.child("Team Names").addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        for(DataSnapshot ChildSnapshot : dataSnapshot.getChildren()){
+                            Map<String,String> urlmap = (Map<String,String>)ChildSnapshot.getValue();
+                            team_profile_pic_download_urls.put(ChildSnapshot.getKey(),urlmap.get("Team Profile Pic Thumbnail Url"));
 
-                //Configure Adapter for ListView
-                fixtureListAdapter = new FixtureListAdapter(getActivity(),list_of_fixtures);
-                upcoming_matches_fixture.setAdapter(fixtureListAdapter);
+                            //Configure Adapter for ListView
+                            fixtureListAdapter = new FixtureListAdapter(getActivity(),list_of_fixtures,team_profile_pic_download_urls);
+                            upcoming_matches_fixture.setAdapter(fixtureListAdapter);
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
 
             }
 
@@ -122,15 +152,18 @@ class Fixture{
 
 class FixtureListAdapter extends ArrayAdapter<Fixture>{
     ArrayList<Fixture> fixtureArrayList;
+    Map<String,String> map_for_team_profile_pic_download_urls;
     Context context;
-    public FixtureListAdapter(Context context,ArrayList<Fixture> fixtureArrayList){
+    public FixtureListAdapter(Context context,ArrayList<Fixture> fixtureArrayList,Map<String,String> map_for_team_profile_pic_download_urls){
         super(context, R.layout.fixture_card,fixtureArrayList);
         this.context = context;
         this.fixtureArrayList = fixtureArrayList;
+        this.map_for_team_profile_pic_download_urls = map_for_team_profile_pic_download_urls;
     }
 
     public class ViewHolder1 {
         TextView teamA_name, teamB_name, date, time, venue, referee;
+        ImageView teamA_image,teamB_image;
 
         ViewHolder1(View v) {
             teamA_name = (TextView) v.findViewById(R.id.teamA_name);
@@ -139,6 +172,8 @@ class FixtureListAdapter extends ArrayAdapter<Fixture>{
             time = (TextView) v.findViewById(R.id.time);
             venue = (TextView) v.findViewById(R.id.venue);
             referee = (TextView) v.findViewById(R.id.referee);
+            teamA_image = (ImageView)v.findViewById(R.id.teamA_image);
+            teamB_image = (ImageView)v.findViewById(R.id.teamB_image);
         }
     }
 
@@ -164,6 +199,65 @@ class FixtureListAdapter extends ArrayAdapter<Fixture>{
         viewHolder.venue.setText(fixtureArrayList.get(position).Venue);
         viewHolder.referee.setText(fixtureArrayList.get(position).Referee);
 
+        final ImageView tempImageViewA = viewHolder.teamA_image;
+        final ImageView tempImageViewB = viewHolder.teamB_image;
+        final String urlA = map_for_team_profile_pic_download_urls.get(fixtureArrayList.get(position).TeamA);
+        final String urlB = map_for_team_profile_pic_download_urls.get(fixtureArrayList.get(position).TeamB);
+        //Load profile pic thumbnails
+        Picasso.with(getContext())
+                .load(urlA)
+                .networkPolicy(NetworkPolicy.OFFLINE)
+                .into(tempImageViewA, new Callback() {
+                    @Override
+                    public void onSuccess() {
+
+                    }
+
+                    @Override
+                    public void onError() {
+                        //Try again online if cache failed
+                        Picasso.with(getContext())
+                                .load(urlA)
+                                //.error(R.drawable.common_full_open_on_phone)
+                                .into(tempImageViewA, new Callback() {
+                                    @Override
+                                    public void onSuccess() {
+
+                                    }
+
+                                    @Override
+                                    public void onError() {
+                                    }
+                                });
+                    }
+                });
+        Picasso.with(getContext())
+                .load(urlB)
+                .networkPolicy(NetworkPolicy.OFFLINE)
+                .into(tempImageViewB, new Callback() {
+                    @Override
+                    public void onSuccess() {
+
+                    }
+
+                    @Override
+                    public void onError() {
+                        //Try again online if cache failed
+                        Picasso.with(getContext())
+                                .load(urlB)
+                                //.error(R.drawable.common_full_open_on_phone)
+                                .into(tempImageViewB, new Callback() {
+                                    @Override
+                                    public void onSuccess() {
+
+                                    }
+
+                                    @Override
+                                    public void onError() {
+                                    }
+                                });
+                    }
+                });
         return row;
     }
 }
