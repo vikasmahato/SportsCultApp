@@ -1,6 +1,8 @@
 package in.sportscult.sportscultapp.fragments;
 
+import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -39,7 +41,8 @@ public class FixtureFragment extends Fragment {
     private static String age_group;
     private static ArrayList<Fixture> list_of_fixtures;
     private static FixtureListAdapter fixtureListAdapter;
-    private static Map<String,String> team_profile_pic_download_urls;
+    private static ProgressDialog progressDialog;
+    static Map<String,String> team_profile_pic_download_urls;
 
     public FixtureFragment() {
         // Required empty public constructor
@@ -63,9 +66,11 @@ public class FixtureFragment extends Fragment {
         final ArrayAdapter<String> age_group_adapter = new ArrayAdapter<String>(getActivity(),android.R.layout.simple_list_item_1,getResources().getStringArray(R.array.age_groups));
         age_group_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         age_group_fixture.setAdapter(age_group_adapter);
-        //Add The Functionality to get the selection_for_age_group from Shared Preferences
+        //The Functionality to get the selection_for_age_group from Shared Preferences
         //If no data stored in Shared Preferences then do nothing,it will work on the default value
-        //Initial Run
+        final SharedPreferences sharedPreferences = getActivity().getSharedPreferences("UserPreferences",Context.MODE_PRIVATE);
+        selection_for_age_group = sharedPreferences.getInt("selection_for_age_group",1);
+
         age_group_fixture.setSelection(selection_for_age_group);
         age_group = "Group - "+age_group_codes[selection_for_age_group];
         Fetching_Fixtures_From_Firebase();
@@ -75,6 +80,10 @@ public class FixtureFragment extends Fragment {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if(position!=0 && position!=selection_for_age_group){
                     selection_for_age_group = position;
+                    //Add the selection_for_age_group to SharedPreferences
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putInt("selection_for_age_group",selection_for_age_group);
+                    editor.commit();
                     age_group = "Group - "+age_group_codes[position];
                     //Also add selection_for_age_group to Shared Preferences
                     Fetching_Fixtures_From_Firebase();
@@ -92,6 +101,11 @@ public class FixtureFragment extends Fragment {
 
     public void Fetching_Fixtures_From_Firebase(){
 
+        progressDialog = new ProgressDialog(getActivity());
+        progressDialog.setMessage("Fetching Fixtures....");
+        progressDialog.setCancelable(false);
+        //progressDialog.show();
+
         list_of_fixtures = new ArrayList<Fixture>();
         team_profile_pic_download_urls = new HashMap<String, String>();
         databaseReference = FirebaseDatabase.getInstance().getReference().child(age_group);
@@ -99,8 +113,10 @@ public class FixtureFragment extends Fragment {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if(dataSnapshot.getValue()==null){
+                    progressDialog.dismiss();
                     fixtureListAdapter = new FixtureListAdapter(getActivity(),list_of_fixtures,team_profile_pic_download_urls);
                     upcoming_matches_fixture.setAdapter(fixtureListAdapter);
+                    return;
                 }
                 for(DataSnapshot ChildSnapshot : dataSnapshot.getChildren()){
                     Map<String,String> fixture_description = (Map<String,String>)ChildSnapshot.getValue();
@@ -111,14 +127,14 @@ public class FixtureFragment extends Fragment {
                 databaseReference.child("Team Names").addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
-                        for(DataSnapshot ChildSnapshot : dataSnapshot.getChildren()){
-                            Map<String,String> urlmap = (Map<String,String>)ChildSnapshot.getValue();
-                            team_profile_pic_download_urls.put(ChildSnapshot.getKey(),urlmap.get("Team Profile Pic Thumbnail Url"));
-
-                            //Configure Adapter for ListView
-                            fixtureListAdapter = new FixtureListAdapter(getActivity(),list_of_fixtures,team_profile_pic_download_urls);
-                            upcoming_matches_fixture.setAdapter(fixtureListAdapter);
+                        for(DataSnapshot ChildSnapshot : dataSnapshot.getChildren()) {
+                            Map<String, String> urlmap = (Map<String, String>) ChildSnapshot.getValue();
+                            team_profile_pic_download_urls.put(ChildSnapshot.getKey(), urlmap.get("Team Profile Pic Thumbnail Url"));
                         }
+                        progressDialog.dismiss();
+                        //Configure Adapter for ListView
+                        fixtureListAdapter = new FixtureListAdapter(getActivity(),list_of_fixtures,team_profile_pic_download_urls);
+                        upcoming_matches_fixture.setAdapter(fixtureListAdapter);
                     }
 
                     @Override

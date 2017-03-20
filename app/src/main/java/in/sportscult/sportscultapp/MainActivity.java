@@ -1,17 +1,12 @@
 package in.sportscult.sportscultapp;
 
-import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.view.LayoutInflater;
-import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -26,7 +21,7 @@ import java.util.List;
 
 import in.sportscult.sportscultapp.fragments.EventsFragment;
 import in.sportscult.sportscultapp.fragments.FixtureFragment;
-import in.sportscult.sportscultapp.fragments.LineupsFragment;
+import in.sportscult.sportscultapp.fragments.LeaderboardFragment;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -58,7 +53,7 @@ public class MainActivity extends AppCompatActivity
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
         adapter.addFragment(new EventsFragment(), "EVENTS");
-        adapter.addFragment(new LineupsFragment(), "LINEUP");
+        adapter.addFragment(new LeaderboardFragment(), "LEADERBOARD");
         adapter.addFragment(new FixtureFragment(), "FIXTURE ");
         viewPager.setAdapter(adapter);
     }
