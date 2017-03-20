@@ -8,6 +8,7 @@
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/teamA_image"
         android:layout_width="@dimen/team_image_size"
+        android:layout_gravity="center"
         android:layout_height="@dimen/team_image_size"
         tools:src="@drawable/album1"/>
 
@@ -16,7 +17,7 @@
         android:layout_width="wrap_content"
         android:layout_gravity="center"
         android:layout_height="wrap_content"
-        android:paddingTop="@dimen/album_title_padding"
+        android:padding="@dimen/album_title_padding"
         android:textColor="@color/primaryText"
         android:textSize="@dimen/album_title"
         tools:text="Team A"/>

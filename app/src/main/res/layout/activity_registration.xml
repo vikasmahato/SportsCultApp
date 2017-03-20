@@ -20,20 +20,18 @@
         android:paddingTop="@dimen/activity_vertical_margin"
         android:orientation="vertical"
         tools:context="in.sportscult.sportscultapp.RegistrationActivity">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/colorAccent"
-            android:textStyle="bold"
-            android:textSize="@dimen/backdrop_title"
-            android:text="@string/registration"/>
-
         <ImageView
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/sportscult_logo_height"
+            android:src="@drawable/sportscult"/>
+
+        <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/reg_team_profile_pic"
-            android:layout_width="150dip"
-            android:layout_height="150dip"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
             android:layout_gravity="center_horizontal"
-            android:background="@android:drawable/ic_menu_gallery"
+            app:srcCompat="@drawable/ic_team_24dp"
             android:onClick="add_team_profile_pic"
             android:clickable="true"/>
 
@@ -140,6 +138,16 @@
         android:textColor="@color/primaryText"
         android:text="@string/add_more_players"
         android:id="@+id/textView2" />
+      <!--  <com.github.paolorotolo.expandableheightlistview.ExpandableHeightListView
+            android:id="@+id/player_list"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:padding="8dp">
+        </com.github.paolorotolo.expandableheightlistview.ExpandableHeightListView> -->
+       <ListView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/player_list"/>
     <ImageButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -155,12 +163,9 @@
         android:layout_height="wrap_content"
         android:text="@string/submit"
         android:onClick="register_team"/>
+
         </LinearLayout>
+
     </ScrollView>
-    <ListView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/player_list"/>
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+
     </LinearLayout>

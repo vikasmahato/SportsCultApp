@@ -9,4 +9,6 @@
     <color name="secondaryText">#757575</color>
     <color name="dividerColor">#BDBDBD</color>
     <color name="viewBg">#f1f5f8</color>
+
+    <color name="black_overlay">#66000000</color>
 </resources>
