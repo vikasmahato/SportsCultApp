@@ -100,9 +100,9 @@ public class LeaderboardFragment extends Fragment {
     public void Fetching_Leaderboard_From_Firebase(){
 
         progressDialog = new ProgressDialog(getActivity());
-        progressDialog.setMessage("Fetching Data...");
+        progressDialog.setMessage("Fetching Leaderboard...");
         progressDialog.setCancelable(false);
-        progressDialog.show();
+        //progressDialog.show();
 
         list_of_team_scorecards = new ArrayList<TeamScoreCard>();
         team_profile_pic_download_urls = new HashMap<String, String>();

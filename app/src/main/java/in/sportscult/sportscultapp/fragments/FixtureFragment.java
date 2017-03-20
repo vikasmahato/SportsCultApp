@@ -102,9 +102,9 @@ public class FixtureFragment extends Fragment {
     public void Fetching_Fixtures_From_Firebase(){
 
         progressDialog = new ProgressDialog(getActivity());
-        progressDialog.setMessage("Fetching Data....");
+        progressDialog.setMessage("Fetching Fixtures....");
         progressDialog.setCancelable(false);
-        progressDialog.show();
+        //progressDialog.show();
 
         list_of_fixtures = new ArrayList<Fixture>();
         team_profile_pic_download_urls = new HashMap<String, String>();

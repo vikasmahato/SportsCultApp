@@ -53,7 +53,7 @@ public class MainActivity extends AppCompatActivity
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
         adapter.addFragment(new EventsFragment(), "EVENTS");
-        adapter.addFragment(new LeaderboardFragment(), "LINEUP");
+        adapter.addFragment(new LeaderboardFragment(), "LEADERBOARD");
         adapter.addFragment(new FixtureFragment(), "FIXTURE ");
         viewPager.setAdapter(adapter);
     }
