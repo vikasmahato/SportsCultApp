@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -102,16 +103,15 @@ public class FixtureFragment extends Fragment {
     public void Fetching_Fixtures_From_Firebase(){
 
         progressDialog = new ProgressDialog(getActivity());
-        progressDialog.setMessage("Fetching Fixtures....");
+        progressDialog.setMessage("Fetching Data....");
         progressDialog.setCancelable(false);
         //progressDialog.show();
 
-        list_of_fixtures = new ArrayList<Fixture>();
-        team_profile_pic_download_urls = new HashMap<String, String>();
         databaseReference = FirebaseDatabase.getInstance().getReference().child(age_group);
         databaseReference.child("Fixtures").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+                list_of_fixtures = new ArrayList<Fixture>();
                 if(dataSnapshot.getValue()==null){
                     progressDialog.dismiss();
                     fixtureListAdapter = new FixtureListAdapter(getActivity(),list_of_fixtures,team_profile_pic_download_urls);
@@ -127,6 +127,8 @@ public class FixtureFragment extends Fragment {
                 databaseReference.child("Team Names").addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
+
+                        team_profile_pic_download_urls = new HashMap<String, String>();
                         for(DataSnapshot ChildSnapshot : dataSnapshot.getChildren()) {
                             Map<String, String> urlmap = (Map<String, String>) ChildSnapshot.getValue();
                             team_profile_pic_download_urls.put(ChildSnapshot.getKey(), urlmap.get("Team Profile Pic Thumbnail Url"));
@@ -139,7 +141,8 @@ public class FixtureFragment extends Fragment {
 
                     @Override
                     public void onCancelled(DatabaseError databaseError) {
-
+                        progressDialog.dismiss();
+                        Toast.makeText(getActivity(),"Some Error Occurred",Toast.LENGTH_LONG).show();
                     }
                 });
 
@@ -147,7 +150,8 @@ public class FixtureFragment extends Fragment {
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-
+                progressDialog.dismiss();
+                Toast.makeText(getActivity(),"Some Error Occurred",Toast.LENGTH_LONG).show();
             }
         });
 

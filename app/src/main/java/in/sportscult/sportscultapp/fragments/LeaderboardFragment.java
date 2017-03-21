@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -58,6 +59,8 @@ public class LeaderboardFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_leaderboard,container,false);
         age_group_leaderboard = (Spinner)view.findViewById(R.id.age_group_leaderboard);
         leaderboard_list = (ListView)view.findViewById(R.id.leaderboard_list);
+        team_profile_pic_download_urls = new HashMap<String, String>();
+        list_of_team_scorecards = new ArrayList<TeamScoreCard>();
 
         final ArrayAdapter<String> age_group_adapter = new ArrayAdapter<String>(getActivity(),android.R.layout.simple_list_item_1,getResources().getStringArray(R.array.age_groups));
         age_group_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -100,17 +103,15 @@ public class LeaderboardFragment extends Fragment {
     public void Fetching_Leaderboard_From_Firebase(){
 
         progressDialog = new ProgressDialog(getActivity());
-        progressDialog.setMessage("Fetching Leaderboard...");
+        progressDialog.setMessage("Fetching Data...");
         progressDialog.setCancelable(false);
         //progressDialog.show();
-
-        list_of_team_scorecards = new ArrayList<TeamScoreCard>();
-        team_profile_pic_download_urls = new HashMap<String, String>();
 
         databaseReference = FirebaseDatabase.getInstance().getReference().child(age_group);
         databaseReference.child("Leaderboard").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+                list_of_team_scorecards = new ArrayList<TeamScoreCard>();
                 if(dataSnapshot.getValue()==null){
                     progressDialog.dismiss();
                     leaderBoardAdapter = new LeaderBoardAdapter(getActivity(),list_of_team_scorecards,team_profile_pic_download_urls);
@@ -128,6 +129,7 @@ public class LeaderboardFragment extends Fragment {
                 databaseReference.child("Team Names").addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
+                        team_profile_pic_download_urls = new HashMap<String, String>();
                         for(DataSnapshot ChildSnapshot : dataSnapshot.getChildren()) {
                             Map<String, String> urlmap = (Map<String, String>) ChildSnapshot.getValue();
                             team_profile_pic_download_urls.put(ChildSnapshot.getKey(), urlmap.get("Team Profile Pic Thumbnail Url"));
@@ -139,14 +141,16 @@ public class LeaderboardFragment extends Fragment {
                     }
                     @Override
                     public void onCancelled(DatabaseError databaseError) {
-
+                        progressDialog.dismiss();
+                        Toast.makeText(getActivity(),"Some Error Occurred",Toast.LENGTH_LONG).show();
                     }
                 });
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-
+                progressDialog.dismiss();
+                Toast.makeText(getActivity(),"Some Error Occurred",Toast.LENGTH_LONG).show();
             }
         });
     }

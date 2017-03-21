@@ -205,7 +205,7 @@ public class RegistrationActivity extends AppCompatActivity {
             ImageView reg_team_profile_pic = (ImageView)findViewById(R.id.reg_team_profile_pic);
             profile_pic_uri = data.getData();
             reg_team_profile_pic.setBackgroundColor(Color.BLACK);
-            reg_team_profile_pic.setImageURI(profile_pic_uri);
+            //reg_team_profile_pic.setImageURI(profile_pic_uri);
             Picasso.with(this).load(profile_pic_uri).resize(150,150).centerCrop().into(reg_team_profile_pic);
         }
     }

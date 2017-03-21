@@ -19,7 +19,7 @@ import android.view.MenuItem;
 import java.util.ArrayList;
 import java.util.List;
 
-import in.sportscult.sportscultapp.fragments.EventsFragment;
+import in.sportscult.sportscultapp.fragments.LiveMatchFragment;
 import in.sportscult.sportscultapp.fragments.FixtureFragment;
 import in.sportscult.sportscultapp.fragments.LeaderboardFragment;
 
@@ -52,7 +52,7 @@ public class MainActivity extends AppCompatActivity
 
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
-        adapter.addFragment(new EventsFragment(), "EVENTS");
+        adapter.addFragment(new LiveMatchFragment(), "LIVE MATCH");
         adapter.addFragment(new LeaderboardFragment(), "LEADERBOARD");
         adapter.addFragment(new FixtureFragment(), "FIXTURE ");
         viewPager.setAdapter(adapter);
