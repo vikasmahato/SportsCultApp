@@ -1,7 +1,7 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     tools:context="in.sportscult.sportscultapp.fragments.FixtureFragment">
     <ScrollView
         android:layout_width="match_parent"
@@ -21,8 +21,12 @@
             android:text="Upcoming Matches"
             android:textSize="25dip"
             android:textStyle="bold"
+            android:padding="5dip"/>
+        <android.support.v7.widget.RecyclerView
+
             android:padding="5dip"/>-->
         <ListView
+
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/upcoming_matches_fixture"/>

@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <include
+            layout="@layout/team_a"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            />
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="5"
+            android:textSize="40dip"
+            android:id="@+id/live_match_score_A"
+            android:textStyle="bold"
+            android:textColor="#000"
+            android:gravity="center"
+            android:padding="15dip"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="-"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:textColor="#000"
+            android:textSize="50dip"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="3"
+            android:textSize="40dip"
+            android:id="@+id/live_match_score_B"
+            android:textStyle="bold"
+            android:textColor="#000"
+            android:gravity="center"
+            android:padding="15dip"/>
+
+        <include
+            layout="@layout/team_b"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            />
+
+    </LinearLayout>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/primaryText"
+            android:id="@+id/live_match_start_time"
+            android:text="Start Time : 11:00 PM"
+            android:textSize="18dip"
+            android:gravity="center"
+            />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/primaryText"
+            android:text="Venue : DTU Stadium"
+            android:id="@+id/live_match_venue"
+            android:textSize="18dip"
+            android:gravity="center"
+            />
+
+</LinearLayout>

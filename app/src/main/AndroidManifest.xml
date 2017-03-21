@@ -12,7 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".MainActivity"
+            android:name=".RegistrationActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
@@ -28,13 +28,16 @@
         <activity
             android:name=".HelpActivity"
             android:label="Help"
-            android:parentActivityName=".MainActivity" />
+            android:parentActivityName=".MainActivity"/>
+      
+        <activity android:name=".MainActivity"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:label=" "/>
         <activity
             android:name=".RegistrationActivity"
             android:label=" "
             android:theme="@style/AppTheme.NoActionBar" />
-        android:name=".Global"
-        .. >
+      
         <activity
             android:name=".SplashActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
