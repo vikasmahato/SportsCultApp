@@ -6,6 +6,8 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,7 +37,7 @@ public class LeaderboardFragment extends Fragment {
 
     private static DatabaseReference databaseReference;
     private Spinner age_group_leaderboard;
-    private ListView leaderboard_list;
+    private RecyclerView leaderboard_list;
     private static final String[] age_group_codes = {"0","A","B","C","D"};
     private static String age_group;
     private static ArrayList<TeamScoreCard> list_of_team_scorecards;
@@ -58,7 +60,7 @@ public class LeaderboardFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_leaderboard,container,false);
         age_group_leaderboard = (Spinner)view.findViewById(R.id.age_group_leaderboard);
-        leaderboard_list = (ListView)view.findViewById(R.id.leaderboard_list);
+        leaderboard_list = (RecyclerView) view.findViewById(R.id.leaderboard_list);
         team_profile_pic_download_urls = new HashMap<String, String>();
         list_of_team_scorecards = new ArrayList<TeamScoreCard>();
 
@@ -116,6 +118,7 @@ public class LeaderboardFragment extends Fragment {
                     progressDialog.dismiss();
                     leaderBoardAdapter = new LeaderBoardAdapter(getActivity(),list_of_team_scorecards,team_profile_pic_download_urls);
                     leaderboard_list.setAdapter(leaderBoardAdapter);
+                    leaderboard_list.setLayoutManager(new LinearLayoutManager(getActivity()));
                     return;
                 }
                 for(DataSnapshot childSnapshot : dataSnapshot.getChildren()){
@@ -138,6 +141,7 @@ public class LeaderboardFragment extends Fragment {
                         //Configure ListView Adapter
                         leaderBoardAdapter = new LeaderBoardAdapter(getActivity(),list_of_team_scorecards,team_profile_pic_download_urls);
                         leaderboard_list.setAdapter(leaderBoardAdapter);
+                        leaderboard_list.setLayoutManager(new LinearLayoutManager(getActivity()));
                     }
                     @Override
                     public void onCancelled(DatabaseError databaseError) {
@@ -175,7 +179,7 @@ class TeamScoreCard{
     }
 }
 
-class LeaderBoardAdapter extends ArrayAdapter<TeamScoreCard>{
+class LeaderBoardAdapter extends RecyclerView.Adapter<LeaderBoardAdapter.ViewHolder2>{
 
     ArrayList<TeamScoreCard> team_Scorecards;
     Map<String,String> map_for_team_profile_pic_download_urls;
@@ -183,48 +187,21 @@ class LeaderBoardAdapter extends ArrayAdapter<TeamScoreCard>{
 
     LeaderBoardAdapter(Context context,ArrayList<TeamScoreCard> team_Scorecards,Map<String,String> map_for_team_profile_pic_download_urls){
 
-        super(context,R.layout.leaderboard_card,team_Scorecards);
         this.context = context;
         this.map_for_team_profile_pic_download_urls = map_for_team_profile_pic_download_urls;
         this.team_Scorecards = team_Scorecards;
 
     }
 
-    public class ViewHolder2 {
-        TextView team_name,matches_played,matches_won,matches_lost,matches_drawn,goals_scored,goals_conceived,
-            red_cards_received,points_awarded;
-        ImageView team_image;
-
-        ViewHolder2(View v) {
-            team_name = (TextView) v.findViewById(R.id.team_name);
-            matches_played = (TextView) v.findViewById(R.id.matches_played);
-            matches_won = (TextView) v.findViewById(R.id.matches_won);
-            matches_lost = (TextView) v.findViewById(R.id.matches_lost);
-            matches_drawn = (TextView) v.findViewById(R.id.matches_drawn);
-            goals_scored = (TextView) v.findViewById(R.id.goals_scored);
-            goals_conceived = (TextView) v.findViewById(R.id.goals_conceived);
-            red_cards_received = (TextView) v.findViewById(R.id.red_cards_received);
-            points_awarded = (TextView) v.findViewById(R.id.points_awarded);
-
-            team_image = (ImageView) v.findViewById(R.id.team_image);
-        }
+    @Override
+    public ViewHolder2 onCreateViewHolder(ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(context).inflate(R.layout.leaderboard_card,parent,false);
+        ViewHolder2 viewHolder2 = new ViewHolder2(view);
+        return viewHolder2;
     }
 
-    @NonNull
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        View row = convertView;
-        ViewHolder2 viewHolder = null;
-        if(row==null){
-            LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            row = layoutInflater.inflate(R.layout.leaderboard_card,parent,false);
-            viewHolder = new ViewHolder2(row);
-            row.setTag(viewHolder);
-        }
-        else{
-            viewHolder = (ViewHolder2) row.getTag();
-        }
-
+    public void onBindViewHolder(ViewHolder2 viewHolder, int position) {
         TeamScoreCard data = team_Scorecards.get(position);
         viewHolder.team_name.setText(data.TeamName);
         viewHolder.matches_played.setText(data.MacthesPlayed);
@@ -239,7 +216,7 @@ class LeaderBoardAdapter extends ArrayAdapter<TeamScoreCard>{
         final ImageView tempImageView = viewHolder.team_image;
         final String url = map_for_team_profile_pic_download_urls.get(data.TeamName);
         //Load profile pic thumbnails
-        Picasso.with(getContext())
+        Picasso.with(context)
                 .load(url)
                 .resize(70,70)
                 .networkPolicy(NetworkPolicy.OFFLINE)
@@ -252,7 +229,7 @@ class LeaderBoardAdapter extends ArrayAdapter<TeamScoreCard>{
                     @Override
                     public void onError() {
                         //Try again online if cache failed
-                        Picasso.with(getContext())
+                        Picasso.with(context)
                                 .load(url)
                                 //.error(R.drawable.common_full_open_on_phone)
                                 .into(tempImageView, new Callback() {
@@ -267,7 +244,32 @@ class LeaderBoardAdapter extends ArrayAdapter<TeamScoreCard>{
                                 });
                     }
                 });
-        return row;
+    }
+
+    @Override
+    public int getItemCount() {
+        return team_Scorecards.size();
+    }
+
+    class ViewHolder2 extends RecyclerView.ViewHolder{
+        TextView team_name,matches_played,matches_won,matches_lost,matches_drawn,goals_scored,goals_conceived,
+            red_cards_received,points_awarded;
+        ImageView team_image;
+
+        ViewHolder2(View v) {
+            super(v);
+            team_name = (TextView) v.findViewById(R.id.team_name);
+            matches_played = (TextView) v.findViewById(R.id.matches_played);
+            matches_won = (TextView) v.findViewById(R.id.matches_won);
+            matches_lost = (TextView) v.findViewById(R.id.matches_lost);
+            matches_drawn = (TextView) v.findViewById(R.id.matches_drawn);
+            goals_scored = (TextView) v.findViewById(R.id.goals_scored);
+            goals_conceived = (TextView) v.findViewById(R.id.goals_conceived);
+            red_cards_received = (TextView) v.findViewById(R.id.red_cards_received);
+            points_awarded = (TextView) v.findViewById(R.id.points_awarded);
+
+            team_image = (ImageView) v.findViewById(R.id.team_image);
+        }
     }
 
 }

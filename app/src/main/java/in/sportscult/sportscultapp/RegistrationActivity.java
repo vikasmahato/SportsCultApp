@@ -15,6 +15,8 @@ import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -51,7 +53,7 @@ public class RegistrationActivity extends AppCompatActivity {
     private EditText reg_team_name,reg_coach_name,reg_coach_contact,reg_coach_email,reg_password,reg_confirm_password;
     private Spinner age_group_dropdown;
     private String team_name,coach_name,coach_contact,coach_email,age_group,location,password,confirm_password;
-    private static ListView player_list;
+    private static RecyclerView player_list;
     private static Uri id_proof_scan_uri,profile_pic_uri;
     private static ArrayList<String> names_of_players,contact_of_players,jersey_number_of_players;
     private static ArrayList<Uri> uri_of_players;
@@ -83,7 +85,7 @@ public class RegistrationActivity extends AppCompatActivity {
         reg_coach_contact = (EditText)findViewById(R.id.reg_coach_contact);
         reg_password = (EditText)findViewById(R.id.reg_password);
         reg_confirm_password = (EditText)findViewById(R.id.reg_confirm_password);
-        player_list = (ListView) findViewById(R.id.player_list);
+        player_list = (RecyclerView) findViewById(R.id.player_list);
         age_group_dropdown = (Spinner)findViewById(R.id.age_group_dropdown);
         names_of_players = new ArrayList<String>();
         contact_of_players = new ArrayList<String>();
@@ -128,6 +130,7 @@ public class RegistrationActivity extends AppCompatActivity {
 
         player_list_adapter = new Player_List_Adapter(this,names_of_players,contact_of_players,jersey_number_of_players,uri_of_players);
         player_list.setAdapter(player_list_adapter);
+        player_list.setLayoutManager(new LinearLayoutManager(this));
 
     }
 
@@ -172,8 +175,8 @@ public class RegistrationActivity extends AppCompatActivity {
                     contact_of_players.add(playercontact);
                     jersey_number_of_players.add(playerjersey);
                     uri_of_players.add(id_proof_scan_uri);
-                    //test();
-                    player_list_adapter.notifyDataSetChanged();
+                    setuplistview();
+                    //player_list_adapter.notifyDataSetChanged();
                 }
 
                 dialog.cancel();
@@ -198,7 +201,7 @@ public class RegistrationActivity extends AppCompatActivity {
             ImageView id_proof_scan = (ImageView) AlertDialogView.findViewById(R.id.id_proof_scan);
             id_proof_scan_uri = data.getData();
             id_proof_scan.setVisibility(View.VISIBLE);
-            id_proof_scan.setImageURI(id_proof_scan_uri);
+            //id_proof_scan.setImageURI(id_proof_scan_uri);
             Picasso.with(this).load(id_proof_scan_uri).resize(300,300).centerCrop().into(id_proof_scan);
         }
         else if(requestCode==PROFILE_PIC_ACCESS && resultCode==RESULT_OK){
@@ -409,14 +412,13 @@ public class RegistrationActivity extends AppCompatActivity {
     }
 
     //Adapter for displaying player details in listview
-    class Player_List_Adapter extends ArrayAdapter<String>{
+    class Player_List_Adapter extends RecyclerView.Adapter<Player_List_Adapter.ViewHolder0>{
 
         ArrayList<String> names,contacts,jersey;
         ArrayList<Uri> uris;
         Context context;
 
         public Player_List_Adapter(Context context,ArrayList<String> names,ArrayList<String> contacts,ArrayList<String> jersey,ArrayList<Uri> uris) {
-            super(context, R.layout.player_row,names);
             this.context = context;
             this.names = names;
             this.contacts = contacts;
@@ -424,10 +426,32 @@ public class RegistrationActivity extends AppCompatActivity {
             this.jersey = jersey;
         }
 
-        public class ViewHolder{
+        @Override
+        public ViewHolder0 onCreateViewHolder(ViewGroup parent, int viewType) {
+            View view = LayoutInflater.from(context).inflate(R.layout.player_row,parent,false);
+            ViewHolder0 viewHolder0 = new ViewHolder0(view);
+            return viewHolder0;
+        }
+
+        @Override
+        public void onBindViewHolder(ViewHolder0 viewHolder, int position) {
+            viewHolder.individual_name.setText(names.get(position));
+            viewHolder.individual_contact.setText(contacts.get(position));
+            viewHolder.individual_jersey.setText(jersey.get(position));
+            //viewHolder.individual_id_proof.setImageURI(uris.get(position));
+            Picasso.with(RegistrationActivity.this).load(uris.get(position)).resize(300,300).centerCrop().into(viewHolder.individual_id_proof);
+        }
+
+        @Override
+        public int getItemCount() {
+            return names.size();
+        }
+
+        public class ViewHolder0 extends RecyclerView.ViewHolder{
             TextView individual_name,individual_contact,individual_jersey;
             ImageView individual_id_proof;
-            ViewHolder(View v){
+            ViewHolder0(View v){
+                super(v);
                 individual_name = (TextView)v.findViewById(R.id.individual_name);
                 individual_contact = (TextView)v.findViewById(R.id.individual_contact);
                 individual_jersey = (TextView)v.findViewById(R.id.player_jersey);
@@ -435,30 +459,7 @@ public class RegistrationActivity extends AppCompatActivity {
             }
         }
 
-        @NonNull
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
 
-            View row = convertView;
-            ViewHolder viewHolder = null;
-            if(row==null){
-                LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                row = layoutInflater.inflate(R.layout.player_row,parent,false);
-                viewHolder = new ViewHolder(row);
-                row.setTag(viewHolder);
-            }
-            else{
-                viewHolder = (ViewHolder) row.getTag();
-            }
-
-            viewHolder.individual_name.setText(names.get(position));
-            viewHolder.individual_contact.setText(contacts.get(position));
-            viewHolder.individual_jersey.setText(jersey.get(position));
-            //viewHolder.individual_id_proof.setImageURI(uris.get(position));
-            Picasso.with(RegistrationActivity.this).load(uris.get(position)).resize(150,150).centerCrop().into(viewHolder.individual_id_proof);
-
-            return row;
-        }
     }
 
 
