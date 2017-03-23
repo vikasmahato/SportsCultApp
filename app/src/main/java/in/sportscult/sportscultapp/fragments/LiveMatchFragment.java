@@ -2,19 +2,16 @@ package in.sportscult.sportscultapp.fragments;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.ImageView;
-import android.widget.ListView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -168,6 +165,23 @@ class LiveMatchAdapter extends RecyclerView.Adapter<LiveMatchAdapter.Viewholder3
         viewHolder.live_match_score_B.setText(data.TeamBGoals);
         viewHolder.live_match_start_time.setText("Start Time : " + data.StartTime);
         viewHolder.live_match_venue.setText("Venue : " + data.Venue);
+        switch (data.AgeGroup){
+            case "Group - A":
+                viewHolder.live_match_detail_card.setBackgroundColor(Color.parseColor("#EA80FC"));
+                break;
+            case "Group - B":
+                viewHolder.live_match_detail_card.setBackgroundColor(Color.parseColor("#E040FB"));
+                break;
+            case "Group - C":
+                viewHolder.live_match_detail_card.setBackgroundColor(Color.parseColor("#D500F9"));
+                break;
+            case "Group - D":
+                viewHolder.live_match_detail_card.setBackgroundColor(Color.parseColor("#AA00FF"));
+                break;
+            default:
+                viewHolder.live_match_detail_card.setBackgroundColor(Color.WHITE);
+                break;
+        }
 
         final ImageView tempImageViewA = viewHolder.teamA_image;
         final ImageView tempImageViewB = viewHolder.teamB_image;
@@ -236,10 +250,12 @@ class LiveMatchAdapter extends RecyclerView.Adapter<LiveMatchAdapter.Viewholder3
     }
 
     class Viewholder3 extends RecyclerView.ViewHolder{
+        LinearLayout live_match_detail_card;
         TextView teamA_name,teamB_name,live_match_score_A,live_match_score_B,live_match_start_time,live_match_venue;
         ImageView teamA_image,teamB_image;
         Viewholder3(View view){
             super(view);
+            live_match_detail_card = (LinearLayout)view.findViewById(R.id.live_match_detail_card);
             teamA_name = (TextView)view.findViewById(R.id.teamA_name);
             teamB_name = (TextView)view.findViewById(R.id.teamB_name);
             live_match_score_A = (TextView)view.findViewById(R.id.live_match_score_A);
