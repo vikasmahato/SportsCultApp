@@ -74,6 +74,11 @@ public class FixtureFragment extends Fragment {
 
         age_group_fixture.setSelection(selection_for_age_group);
         age_group = "Group - "+age_group_codes[selection_for_age_group];
+
+        fixtureListAdapter = new FixtureListAdapter(getActivity(),list_of_fixtures,team_profile_pic_download_urls);
+        upcoming_matches_fixture.setAdapter(fixtureListAdapter);
+        upcoming_matches_fixture.setLayoutManager(new LinearLayoutManager(getActivity()));
+
         Fetching_Fixtures_From_Firebase();
         //Listening for change in age groups
         age_group_fixture.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -105,7 +110,7 @@ public class FixtureFragment extends Fragment {
         progressDialog = new ProgressDialog(getActivity());
         progressDialog.setMessage("Fetching Data....");
         progressDialog.setCancelable(false);
-        //progressDialog.show();
+        progressDialog.show();
 
         databaseReference = FirebaseDatabase.getInstance().getReference().child(age_group);
         databaseReference.child("Fixtures").addValueEventListener(new ValueEventListener() {
@@ -114,9 +119,7 @@ public class FixtureFragment extends Fragment {
                 list_of_fixtures = new ArrayList<Fixture>();
                 if(dataSnapshot.getValue()==null){
                     progressDialog.dismiss();
-                    fixtureListAdapter = new FixtureListAdapter(getActivity(),list_of_fixtures,team_profile_pic_download_urls);
-                    upcoming_matches_fixture.setAdapter(fixtureListAdapter);
-                    upcoming_matches_fixture.setLayoutManager(new LinearLayoutManager(getActivity()));
+                    upcoming_matches_fixture.setAdapter(new FixtureListAdapter(getActivity(),list_of_fixtures,team_profile_pic_download_urls));
                     return;
                 }
                 for(DataSnapshot ChildSnapshot : dataSnapshot.getChildren()){
@@ -136,9 +139,7 @@ public class FixtureFragment extends Fragment {
                         }
                         progressDialog.dismiss();
                         //Configure Adapter for ListView
-                        fixtureListAdapter = new FixtureListAdapter(getActivity(),list_of_fixtures,team_profile_pic_download_urls);
-                        upcoming_matches_fixture.setAdapter(fixtureListAdapter);
-                        upcoming_matches_fixture.setLayoutManager(new LinearLayoutManager(getActivity()));
+                        upcoming_matches_fixture.setAdapter(new FixtureListAdapter(getActivity(),list_of_fixtures,team_profile_pic_download_urls));
                     }
 
                     @Override
