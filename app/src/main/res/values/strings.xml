@@ -47,5 +47,13 @@
     <string name="title_activity_splash">SplashActivity</string>
     <string name="dummy_button">Dummy Button</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
+    <string name="matches_played">Played</string>
+    <string name="matches_won">Won</string>
+    <string name="matches_lost">Lost</string>
+    <string name="matches_draw">Draw</string>
+    <string name="matches_goals">Goals Scored</string>
+    <string name="matches_goals_concieved">Goals Concieved</string>
+    <string name="red_cards">Red Cards</string>
+    <string name="points">Points</string>
 
 </resources>
