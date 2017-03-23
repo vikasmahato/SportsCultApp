@@ -22,6 +22,7 @@ import java.util.List;
 import in.sportscult.sportscultapp.fragments.LiveMatchFragment;
 import in.sportscult.sportscultapp.fragments.FixtureFragment;
 import in.sportscult.sportscultapp.fragments.LeaderboardFragment;
+import in.sportscult.sportscultapp.fragments.ResultsFragment;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -53,8 +54,9 @@ public class MainActivity extends AppCompatActivity
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
         adapter.addFragment(new LiveMatchFragment(), "LIVE MATCH");
-        adapter.addFragment(new LeaderboardFragment(), "LEADERBOARD");
+        adapter.addFragment(new LeaderboardFragment(), "STANDINGS");
         adapter.addFragment(new FixtureFragment(), "FIXTURE ");
+        adapter.addFragment(new ResultsFragment(), "RESULTS");
         viewPager.setAdapter(adapter);
     }
 

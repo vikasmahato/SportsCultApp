@@ -3,6 +3,7 @@ package in.sportscult.sportscultapp.fragments;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -32,20 +33,20 @@ import java.util.Map;
 
 import in.sportscult.sportscultapp.R;
 
-public class FixtureFragment extends Fragment {
+public class ResultsFragment extends Fragment {
 
-    private static DatabaseReference databaseReference;
-    private Spinner age_group_fixture;
-    private RecyclerView upcoming_matches_fixture;
-    private static int selection_for_age_group = 1;
-    private static final String[] age_group_codes = {"0","A","B","C","D"};
-    private static String age_group;
-    private static ArrayList<Fixture> list_of_fixtures;
-    private static FixtureListAdapter fixtureListAdapter;
-    private static ProgressDialog progressDialog;
-    static Map<String,String> team_profile_pic_download_urls;
+    private Spinner age_group_results;
+    private String age_group;
+    private final String[] age_group_codes = {"0","A","B","C","D"};
+    private int selection_for_age_group = 1;
+    private ArrayList<Results> arraylist_of_results;
+    private Map<String,String> team_profile_pic_download_urls;
+    private DatabaseReference databaseReference;
+    private ProgressDialog progressDialog;
+    private ResultsListAdapter resultsListAdapter;
+    private RecyclerView list_of_results;
 
-    public FixtureFragment() {
+    public ResultsFragment() {
         // Required empty public constructor
     }
 
@@ -57,26 +58,26 @@ public class FixtureFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_fixture, container, false);
+        View view = inflater.inflate(R.layout.fragment_results,container,false);
 
-        age_group_fixture = (Spinner) view.findViewById(R.id.age_group_fixture);
-        upcoming_matches_fixture = (RecyclerView) view.findViewById(R.id.upcoming_matches_fixture);
-        list_of_fixtures = new ArrayList<Fixture>();
-        team_profile_pic_download_urls = new HashMap<String, String>();
+        age_group_results = (Spinner)view.findViewById(R.id.age_group_results);
+        arraylist_of_results = new ArrayList<Results>();
+        team_profile_pic_download_urls = new HashMap<String,String>();
+        list_of_results = (RecyclerView)view.findViewById(R.id.list_of_results);
 
         final ArrayAdapter<String> age_group_adapter = new ArrayAdapter<String>(getActivity(),android.R.layout.simple_list_item_1,getResources().getStringArray(R.array.age_groups));
         age_group_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        age_group_fixture.setAdapter(age_group_adapter);
+        age_group_results.setAdapter(age_group_adapter);
         //The Functionality to get the selection_for_age_group from Shared Preferences
         //If no data stored in Shared Preferences then do nothing,it will work on the default value
-        final SharedPreferences sharedPreferences = getActivity().getSharedPreferences("UserPreferences",Context.MODE_PRIVATE);
+        final SharedPreferences sharedPreferences = getActivity().getSharedPreferences("UserPreferences", Context.MODE_PRIVATE);
         selection_for_age_group = sharedPreferences.getInt("selection_for_age_group",1);
 
-        age_group_fixture.setSelection(selection_for_age_group);
+        age_group_results.setSelection(selection_for_age_group);
         age_group = "Group - "+age_group_codes[selection_for_age_group];
-        Fetching_Fixtures_From_Firebase();
+        Fetching_Results_From_Firebase();
         //Listening for change in age groups
-        age_group_fixture.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        age_group_results.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if(position!=0 && position!=selection_for_age_group){
@@ -87,7 +88,7 @@ public class FixtureFragment extends Fragment {
                     editor.commit();
                     age_group = "Group - "+age_group_codes[position];
                     //Also add selection_for_age_group to Shared Preferences
-                    Fetching_Fixtures_From_Firebase();
+                    Fetching_Results_From_Firebase();
                 }
             }
 
@@ -99,8 +100,7 @@ public class FixtureFragment extends Fragment {
         return view;
     }
 
-
-    public void Fetching_Fixtures_From_Firebase(){
+    public void Fetching_Results_From_Firebase(){
 
         progressDialog = new ProgressDialog(getActivity());
         progressDialog.setMessage("Fetching Data....");
@@ -108,22 +108,22 @@ public class FixtureFragment extends Fragment {
         //progressDialog.show();
 
         databaseReference = FirebaseDatabase.getInstance().getReference().child(age_group);
-        databaseReference.child("Fixtures").addValueEventListener(new ValueEventListener() {
+        databaseReference.child("Results").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                list_of_fixtures = new ArrayList<Fixture>();
-                if(dataSnapshot.getValue()==null){
+                arraylist_of_results = new ArrayList<Results>();
+                if(dataSnapshot==null){
                     progressDialog.dismiss();
-                    fixtureListAdapter = new FixtureListAdapter(getActivity(),list_of_fixtures,team_profile_pic_download_urls);
-                    upcoming_matches_fixture.setAdapter(fixtureListAdapter);
-                    upcoming_matches_fixture.setLayoutManager(new LinearLayoutManager(getActivity()));
+                    resultsListAdapter = new ResultsListAdapter(getActivity(),arraylist_of_results,team_profile_pic_download_urls);
+                    list_of_results.setAdapter(resultsListAdapter);
+                    list_of_results.setLayoutManager(new LinearLayoutManager(getActivity()));
                     return;
                 }
-                for(DataSnapshot ChildSnapshot : dataSnapshot.getChildren()){
-                    Map<String,String> fixture_description = (Map<String,String>)ChildSnapshot.getValue();
-                    Fixture fixture = new Fixture(fixture_description.get("Team A"),fixture_description.get("Team B"),fixture_description.get("Date"),
-                            fixture_description.get("Time"),fixture_description.get("Venue"),fixture_description.get("Referee"));
-                    list_of_fixtures.add(fixture);
+                for(DataSnapshot childSnapshot : dataSnapshot.getChildren()){
+                    Map<String,String> map = (Map<String,String>)childSnapshot.getValue();
+                    Results results = new Results(map.get("Team A"),map.get("Team B"),map.get("Team A Goals")
+                    ,map.get("Team B Goals"),map.get("Venue"),map.get("Time"));
+                    arraylist_of_results.add(results);
                 }
                 databaseReference.child("Team Names").addValueEventListener(new ValueEventListener() {
                     @Override
@@ -136,9 +136,9 @@ public class FixtureFragment extends Fragment {
                         }
                         progressDialog.dismiss();
                         //Configure Adapter for ListView
-                        fixtureListAdapter = new FixtureListAdapter(getActivity(),list_of_fixtures,team_profile_pic_download_urls);
-                        upcoming_matches_fixture.setAdapter(fixtureListAdapter);
-                        upcoming_matches_fixture.setLayoutManager(new LinearLayoutManager(getActivity()));
+                        resultsListAdapter = new ResultsListAdapter(getActivity(),arraylist_of_results,team_profile_pic_download_urls);
+                        list_of_results.setAdapter(resultsListAdapter);
+                        list_of_results.setLayoutManager(new LinearLayoutManager(getActivity()));
                     }
 
                     @Override
@@ -147,7 +147,6 @@ public class FixtureFragment extends Fragment {
                         Toast.makeText(getActivity(),"Some Error Occurred",Toast.LENGTH_LONG).show();
                     }
                 });
-
             }
 
             @Override
@@ -160,50 +159,52 @@ public class FixtureFragment extends Fragment {
     }
 
 }
-class Fixture{
-    String TeamA,TeamB,Time,Venue,Referee,Date;
-    Fixture(String TeamA,String TeamB,String Date,String Time,String Venue,String Referee){
+
+class Results{
+    String TeamA,TeamB,TeamAGoals,TeamBGoals,Venue,Time;
+    Results(String TeamA,String TeamB,String TeamAGoals,String TeamBGoals,String Venue,String Time){
         this.TeamA = TeamA;
         this.TeamB = TeamB;
-        this.Time = Time;
+        this.TeamAGoals = TeamAGoals;
+        this.TeamBGoals = TeamBGoals;
         this.Venue = Venue;
-        this.Referee = Referee;
-        this.Date = Date;
+        this.Time = Time;
     }
 }
 
-class FixtureListAdapter extends RecyclerView.Adapter<FixtureListAdapter.ViewHolder1>{
-    ArrayList<Fixture> fixtureArrayList;
+class ResultsListAdapter extends RecyclerView.Adapter<ResultsListAdapter.ViewHolder4>{
+
+    ArrayList<Results> resultsArrayList;
     Map<String,String> map_for_team_profile_pic_download_urls;
-    LayoutInflater layoutInflater;
     Context context;
-    public FixtureListAdapter(Context context,ArrayList<Fixture> fixtureArrayList,Map<String,String> map_for_team_profile_pic_download_urls){
+
+    public ResultsListAdapter(Context context,ArrayList<Results> resultsArrayList,Map<String,String> map_for_team_profile_pic_download_urls){
         this.context = context;
-        this.fixtureArrayList = fixtureArrayList;
         this.map_for_team_profile_pic_download_urls = map_for_team_profile_pic_download_urls;
-        layoutInflater = LayoutInflater.from(context);
+        this.resultsArrayList = resultsArrayList;
     }
 
     @Override
-    public ViewHolder1 onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = layoutInflater.inflate(R.layout.fixture_card,parent,false);
-        ViewHolder1 viewHolder1 = new ViewHolder1(view);
-        return viewHolder1;
+    public ViewHolder4 onCreateViewHolder(ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(context).inflate(R.layout.live_match_card,parent,false);
+        ViewHolder4 viewHolder4 = new ViewHolder4(view);
+        return viewHolder4;
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder1 viewHolder, int position) {
-        viewHolder.teamA_name.setText(fixtureArrayList.get(position).TeamA);
-        viewHolder.teamB_name.setText(fixtureArrayList.get(position).TeamB);
-        viewHolder.date.setText(fixtureArrayList.get(position).Date);
-        viewHolder.time.setText(fixtureArrayList.get(position).Time);
-        viewHolder.venue.setText(fixtureArrayList.get(position).Venue);
-        viewHolder.referee.setText(fixtureArrayList.get(position).Referee);
+    public void onBindViewHolder(ViewHolder4 viewHolder, int position) {
+        Results data = resultsArrayList.get(position);
+        viewHolder.teamA_name.setText(data.TeamA);
+        viewHolder.teamB_name.setText(data.TeamB);
+        viewHolder.live_match_score_A.setText(data.TeamAGoals);
+        viewHolder.live_match_score_B.setText(data.TeamBGoals);
+        viewHolder.live_match_start_time.setText("Time : " + data.Time);
+        viewHolder.live_match_venue.setText("Venue : " + data.Venue);
 
         final ImageView tempImageViewA = viewHolder.teamA_image;
         final ImageView tempImageViewB = viewHolder.teamB_image;
-        final String urlA = map_for_team_profile_pic_download_urls.get(fixtureArrayList.get(position).TeamA);
-        final String urlB = map_for_team_profile_pic_download_urls.get(fixtureArrayList.get(position).TeamB);
+        final String urlA = map_for_team_profile_pic_download_urls.get(data.TeamA);
+        final String urlB = map_for_team_profile_pic_download_urls.get(data.TeamB);
         //Load profile pic thumbnails
         Picasso.with(context)
                 .load(urlA)
@@ -263,25 +264,22 @@ class FixtureListAdapter extends RecyclerView.Adapter<FixtureListAdapter.ViewHol
 
     @Override
     public int getItemCount() {
-        return fixtureArrayList.size();
+        return resultsArrayList.size();
     }
 
-    class ViewHolder1 extends RecyclerView.ViewHolder{
-        TextView teamA_name, teamB_name, date, time, venue, referee;
+    class ViewHolder4 extends RecyclerView.ViewHolder{
+        TextView teamA_name,teamB_name,live_match_score_A,live_match_score_B,live_match_start_time,live_match_venue;
         ImageView teamA_image,teamB_image;
-
-        ViewHolder1(View v) {
-            super(v);
-            teamA_name = (TextView) v.findViewById(R.id.teamA_name);
-            teamB_name = (TextView) v.findViewById(R.id.teamB_name);
-            date = (TextView) v.findViewById(R.id.date);
-            time = (TextView) v.findViewById(R.id.time);
-            venue = (TextView) v.findViewById(R.id.venue);
-            referee = (TextView) v.findViewById(R.id.referee);
-            teamA_image = (ImageView)v.findViewById(R.id.teamA_image);
-            teamB_image = (ImageView)v.findViewById(R.id.teamB_image);
+        ViewHolder4(View view){
+            super(view);
+            teamA_name = (TextView)view.findViewById(R.id.teamA_name);
+            teamB_name = (TextView)view.findViewById(R.id.teamB_name);
+            live_match_score_A = (TextView)view.findViewById(R.id.live_match_score_A);
+            live_match_score_B = (TextView)view.findViewById(R.id.live_match_score_B);
+            live_match_start_time = (TextView)view.findViewById(R.id.live_match_start_time);
+            live_match_venue = (TextView)view.findViewById(R.id.live_match_venue);
+            teamA_image = (ImageView)view.findViewById(R.id.teamA_image);
+            teamB_image = (ImageView)view.findViewById(R.id.teamB_image);
         }
     }
-
-
 }
