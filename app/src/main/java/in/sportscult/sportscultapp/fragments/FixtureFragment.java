@@ -110,12 +110,13 @@ public class FixtureFragment extends Fragment {
         progressDialog = new ProgressDialog(getActivity());
         progressDialog.setMessage("Fetching Data....");
         progressDialog.setCancelable(false);
-        progressDialog.show();
 
         databaseReference = FirebaseDatabase.getInstance().getReference().child(age_group);
         databaseReference.child("Fixtures").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+
+                //progressDialog.show();
                 list_of_fixtures = new ArrayList<Fixture>();
                 if(dataSnapshot.getValue()==null){
                     progressDialog.dismiss();

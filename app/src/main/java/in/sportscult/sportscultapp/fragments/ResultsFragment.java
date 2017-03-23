@@ -110,7 +110,7 @@ public class ResultsFragment extends Fragment {
         progressDialog = new ProgressDialog(getActivity());
         progressDialog.setMessage("Fetching Data....");
         progressDialog.setCancelable(false);
-        progressDialog.show();
+        //progressDialog.show();
 
         databaseReference = FirebaseDatabase.getInstance().getReference().child(age_group);
         databaseReference.child("Results").addValueEventListener(new ValueEventListener() {

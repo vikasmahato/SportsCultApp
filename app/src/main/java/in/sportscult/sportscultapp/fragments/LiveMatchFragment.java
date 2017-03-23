@@ -73,7 +73,7 @@ public class LiveMatchFragment extends Fragment {
         progressDialog = new ProgressDialog(getActivity());
         progressDialog.setMessage("Fetching Data....");
         progressDialog.setCancelable(false);
-        progressDialog.show();
+        //progressDialog.show();
 
         final DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
         databaseReference.child("Live Matches").addValueEventListener(new ValueEventListener() {
