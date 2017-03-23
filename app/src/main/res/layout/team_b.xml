@@ -10,15 +10,15 @@
         android:layout_width="@dimen/team_image_size"
         android:layout_height="@dimen/team_image_size"
         android:layout_gravity="center"
-        tools:src="@drawable/album2"/>
+        android:src="@drawable/album2"/>
 
     <TextView
         android:id="@+id/teamB_name"
         android:layout_width="wrap_content"
         android:layout_gravity="center"
         android:layout_height="wrap_content"
-        android:padding="@dimen/album_title_padding"
+        android:padding="@dimen/title_padding"
         android:textColor="@color/primaryText"
-        android:textSize="@dimen/album_title"
-        tools:text="Team B"/>
+        android:textSize="@dimen/title_small"
+        android:text="Team B"/>
 </LinearLayout>

@@ -19,7 +19,7 @@
         android:layout_gravity="center"
         android:layout_height="wrap_content"
         android:textColor="@color/primaryText"
-        android:textSize="@dimen/album_title"
+        android:textSize="@dimen/title"
         android:textAlignment="center"
         tools:text="TeamName"/>
 </LinearLayout>

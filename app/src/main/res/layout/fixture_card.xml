@@ -32,14 +32,14 @@
                     android:layout_height="wrap_content"
                     android:gravity="left"
                     android:layout_weight="1"
-                    android:layout_margin="@dimen/ic_album_overflow_margin_top" />
+                    android:layout_margin="@dimen/ic_overflow_margin_top" />
                 <TextView
                     android:id="@+id/textView3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="41dp"
-                    android:padding="@dimen/album_title_padding"
+                    android:padding="@dimen/title_padding"
                     android:text="VS"
                     android:textColor="@color/colorAccent"
                     android:textSize="@dimen/title_height"
@@ -51,7 +51,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="right"
                     android:layout_weight="1"
-                    android:layout_margin="@dimen/ic_album_overflow_margin_top" />
+                    android:layout_margin="@dimen/ic_overflow_margin_top" />
 
 
             </LinearLayout>
@@ -59,7 +59,6 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/teamA_name"
                 android:layout_marginLeft="@dimen/activity_vertical_margin"
                 android:layout_marginRight="@dimen/activity_vertical_margin"
                 android:orientation="horizontal">

@@ -26,7 +26,7 @@ public class SplashActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
-         FirebaseDatabase.getInstance().setPersistenceEnabled(true);
+      //   FirebaseDatabase.getInstance().setPersistenceEnabled(true);
         //Fake wait 2s to simulate some initialization on cold start (never do this in production!)
         waitHandler.postDelayed(waitCallback, 1500);
     }

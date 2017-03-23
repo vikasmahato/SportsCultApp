@@ -150,7 +150,7 @@ public class RegistrationActivity extends AppCompatActivity {
 
         id_proof_scan_uri = null;
         AlertDialogView = LayoutInflater.from(RegistrationActivity.this).inflate(R.layout.add_new_player,null);
-        final AlertDialog.Builder alertDialog = new AlertDialog.Builder(RegistrationActivity.this);
+        final AlertDialog.Builder alertDialog = new AlertDialog.Builder(RegistrationActivity.this, R.style.MyAlertDialogStyle);
         alertDialog.setView(AlertDialogView);
         alertDialog.setTitle("Enter The Player Details");
         alertDialog.setCancelable(false);
