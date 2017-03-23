@@ -131,7 +131,8 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_awards) {
 
         } else if (id == R.id.nav_registration) {
-
+            Intent registrationIntent = new Intent(this, RegistrationActivity.class);
+            startActivity(registrationIntent);
         } else if (id == R.id.nav_settings) {
 
         } else if (id == R.id.nav_about) {

@@ -1,9 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView  xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent">
+<LinearLayout
     android:orientation="vertical" android:layout_width="match_parent"
     android:background="@color/cardview_light_background"
     android:layout_marginLeft="@dimen/activity_vertical_margin"
     android:layout_marginRight="@dimen/activity_vertical_margin"
+    android:layout_marginBottom="@dimen/activity_horizontal_margin"
     android:layout_height="match_parent">
 <ImageView
     android:layout_gravity="center"
@@ -49,3 +53,4 @@
         android:text="@string/content_commitment"/>
 
 </LinearLayout>
+</ScrollView>
