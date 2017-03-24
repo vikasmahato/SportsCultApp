@@ -160,7 +160,7 @@ public class RegistrationActivity extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
 
-                String playername = player_name.getText().toString();
+                String playername = properly_format_input(player_name.getText().toString());
                 String playercontact = player_contact.getText().toString();
                 String playerjersey = player_jersey.getText().toString();
 
@@ -226,8 +226,8 @@ public class RegistrationActivity extends AppCompatActivity {
         progressDialog.show();
 
         //Get the contents from fields
-        team_name = reg_team_name.getText().toString().trim().toUpperCase();
-        coach_name = reg_coach_name.getText().toString().trim().toUpperCase();
+        team_name = properly_format_input(reg_team_name.getText().toString());
+        coach_name = properly_format_input(reg_coach_name.getText().toString());
         coach_contact = reg_coach_contact.getText().toString().trim();
         coach_email = reg_coach_email.getText().toString().trim();
         password = reg_password.getText().toString().trim();
@@ -388,6 +388,18 @@ public class RegistrationActivity extends AppCompatActivity {
 
     //Till here Register Your Team
 
+
+    //Helper Methods
+
+    public String properly_format_input(String s){
+        String array[] = s.split(" ");
+        StringBuilder stringBuilder = new StringBuilder("");
+        for(String a:array) {
+            stringBuilder.append(a.substring(0, 1).toUpperCase());
+            stringBuilder.append(a.substring(1).toLowerCase()).append(" ");
+        }
+        return stringBuilder.toString().trim();
+    }
 
     public byte[] generateThumbnailForImage(Uri uri){
         final int THUMBSIZE = 100;
