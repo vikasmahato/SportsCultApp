@@ -3,7 +3,6 @@ package in.sportscult.sportscultapp.fragments;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -186,7 +185,7 @@ class ResultsListAdapter extends RecyclerView.Adapter<ResultsListAdapter.ViewHol
 
     @Override
     public ViewHolder4 onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.live_match_card,parent,false);
+        View view = LayoutInflater.from(context).inflate(R.layout.results_card,parent,false);
         ViewHolder4 viewHolder4 = new ViewHolder4(view);
         return viewHolder4;
     }
@@ -198,8 +197,6 @@ class ResultsListAdapter extends RecyclerView.Adapter<ResultsListAdapter.ViewHol
         viewHolder.teamB_name.setText(data.TeamB);
         viewHolder.live_match_score_A.setText(data.TeamAGoals);
         viewHolder.live_match_score_B.setText(data.TeamBGoals);
-        viewHolder.live_match_start_time.setText("Time : " + data.Time);
-        viewHolder.live_match_venue.setText("Venue : " + data.Venue);
 
         final ImageView tempImageViewA = viewHolder.teamA_image;
         final ImageView tempImageViewB = viewHolder.teamB_image;
@@ -268,16 +265,14 @@ class ResultsListAdapter extends RecyclerView.Adapter<ResultsListAdapter.ViewHol
     }
 
     class ViewHolder4 extends RecyclerView.ViewHolder{
-        TextView teamA_name,teamB_name,live_match_score_A,live_match_score_B,live_match_start_time,live_match_venue;
+        TextView teamA_name,teamB_name,live_match_score_A,live_match_score_B;
         ImageView teamA_image,teamB_image;
         ViewHolder4(View view){
             super(view);
             teamA_name = (TextView)view.findViewById(R.id.teamA_name);
             teamB_name = (TextView)view.findViewById(R.id.teamB_name);
-            live_match_score_A = (TextView)view.findViewById(R.id.live_match_score_A);
-            live_match_score_B = (TextView)view.findViewById(R.id.live_match_score_B);
-            live_match_start_time = (TextView)view.findViewById(R.id.live_match_start_time);
-            live_match_venue = (TextView)view.findViewById(R.id.live_match_venue);
+            live_match_score_A = (TextView)view.findViewById(R.id.scoreA);
+            live_match_score_B = (TextView)view.findViewById(R.id.scoreB);
             teamA_image = (ImageView)view.findViewById(R.id.teamA_image);
             teamB_image = (ImageView)view.findViewById(R.id.teamB_image);
         }

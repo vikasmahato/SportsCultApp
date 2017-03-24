@@ -1,4 +1,5 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -17,27 +18,37 @@
         card_view:cardCornerRadius="@dimen/card_album_radius">
 
         <LinearLayout
-
+            android:layout_margin="@dimen/md_keylines"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/group"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/md_keylines"
-                android:text="Group A"/>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_margin="@dimen/md_keylines"
-                android:background="@android:color/darker_gray"/>
-
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
+
+            <!--    <TextView
+                    android:id="@+id/resA"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toLeftOf="@+id/scoreA"
+                    android:text="WON"
+                    android:layout_margin="@dimen/md_keylines"
+                    android:layout_centerVertical="true"
+                    android:textColor="@android:color/holo_green_dark"
+                    />-->
+
+
+                <ImageButton
+                    android:id="@+id/resA"
+                    android:layout_width="@dimen/cards_button_width"
+                    android:layout_height="@dimen/cards_button_height"
+                    android:layout_marginRight="@dimen/md_keylines"
+                    app:srcCompat="@drawable/ic_arrow_drop_up_black_24dp"
+                    android:layout_toLeftOf="@+id/scoreA"
+                    android:layout_centerVertical="true"
+                    style="?android:attr/borderlessButtonStyle"
+                    android:tint="@android:color/holo_green_dark" />
 
                 <TextView
                     android:id="@+id/scoreA"
@@ -51,11 +62,11 @@
 
                 <TextView
                     android:id="@+id/dash"
+                    android:layout_margin="@dimen/md_keylines"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
                     android:gravity="center"
-                    android:layout_margin="@dimen/activity_vertical_margin"
                     android:text="-"
                     android:textColor="@color/colorAccent" />
 
@@ -69,52 +80,41 @@
                     android:layout_centerVertical="true"
                     android:textSize="@dimen/title_height" />
 
+          <!--      <TextView
+                    android:id="@+id/resB"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@+id/scoreB"
+                    android:text="LOST"
+                    android:layout_margin="@dimen/md_keylines"
+                    android:layout_centerVertical="true"
+                    android:textColor="@android:color/holo_red_dark"
+                    />-->
+
+                <ImageButton
+                    android:id="@+id/resB"
+                    android:layout_width="@dimen/cards_button_width"
+                    android:layout_height="@dimen/cards_button_height"
+                    android:layout_marginRight="@dimen/md_keylines"
+                    app:srcCompat="@drawable/ic_arrow_drop_down_black_24dp"
+                    android:layout_toRightOf="@+id/scoreB"
+                    android:layout_centerVertical="true"
+                    style="?android:attr/borderlessButtonStyle"
+                    android:tint="@android:color/holo_red_dark" />
+
                 <include layout="@layout/team_a"
                     android:layout_height="wrap_content"
                     android:layout_width="wrap_content"
                     android:layout_alignParentStart="true"
-                    android:layout_toStartOf="@+id/scoreA"
+                    android:layout_toStartOf="@+id/resA"
                     />
 
                 <include layout="@layout/team_b"
-                    android:layout_toEndOf="@+id/scoreB"
+                    android:layout_toEndOf="@+id/resB"
                     android:layout_height="wrap_content"
                     android:layout_width="wrap_content"
                     android:layout_alignParentEnd="true" />
             </RelativeLayout>
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginLeft="@dimen/activity_vertical_margin"
-                android:layout_marginRight="@dimen/activity_vertical_margin"
-                android:layout_marginBottom="@dimen/md_keylines"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/live_match_venue"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:visibility="gone"
-                    android:gravity="center"
-                    android:text="Venue : DTU Stadium"
-                    android:textColor="@color/secondaryText"
-                    android:textSize="@dimen/secondary_text_size" />
-
-                <TextView
-                    android:id="@+id/live_match_start_time"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:text="HH:MM"
-                    android:textColor="@color/secondaryText"
-                    android:textSize="@dimen/secondary_text_size" />
-            </LinearLayout>
-
 
         </LinearLayout>
     </android.support.v7.widget.CardView>

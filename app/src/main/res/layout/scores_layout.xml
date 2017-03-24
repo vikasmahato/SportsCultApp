@@ -9,7 +9,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
         <TextView
-            android:id="@+id/live_match_score_A"
+            android:id="@+id/scoreA"
             android:text="1"
             android:textColor="@color/colorAccent"
             android:textSize="@dimen/title_height"
@@ -25,7 +25,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
         <TextView
-            android:id="@+id/live_match_score_B"
+            android:id="@+id/scoreB"
             android:text="1"
             android:textColor="@color/colorAccent"
             android:textSize="@dimen/title_height"
