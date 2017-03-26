@@ -74,6 +74,11 @@ public class ResultsFragment extends Fragment {
 
         age_group_results.setSelection(selection_for_age_group);
         age_group = "Group - "+age_group_codes[selection_for_age_group];
+
+        resultsListAdapter = new ResultsListAdapter(getActivity(),arraylist_of_results,team_profile_pic_download_urls);
+        list_of_results.setAdapter(resultsListAdapter);
+        list_of_results.setLayoutManager(new LinearLayoutManager(getActivity()));
+
         Fetching_Results_From_Firebase();
         //Listening for change in age groups
         age_group_results.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -113,9 +118,7 @@ public class ResultsFragment extends Fragment {
                 arraylist_of_results = new ArrayList<Results>();
                 if(dataSnapshot==null){
                     progressDialog.dismiss();
-                    resultsListAdapter = new ResultsListAdapter(getActivity(),arraylist_of_results,team_profile_pic_download_urls);
-                    list_of_results.setAdapter(resultsListAdapter);
-                    list_of_results.setLayoutManager(new LinearLayoutManager(getActivity()));
+                    list_of_results.setAdapter(new ResultsListAdapter(getActivity(),arraylist_of_results,team_profile_pic_download_urls));
                     return;
                 }
                 for(DataSnapshot childSnapshot : dataSnapshot.getChildren()){
@@ -135,9 +138,8 @@ public class ResultsFragment extends Fragment {
                         }
                         progressDialog.dismiss();
                         //Configure Adapter for ListView
-                        resultsListAdapter = new ResultsListAdapter(getActivity(),arraylist_of_results,team_profile_pic_download_urls);
-                        list_of_results.setAdapter(resultsListAdapter);
-                        list_of_results.setLayoutManager(new LinearLayoutManager(getActivity()));
+                        list_of_results.setAdapter(new ResultsListAdapter(getActivity(),arraylist_of_results,team_profile_pic_download_urls));
+
                     }
 
                     @Override

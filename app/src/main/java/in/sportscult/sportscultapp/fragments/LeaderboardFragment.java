@@ -75,6 +75,10 @@ public class LeaderboardFragment extends Fragment {
         age_group_leaderboard.setSelection(selection_for_age_group);
         age_group = "Group - "+age_group_codes[selection_for_age_group];
 
+        leaderBoardAdapter = new LeaderBoardAdapter(getActivity(),list_of_team_scorecards,team_profile_pic_download_urls);
+        leaderboard_list.setAdapter(leaderBoardAdapter);
+        leaderboard_list.setLayoutManager(new LinearLayoutManager(getActivity()));
+
         Fetching_Leaderboard_From_Firebase();
 
         //Listening for change in age groups
@@ -116,9 +120,7 @@ public class LeaderboardFragment extends Fragment {
                 list_of_team_scorecards = new ArrayList<TeamScoreCard>();
                 if(dataSnapshot.getValue()==null){
                     progressDialog.dismiss();
-                    leaderBoardAdapter = new LeaderBoardAdapter(getActivity(),list_of_team_scorecards,team_profile_pic_download_urls);
-                    leaderboard_list.setAdapter(leaderBoardAdapter);
-                    leaderboard_list.setLayoutManager(new LinearLayoutManager(getActivity()));
+                    leaderboard_list.setAdapter(new LeaderBoardAdapter(getActivity(),list_of_team_scorecards,team_profile_pic_download_urls));
                     return;
                 }
                 for(DataSnapshot childSnapshot : dataSnapshot.getChildren()){
@@ -139,9 +141,7 @@ public class LeaderboardFragment extends Fragment {
                         }
                         progressDialog.dismiss();
                         //Configure ListView Adapter
-                        leaderBoardAdapter = new LeaderBoardAdapter(getActivity(),list_of_team_scorecards,team_profile_pic_download_urls);
-                        leaderboard_list.setAdapter(leaderBoardAdapter);
-                        leaderboard_list.setLayoutManager(new LinearLayoutManager(getActivity()));
+                        leaderboard_list.setAdapter(new LeaderBoardAdapter(getActivity(),list_of_team_scorecards,team_profile_pic_download_urls));
                     }
                     @Override
                     public void onCancelled(DatabaseError databaseError) {
