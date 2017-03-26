@@ -128,6 +128,8 @@ public class MainActivity extends AppCompatActivity
 
         if (id == R.id.nav_teams) {
 
+        } else if (id == R.id.nav_home) {
+
         } else if (id == R.id.nav_match_details) {
 
         } else if (id == R.id.nav_registration) {

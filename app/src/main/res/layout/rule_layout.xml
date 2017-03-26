@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+
+    android:layout_height="match_parent">
+<LinearLayout
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    android:orientation="horizontal"
+    android:layout_alignParentTop="true"
+    android:layout_centerHorizontal="true"
+    android:layout_marginTop="20dp"
+    android:id="@+id/linearLayout">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="30sp"
+        android:id="@+id/textView"
+        android:textColor="@color/colorPrimary"
+        android:text="rules"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="30dp"
+        android:textSize="30sp"
+        android:id="@+id/textView2"
+        android:textColor="@color/colorPrimaryLight"
+        android:text="and"/>
+</LinearLayout>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="30sp"
+        android:id="@+id/textView3"
+        android:layout_centerHorizontal="true"
+        android:textColor="@color/colorPrimaryDark"
+        android:text="regulations"
+        android:layout_below="@+id/linearLayout"
+        android:layout_alignEnd="@+id/linearLayout" />
+
+    <View
+        android:id="@+id/line"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_margin="@dimen/md_keylines"
+        android:background="@color/colorPrimary"
+        android:layout_below="@+id/textView3"/>
+
+
+
+    <com.uncopt.android.widget.text.justify.JustifiedTextView
+        android:layout_margin="@dimen/md_keylines"
+        android:gravity="center"
+        android:id="@+id/rule1"
+        android:layout_below="@id/line"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/rule1"/>
+    <ImageView
+        android:layout_width="match_parent"
+        android:gravity="center"
+        android:id="@+id/dot1"
+        android:layout_below="@id/rule1"
+        android:tint="@color/colorPrimaryLight"
+        android:layout_height="12dp"
+        app:srcCompat="@drawable/ic_brightness_1_black_24dp"/>
+    <com.uncopt.android.widget.text.justify.JustifiedTextView
+        android:layout_margin="@dimen/md_keylines"
+        android:gravity="center"
+        android:id="@+id/rule2"
+        android:layout_below="@id/dot1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/rule2"/>
+    <ImageView
+        android:layout_width="match_parent"
+        android:gravity="center"
+        android:id="@+id/dot2"
+        android:layout_below="@id/rule2"
+        android:tint="@color/colorPrimaryLight"
+        android:layout_height="12dp"
+        app:srcCompat="@drawable/ic_brightness_1_black_24dp"/>
+    <com.uncopt.android.widget.text.justify.JustifiedTextView
+        android:layout_margin="@dimen/md_keylines"
+        android:gravity="center"
+        android:id="@+id/rule3"
+        android:layout_below="@id/dot2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/rule3"/>
+    <ImageView
+        android:layout_width="match_parent"
+        android:gravity="center"
+        android:id="@+id/dot3"
+        android:layout_below="@id/rule3"
+        android:tint="@color/colorPrimaryLight"
+        android:layout_height="12dp"
+        app:srcCompat="@drawable/ic_brightness_1_black_24dp"/>
+    <com.uncopt.android.widget.text.justify.JustifiedTextView
+        android:layout_margin="@dimen/md_keylines"
+        android:gravity="center"
+        android:id="@+id/rule4"
+        android:layout_below="@id/dot3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/rule4"/>
+    <ImageView
+        android:layout_width="match_parent"
+        android:gravity="center"
+        android:id="@+id/dot4"
+        android:layout_below="@id/rule4"
+        android:tint="@color/colorPrimaryLight"
+        android:layout_height="12dp"
+        app:srcCompat="@drawable/ic_brightness_1_black_24dp"/>
+    <com.uncopt.android.widget.text.justify.JustifiedTextView
+        android:layout_margin="@dimen/md_keylines"
+        android:gravity="center"
+        android:id="@+id/rule5"
+        android:layout_below="@id/dot4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/rule5"/>
+
+</RelativeLayout>

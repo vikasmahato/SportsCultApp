@@ -16,7 +16,7 @@ public class SplashActivity extends AppCompatActivity {
     private final Runnable waitCallback = new Runnable() {
         @Override
         public void run() {
-            Intent intent = new Intent(SplashActivity.this, MainActivity.class);
+            Intent intent = new Intent(SplashActivity.this, MainDrawer.class);
             startActivity(intent);
             finish();
         }
