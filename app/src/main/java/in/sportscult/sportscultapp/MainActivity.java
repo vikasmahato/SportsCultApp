@@ -128,19 +128,22 @@ public class MainActivity extends AppCompatActivity
 
         if (id == R.id.nav_teams) {
 
-        } else if (id == R.id.nav_awards) {
+        } else if (id == R.id.nav_home) {
+
+        } else if (id == R.id.nav_match_details) {
 
         } else if (id == R.id.nav_registration) {
-
+            Intent registrationIntent = new Intent(this, RegistrationActivity.class);
+            startActivity(registrationIntent);
         } else if (id == R.id.nav_settings) {
 
         } else if (id == R.id.nav_about) {
             Intent aboutIntent = new Intent(this, AboutActivity.class);
             startActivity(aboutIntent);
-        } else if (id == R.id.nav_sponsors) {
-            Intent sponsorsIntent = new Intent(this, SponsorsActivity.class);
-            startActivity(sponsorsIntent);
-        } else if (id == R.id.nav_leader) {
+        } else if (id == R.id.nav_rules) {
+          //  Intent sponsorsIntent = new Intent(this, SponsorsActivity.class);
+          //  startActivity(sponsorsIntent);
+        } else if (id == R.id.nav_about_sfl) {
 
         } else if (id == R.id.nav_help) {
             Intent helpIntent = new Intent(this, HelpActivity.class);

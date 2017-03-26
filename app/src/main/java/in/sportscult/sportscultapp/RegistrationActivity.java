@@ -19,6 +19,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -109,6 +110,16 @@ public class RegistrationActivity extends AppCompatActivity {
 
             }
         });
+
+        player_list.setOnTouchListener(new View.OnTouchListener() {
+            // Setting on Touch Listener for handling the touch inside ScrollView
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                // Disallow the touch request for parent scroll on touch of child view
+                v.getParent().requestDisallowInterceptTouchEvent(true);
+                return false;
+            }
+        });
         //Comment this section out after adding additional functionality for them
         //age_group = "Group - A";
         location = "Rohini";
@@ -139,7 +150,7 @@ public class RegistrationActivity extends AppCompatActivity {
 
         id_proof_scan_uri = null;
         AlertDialogView = LayoutInflater.from(RegistrationActivity.this).inflate(R.layout.add_new_player,null);
-        final AlertDialog.Builder alertDialog = new AlertDialog.Builder(RegistrationActivity.this);
+        final AlertDialog.Builder alertDialog = new AlertDialog.Builder(RegistrationActivity.this, R.style.MyAlertDialogStyle);
         alertDialog.setView(AlertDialogView);
         alertDialog.setTitle("Enter The Player Details");
         alertDialog.setCancelable(false);

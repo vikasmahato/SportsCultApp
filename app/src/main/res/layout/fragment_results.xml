@@ -14,16 +14,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:padding="5dip"
-            android:text="RESULTS"
-            android:textColor="#000"
-            android:textSize="25dip"
-            android:textStyle="bold" />
-
         <android.support.v7.widget.RecyclerView
             android:id="@+id/list_of_results"
             android:layout_width="match_parent"

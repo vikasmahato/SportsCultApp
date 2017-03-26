@@ -1,89 +1,122 @@
-<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:id="@+id/live_match_detail_card"
-    android:layout_margin="5dip">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_marginBottom="5dip">
 
-    <TextView
+    <android.support.v7.widget.CardView
+        android:id="@+id/card_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:visibility="gone"
-        android:id="@+id/display_age_group"
-        android:textColor="@color/primaryText"
-        android:textSize="18dip"
-        android:text="Age Group"
-        android:padding="5dip"
-        />
+        android:layout_gravity="center"
+        android:layout_margin="@dimen/card_margin"
+        android:background="@color/cardview_light_background"
+        android:elevation="3dp"
+        card_view:cardCornerRadius="@dimen/card_album_radius">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        <LinearLayout
 
-        <include
-            layout="@layout/team_a"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            />
-
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:text="5"
-            android:textSize="40dip"
-            android:id="@+id/live_match_score_A"
-            android:textStyle="bold"
-            android:textColor="#000"
-            android:gravity="center"
-            android:padding="15dip"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:text="-"
-            android:textStyle="bold"
-            android:gravity="center"
-            android:textColor="#000"
-            android:textSize="50dip"
-            />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:text="3"
-            android:textSize="40dip"
-            android:id="@+id/live_match_score_B"
-            android:textStyle="bold"
-            android:textColor="#000"
-            android:gravity="center"
-            android:padding="15dip"/>
-
-        <include
-            layout="@layout/team_b"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            />
-
-    </LinearLayout>
-        <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/primaryText"
-            android:textSize="18dip"
-            android:id="@+id/live_match_start_time"
-            android:text="Start Time : 11:00 PM"
-            android:gravity="center"
-            />
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColor="@color/primaryText"
-            android:text="Venue : DTU Stadium"
-            android:id="@+id/live_match_venue"
-            android:textSize="18dip"
-            android:gravity="center"
-            />
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/group"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/md_keylines"
+                android:text="Group A"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_margin="@dimen/md_keylines"
+                android:background="@android:color/darker_gray"/>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/scoreA"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toLeftOf="@+id/dash"
+                    android:text="1"
+                    android:layout_centerVertical="true"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="@dimen/title_height" />
+
+                <TextView
+                    android:id="@+id/dash"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:gravity="center"
+                    android:layout_margin="@dimen/activity_vertical_margin"
+                    android:text="-"
+                    android:textColor="@color/colorAccent" />
+
+                <TextView
+                    android:id="@+id/scoreB"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toEndOf="@+id/dash"
+                    android:text="1"
+                    android:textColor="@color/colorAccent"
+                    android:layout_centerVertical="true"
+                    android:textSize="@dimen/title_height" />
+
+                <include layout="@layout/team_a"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_toStartOf="@+id/scoreA"
+                    />
+
+                <include layout="@layout/team_b"
+                    android:layout_toEndOf="@+id/scoreB"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:layout_alignParentEnd="true" />
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="@dimen/activity_vertical_margin"
+                android:layout_marginRight="@dimen/activity_vertical_margin"
+                android:layout_marginBottom="@dimen/md_keylines"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/live_match_venue"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:visibility="gone"
+                    android:gravity="center"
+                    android:text="Venue : DTU Stadium"
+                    android:textColor="@color/secondaryText"
+                    android:textSize="@dimen/secondary_text_size" />
+
+                <TextView
+                    android:id="@+id/live_match_start_time"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="HH:MM"
+                    android:textColor="@color/secondaryText"
+                    android:textSize="@dimen/secondary_text_size" />
+            </LinearLayout>
+
+
+        </LinearLayout>
+    </android.support.v7.widget.CardView>
 
 </LinearLayout>

@@ -15,6 +15,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.maps.MapView;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -36,6 +37,7 @@ public class LiveMatchFragment extends Fragment {
     private ArrayList<LiveMatch> liveMatchArrayList;
     private Map<String,String> team_profile_pic_download_urls;
     private LiveMatchAdapter liveMatchAdapter;
+    MapView mapView;
     private ProgressDialog progressDialog;
 
     public LiveMatchFragment() {
@@ -56,17 +58,13 @@ public class LiveMatchFragment extends Fragment {
         Live_Matches_List = (RecyclerView) view.findViewById(R.id.Live_Matches_List);
         team_profile_pic_download_urls = new HashMap<String, String>();
         liveMatchArrayList = new ArrayList<LiveMatch>();
-
-
-        liveMatchAdapter = new LiveMatchAdapter(getActivity(),liveMatchArrayList,team_profile_pic_download_urls);
-        Live_Matches_List.setAdapter(liveMatchAdapter);
-        Live_Matches_List.setLayoutManager(new LinearLayoutManager(getActivity()));
-
-
+      //   mapView = (MapView) view.findViewById(R.id.card_image) ;
         Fetch_Live_Matches_From_Firebase();
 
         return view;
     }
+
+
 
     public void Fetch_Live_Matches_From_Firebase(){
 
@@ -83,7 +81,9 @@ public class LiveMatchFragment extends Fragment {
                 liveMatchArrayList = new ArrayList<LiveMatch>();
                 if(dataSnapshot.getValue()==null){
                     progressDialog.dismiss();
-                    Live_Matches_List.setAdapter(new LiveMatchAdapter(getActivity(),liveMatchArrayList,team_profile_pic_download_urls));
+                    liveMatchAdapter = new LiveMatchAdapter(getActivity(),liveMatchArrayList,team_profile_pic_download_urls);
+                    Live_Matches_List.setAdapter(liveMatchAdapter);
+                    Live_Matches_List.setLayoutManager(new LinearLayoutManager(getActivity()));
                     return;
                 }
                 for(DataSnapshot childSnapshot : dataSnapshot.getChildren()){
@@ -101,7 +101,9 @@ public class LiveMatchFragment extends Fragment {
                                 team_profile_pic_download_urls.put(liveMatch.AgeGroup + ChildSnapshot.getKey(), urlmap.get("Team Profile Pic Thumbnail Url"));
                             }
                             progressDialog.dismiss();
-                            Live_Matches_List.setAdapter(new LiveMatchAdapter(getActivity(),liveMatchArrayList,team_profile_pic_download_urls));
+                            liveMatchAdapter = new LiveMatchAdapter(getActivity(),liveMatchArrayList,team_profile_pic_download_urls);
+                            Live_Matches_List.setAdapter(liveMatchAdapter);
+                            Live_Matches_List.setLayoutManager(new LinearLayoutManager(getActivity()));
                         }
 
                         @Override
@@ -167,31 +169,29 @@ class LiveMatchAdapter extends RecyclerView.Adapter<LiveMatchAdapter.Viewholder3
         viewHolder.live_match_score_B.setText(data.TeamBGoals);
         viewHolder.live_match_start_time.setText("Start Time : " + data.StartTime);
         viewHolder.live_match_venue.setText("Venue : " + data.Venue);
-        viewHolder.display_age_group.setVisibility(View.VISIBLE);
-        String age_group_text;
         switch (data.AgeGroup){
             case "Group - A":
-                viewHolder.live_match_detail_card.setBackgroundColor(Color.parseColor("#EA80FC"));
-                age_group_text = "9yrs - 10yrs";
+                viewHolder.group.setText("Group - A");
+             //   viewHolder.live_match_detail_card.setBackgroundColor(Color.parseColor("#EA80FC"));
                 break;
             case "Group - B":
-                viewHolder.live_match_detail_card.setBackgroundColor(Color.parseColor("#E040FB"));
-                age_group_text = "10yrs - 11yrs";
+                viewHolder.group.setText("Group - B");
+              //  viewHolder.live_match_detail_card.setBackgroundColor(Color.parseColor("#E040FB"));
                 break;
             case "Group - C":
-                viewHolder.live_match_detail_card.setBackgroundColor(Color.parseColor("#D500F9"));
-                age_group_text = "11yrs - 12yrs";
+                viewHolder.group.setText("Group - C");
+            //    viewHolder.live_match_detail_card.setBackgroundColor(Color.parseColor("#D500F9"));
                 break;
             case "Group - D":
-                viewHolder.live_match_detail_card.setBackgroundColor(Color.parseColor("#AA00FF"));
-                age_group_text = "12yrs - 13yrs";
+                viewHolder.group.setText("Group - D");
+             //   viewHolder.live_match_detail_card.setBackgroundColor(Color.parseColor("#AA00FF"));
                 break;
             default:
-                viewHolder.live_match_detail_card.setBackgroundColor(Color.WHITE);
-                age_group_text = "";
+                viewHolder.group.setText("Unspecified Group");
+             //   viewHolder.live_match_detail_card.setBackgroundColor(Color.WHITE);
                 break;
         }
-        viewHolder.display_age_group.setText("Age Group : "+age_group_text);
+
         final ImageView tempImageViewA = viewHolder.teamA_image;
         final ImageView tempImageViewB = viewHolder.teamB_image;
         final String urlA = urlMap.get(data.AgeGroup + data.TeamA);
@@ -260,20 +260,20 @@ class LiveMatchAdapter extends RecyclerView.Adapter<LiveMatchAdapter.Viewholder3
 
     class Viewholder3 extends RecyclerView.ViewHolder{
         LinearLayout live_match_detail_card;
-        TextView teamA_name,teamB_name,live_match_score_A,live_match_score_B,live_match_start_time,live_match_venue,display_age_group;
+        TextView teamA_name,teamB_name,live_match_score_A,live_match_score_B,live_match_start_time,live_match_venue,group;
         ImageView teamA_image,teamB_image;
         Viewholder3(View view){
             super(view);
             live_match_detail_card = (LinearLayout)view.findViewById(R.id.live_match_detail_card);
             teamA_name = (TextView)view.findViewById(R.id.teamA_name);
             teamB_name = (TextView)view.findViewById(R.id.teamB_name);
-            live_match_score_A = (TextView)view.findViewById(R.id.live_match_score_A);
-            live_match_score_B = (TextView)view.findViewById(R.id.live_match_score_B);
+            live_match_score_A = (TextView)view.findViewById(R.id.scoreA);
+            live_match_score_B = (TextView)view.findViewById(R.id.scoreB);
             live_match_start_time = (TextView)view.findViewById(R.id.live_match_start_time);
             live_match_venue = (TextView)view.findViewById(R.id.live_match_venue);
             teamA_image = (ImageView)view.findViewById(R.id.teamA_image);
             teamB_image = (ImageView)view.findViewById(R.id.teamB_image);
-            display_age_group = (TextView)view.findViewById(R.id.display_age_group);
+            group = (TextView)view.findViewById(R.id.group);
         }
     }
 

@@ -33,9 +33,6 @@
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
             app:titleMarginTop="15dp" />
 
-
-
-
             <include
                 layout="@layout/score_board"
                 android:layout_width="match_parent"
@@ -45,7 +42,7 @@
                 android:id="@+id/tabs"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:tabMode="fixed"
+                app:tabMode="scrollable"
                 android:layout_gravity="bottom"
                 app:tabGravity="fill"/>
         </android.support.design.widget.CollapsingToolbarLayout>
