@@ -36,11 +36,7 @@
             android:label="Sponsors"
             android:parentActivityName=".MainActivity"
             android:theme="@style/MyMaterialTheme" />
-        <activity
-            android:name=".HelpActivity"
-            android:label="Help"
-            android:parentActivityName=".MainActivity"
-            android:theme="@style/MyMaterialTheme" />
+
         <activity
             android:name=".RegistrationActivity"
             android:label=" "

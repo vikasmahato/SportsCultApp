@@ -79,5 +79,8 @@
     <string name="rule3">The event is of league format. Thus, each team will play with each of the other team and points table will be maintained.</string>
     <string name="rule4">Each team can register with maximum of 12 players.</string>
     <string name="rule5">Only 3 substitutions will be allowed in each match. Each age group plays 7-a-side.</string>
+    <string name="name">Name</string>
+    <string name="contact">Contact</string>
+    <string name="request_call">Request Call</string>
 
 </resources>

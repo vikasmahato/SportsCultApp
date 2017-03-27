@@ -40,13 +40,11 @@
 
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
-                android:textColorHint="@android:color/white"
                 android:layout_height="wrap_content">
 
                 <AutoCompleteTextView
                     android:id="@+id/reg_team_name"
                     android:layout_width="match_parent"
-                    android:background="@drawable/round_red_dark"
                     android:layout_height="wrap_content"
                     android:hint="@string/team_name"
                     android:inputType="textCapWords"
