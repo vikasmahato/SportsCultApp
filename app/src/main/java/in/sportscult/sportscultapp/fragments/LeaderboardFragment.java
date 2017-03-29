@@ -163,7 +163,7 @@ public class LeaderboardFragment extends Fragment {
 class TeamScoreCard{
     String TeamName,MacthesPlayed,MatchesWon,MatchesLost,MatchesDrawn,GoalsScored,GolasConceived,RedCardsReceived,PointsAwarded;
     TeamScoreCard(String TeamName,String MacthesPlayed,String MatchesWon,String MatchesLost,String MatchesDrawn,
-                  String GoalsScored,String GolasConceived,String RedCardsReceived,String PointsAwarded){
+                  String GoalsScored,String GoalsConceived,String RedCardsReceived,String PointsAwarded){
 
 
         this.TeamName = TeamName;
@@ -172,7 +172,7 @@ class TeamScoreCard{
         this.MatchesLost = MatchesLost;
         this.MatchesDrawn = MatchesDrawn;
         this.GoalsScored = GoalsScored;
-        this.GolasConceived = GolasConceived;
+        this.GolasConceived = GoalsConceived;
         this.RedCardsReceived =RedCardsReceived;
         this.PointsAwarded = PointsAwarded;
 
