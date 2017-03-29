@@ -47,6 +47,7 @@ import com.squareup.picasso.Picasso;
 
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 
 public class RegistrationActivity extends AppCompatActivity {
@@ -87,6 +88,7 @@ public class RegistrationActivity extends AppCompatActivity {
         reg_password = (EditText)findViewById(R.id.reg_password);
         reg_confirm_password = (EditText)findViewById(R.id.reg_confirm_password);
         player_list = (RecyclerView) findViewById(R.id.player_list);
+        player_list.setNestedScrollingEnabled(false);
         age_group_dropdown = (Spinner)findViewById(R.id.age_group_dropdown);
         names_of_players = new ArrayList<String>();
         contact_of_players = new ArrayList<String>();
@@ -262,8 +264,23 @@ public class RegistrationActivity extends AppCompatActivity {
                     reg_team_name.setError("Team Name Already Exists");
                     reg_team_name.requestFocus();
                     progressDialog.dismiss();
+                    return;
                 }
                 else{
+                    //Add Team To Leaderboard
+                    DatabaseReference LeaderboardReference = FirebaseDatabase.getInstance().getReference().child(age_group).child("Leaderboard").child(team_name);
+                    Map<String,String> leaderboardData = new HashMap<String, String>();
+                    leaderboardData.put("Team Name",team_name);
+                    leaderboardData.put("Matches Played","0");
+                    leaderboardData.put("Matches Won","0");
+                    leaderboardData.put("Matches Drawn","0");
+                    leaderboardData.put("Matches Lost","0");
+                    leaderboardData.put("Goals Scored","0");
+                    leaderboardData.put("Goals Conceived","0");
+                    leaderboardData.put("Red Cards","0");
+                    leaderboardData.put("Points","0");
+                    LeaderboardReference.setValue(leaderboardData);
+
                     //Add Team Name along with password
                     databaseReference1 = FirebaseDatabase.getInstance().getReference().child(age_group).child("Team Names").child(team_name);
                     databaseReference1.child("Password").setValue(password);
@@ -306,9 +323,11 @@ public class RegistrationActivity extends AppCompatActivity {
                         //Generate a proper player code so that players can be distinguished
                         String player_code = jersey_number_of_players.get(i)+"-"+ names_of_players.get(i);
                         final DatabaseReference tempreference = databaseReference.child(player_code);
-                        tempreference.child("Name").setValue(names_of_players.get(i));
-                        tempreference.child("Contact").setValue(contact_of_players.get(i));
-                        tempreference.child("Jersey Number").setValue(jersey_number_of_players.get(i));
+                        Map<String,String> playerUploadData = new HashMap<String, String>();
+                        playerUploadData.put("Name",names_of_players.get(i));
+                        playerUploadData.put("Contact",contact_of_players.get(i));
+                        playerUploadData.put("Jersey Number",jersey_number_of_players.get(i));
+                        tempreference.setValue(playerUploadData);
                         storageReference.child(player_code).putFile(uri_of_players.get(i)).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                             @Override
                             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
