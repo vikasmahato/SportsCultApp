@@ -65,6 +65,9 @@ public class MainDrawer extends AppCompatActivity {
 
                  if (id == R.id.nav_teams) {
 
+                     Intent teamsIntent = new Intent(getBaseContext(), ListOfTeams.class);
+                     startActivity(teamsIntent);
+
                  }else if (id == R.id.nav_home) {
                      FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
                      fragmentTransaction.replace(R.id.containerView,new TabFragment()).commit();

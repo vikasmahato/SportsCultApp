@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="2dip"
+    android:padding="5dip"
+    android:background="#5592f4">
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:layout_width="70dip"
+            android:layout_height="70dip"
+            android:src="#000"/>
+
+        <TextView
+            android:layout_width="70dip"
+            android:layout_height="70dip"
+            android:gravity="center"
+            android:text="420"
+            android:textColor="#FFF"
+            android:textSize="20dip"
+            android:id="@+id/specific_team_player_jersey_number"/>
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/specific_team_player_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_marginLeft="20dip"
+        android:fontFamily="sans-serif"
+        android:text="Player Name"
+        android:textAllCaps="true"
+        android:textColor="#FFF"
+        android:textSize="20dip" />
+</LinearLayout>

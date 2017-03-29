@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="in.sportscult.sportscultapp.TeamDescriprion"
+    android:layout_margin="10dip"
+    android:orientation="vertical">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_gravity="center_horizontal"
+        android:src="@mipmap/ic_launcher"
+        android:padding="5dip"
+        android:id="@+id/specific_team_profile_pic"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="TEAM NAME"
+        android:textSize="20dip"
+        android:textColor="@color/primaryText"
+        android:gravity="center_horizontal"
+        android:layout_marginBottom="10dip"
+        android:id="@+id/specific_team_name"/>
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="1dip"
+        android:background="#000"
+        android:layout_marginBottom="10dip"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Coach : "
+        android:textColor="@color/primaryText"
+        android:layout_marginBottom="10dip"
+        android:textSize="20dip"
+        android:id="@+id/specific_team_coach_name"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Location : "
+        android:textColor="@color/primaryText"
+        android:layout_marginBottom="10dip"
+        android:textSize="20dip"
+        android:id="@+id/specific_team_location"/>
+
+    <android.support.v7.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/specific_team_players_list" />
+</LinearLayout>

@@ -36,7 +36,6 @@
             android:label="Sponsors"
             android:parentActivityName=".MainActivity"
             android:theme="@style/MyMaterialTheme" />
-
         <activity
             android:name=".RegistrationActivity"
             android:label=" "
@@ -55,8 +54,9 @@
         <activity
             android:name=".MainDrawer"
             android:label="@string/title_activity_main2"
-            android:theme="@style/MyMaterialTheme"></activity>
-        <activity android:name=".ListOfTeams"></activity>
+            android:theme="@style/MyMaterialTheme" />
+        <activity android:name=".ListOfTeams" />
+        <activity android:name=".TeamDescriprion"></activity>
     </application>
 
 </manifest>

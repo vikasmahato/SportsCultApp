@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="5dip">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginBottom="10dip">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Age Group : "
+            android:textSize="20dip"
+            android:textColor="@color/primaryText"/>
+        <Spinner
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/age_group_leaderboard"/>
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="TEAM"
+            android:textColor="@color/primaryText"
+            android:textSize="15dip"
+            android:paddingLeft="5dip"
+            android:gravity="center"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/leaderboard_matches_played"
+            android:layout_alignParentStart="true"/>
+
+        <TextView
+            android:layout_width="30dip"
+            android:layout_height="wrap_content"
+            android:textSize="15dip"
+            android:text="P"
+            android:textColor="@color/primaryText"
+            android:layout_toLeftOf="@+id/leaderboard_matches_won"
+            android:id="@+id/leaderboard_matches_played"
+            android:gravity="center"
+            android:paddingLeft="2dip"
+            android:paddingRight="2dip"/>
+
+        <TextView
+            android:layout_width="30dip"
+            android:layout_height="wrap_content"
+            android:textSize="15dip"
+            android:text="W"
+            android:textColor="@color/primaryText"
+            android:layout_toLeftOf="@+id/leaderboard_matches_lost"
+            android:id="@+id/leaderboard_matches_won"
+            android:gravity="center"
+            android:paddingLeft="2dip"
+            android:paddingRight="2dip"/>
+
+        <TextView
+            android:layout_width="30dip"
+            android:layout_height="wrap_content"
+            android:textSize="15dip"
+            android:text="L"
+            android:textColor="@color/primaryText"
+            android:layout_toLeftOf="@+id/leaderboard_points_scored"
+            android:id="@+id/leaderboard_matches_lost"
+            android:gravity="center"
+            android:paddingLeft="2dip"
+            android:paddingRight="2dip"/>
+
+        <TextView
+            android:layout_width="40dip"
+            android:layout_height="wrap_content"
+            android:textSize="15dip"
+            android:text="S"
+            android:gravity="center"
+            android:textColor="@color/primaryText"
+            android:layout_alignParentEnd="true"
+            android:id="@+id/leaderboard_points_scored"/>
+    </RelativeLayout>
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="1dip"
+        android:background="#000"
+        android:layout_marginTop="5dip"
+        android:layout_marginBottom="5dip"/>
+
+    <android.support.v7.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/leaderboard_list"/>
+
+</LinearLayout>
