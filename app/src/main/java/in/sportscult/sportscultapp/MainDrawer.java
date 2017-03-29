@@ -1,6 +1,8 @@
 package in.sportscult.sportscultapp;
 
+import android.animation.ObjectAnimator;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentManager;
@@ -9,13 +11,27 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.RotateAnimation;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.RotateAnimation;
+import android.widget.Toast;
+
+import in.sportscult.sportscultapp.Utils.ExpandAndCollapseViewUtil;
 
 public class MainDrawer extends AppCompatActivity {
     DrawerLayout mDrawerLayout;
     NavigationView mNavigationView;
     FragmentManager mFragmentManager;
     FragmentTransaction mFragmentTransaction;
-
+    ViewGroup linearLayoutDetails;
+    ImageView imageViewExpand;
+    private static final int DURATION = 250;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,8 +85,8 @@ public class MainDrawer extends AppCompatActivity {
                      FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
                      fragmentTransaction.replace(R.id.containerView,new AboutSFLFragment()).commit();
                  } else if (id == R.id.nav_help) {
-                     Intent helpIntent = new Intent(getBaseContext(), HelpActivity.class);
-                     startActivity(helpIntent);
+                     FragmentTransaction xfragmentTransaction = mFragmentManager.beginTransaction();
+                     xfragmentTransaction.replace(R.id.containerView,new HelpFragment()).commit();
                  } else if (id == R.id.nav_signout) {
 
                  }
@@ -102,4 +118,63 @@ public class MainDrawer extends AppCompatActivity {
                 mDrawerToggle.syncState();
 
     }
+
+    public void sendEmail(View v){
+        Intent emailIntent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts(
+                "mailto","vikasmahato0@gmail.com", null));
+        emailIntent.putExtra(Intent.EXTRA_SUBJECT, "SFL Enquiry");
+        emailIntent.putExtra(Intent.EXTRA_TEXT, "");
+        startActivity(Intent.createChooser(emailIntent, "Send email..."));
+    }
+
+    public void toggleDetails(View view) {
+
+        linearLayoutDetails = (ViewGroup) findViewById(R.id.linearLayoutDetails);
+        imageViewExpand = (ImageView) findViewById(R.id.imageViewExpand);
+
+        if (linearLayoutDetails.getVisibility() == View.GONE) {
+            ExpandAndCollapseViewUtil.expand(linearLayoutDetails, DURATION);
+            imageViewExpand.setImageResource(R.drawable.ic_expand_more_black_24dp);
+            rotate(-180.0f);
+        } else {
+            ExpandAndCollapseViewUtil.collapse(linearLayoutDetails, DURATION);
+            imageViewExpand.setImageResource(R.drawable.ic_expand_less_black_24dp);
+            rotate(180.0f);
+        }
+    }
+
+    private void rotate(float angle) {
+        Animation animation = new RotateAnimation(0.0f, angle, Animation.RELATIVE_TO_SELF, 0.5f,
+                Animation.RELATIVE_TO_SELF, 0.5f);
+        animation.setFillAfter(true);
+        animation.setDuration(DURATION);
+        imageViewExpand.startAnimation(animation);
+    }
+
+    public void getDirections(View view){
+
+        Uri gmmIntentUri = Uri.parse("google.navigation:q=qhub+by+Quantum+Sports");
+        Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
+        mapIntent.setPackage("com.google.android.apps.maps");
+
+
+        if (mapIntent.resolveActivity(getPackageManager()) != null) {
+            startActivity(mapIntent);
+        }else {
+            Toast.makeText(this, "No Application to View maps", Toast.LENGTH_SHORT).show();
+        }
+
+    }
+
+    public void viewLocation(View view){
+        Uri gmmIntentUri = Uri.parse("geo:28.4219738,77.1348673");
+        Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
+        mapIntent.setPackage("com.google.android.apps.maps");
+        if (mapIntent.resolveActivity(getPackageManager()) != null) {
+            startActivity(mapIntent);
+        }else {
+            Toast.makeText(this, "No Application to View maps", Toast.LENGTH_SHORT).show();
+        }
+    }
+
 }

@@ -16,8 +16,9 @@
         android:textSize="@dimen/title"
         android:fontFamily="sans-serif-light"
         android:id="@+id/textView"
+        android:gravity="center"
         android:textColor="@color/colorPrimaryLight"
-        android:text="About SFL"/>
+        android:text="About Us"/>
 
 
 
@@ -70,7 +71,7 @@
             android:layout_below="@id/dot1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/rule2"/>
+            android:text="@string/content_history"/>
 
     </LinearLayout>
 
@@ -92,7 +93,7 @@
             android:layout_below="@id/dot1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/rule3"/>
+            android:text="@string/content_philosophy"/>
 
     </LinearLayout>
 
@@ -114,9 +115,10 @@
             android:layout_below="@id/dot1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/rule4"/>
+            android:text="@string/content_commitment"/>
 
     </LinearLayout>
 
 </LinearLayout>
-    </ScrollView>
+
+</ScrollView>

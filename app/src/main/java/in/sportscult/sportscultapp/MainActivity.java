@@ -146,7 +146,7 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_about_sfl) {
 
         } else if (id == R.id.nav_help) {
-            Intent helpIntent = new Intent(this, HelpActivity.class);
+            Intent helpIntent = new Intent(this, HelpFragment.class);
             startActivity(helpIntent);
         } else if (id == R.id.nav_signout) {
 
