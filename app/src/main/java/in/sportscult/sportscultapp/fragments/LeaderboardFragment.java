@@ -2,6 +2,7 @@ package in.sportscult.sportscultapp.fragments;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -33,6 +34,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 import in.sportscult.sportscultapp.R;
+import in.sportscult.sportscultapp.RecyclerItemClickListener;
+import in.sportscult.sportscultapp.TeamDescriprion;
+
 public class LeaderboardFragment extends Fragment {
 
     private static DatabaseReference databaseReference;
@@ -58,7 +62,7 @@ public class LeaderboardFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_leaderboard,container,false);
+        View view = inflater.inflate(R.layout.leaderboard_trial,container,false);
         age_group_leaderboard = (Spinner)view.findViewById(R.id.age_group_leaderboard);
         leaderboard_list = (RecyclerView) view.findViewById(R.id.leaderboard_list);
         team_profile_pic_download_urls = new HashMap<String, String>();
@@ -79,6 +83,20 @@ public class LeaderboardFragment extends Fragment {
         leaderboard_list.setAdapter(leaderBoardAdapter);
         leaderboard_list.setLayoutManager(new LinearLayoutManager(getActivity()));
 
+        leaderboard_list.addOnItemTouchListener(new RecyclerItemClickListener(getActivity(), leaderboard_list, new RecyclerItemClickListener.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                Intent intent = new Intent(getActivity(), TeamDescriprion.class);
+                intent.putExtra("Age Group",age_group);
+                intent.putExtra("Team Name",list_of_team_scorecards.get(position).TeamName);
+                startActivity(intent);
+            }
+
+            @Override
+            public void onItemLongClick(View view, int position) {
+
+            }
+        }));
         Fetching_Leaderboard_From_Firebase();
 
         //Listening for change in age groups
@@ -203,18 +221,15 @@ class LeaderBoardAdapter extends RecyclerView.Adapter<LeaderBoardAdapter.ViewHol
     @Override
     public void onBindViewHolder(ViewHolder2 viewHolder, int position) {
         TeamScoreCard data = team_Scorecards.get(position);
-        viewHolder.team_name.setText(data.TeamName);
-        viewHolder.matches_played.setText(data.MacthesPlayed);
-        viewHolder.matches_won.setText(data.MatchesWon);
-        viewHolder.matches_lost.setText(data.MatchesLost);
-        viewHolder.matches_drawn.setText(data.MatchesDrawn);
-        viewHolder.goals_scored.setText(data.GoalsScored);
-        viewHolder.goals_conceived.setText(data.GolasConceived);
-        viewHolder.red_cards_received.setText(data.RedCardsReceived);
-        viewHolder.points_awarded.setText(data.PointsAwarded);
+        viewHolder.player_row_for_leaderboard_team_name.setText(data.TeamName);
+        viewHolder.player_row_for_leaderboard_matches_played.setText(data.MacthesPlayed);
+        viewHolder.player_row_for_leaderboard_matches_won.setText(data.MatchesWon);
+        viewHolder.player_row_for_leaderboard_matches_lost.setText(data.MatchesLost);
+        viewHolder.player_row_for_leaderboard_points_scored.setText(data.PointsAwarded);
 
-        final ImageView tempImageView = viewHolder.team_image;
+        final ImageView tempImageView = viewHolder.player_row_for_leaderboard_profile_pic;
         final String url = map_for_team_profile_pic_download_urls.get(data.TeamName);
+
         //Load profile pic thumbnails
         Picasso.with(context)
                 .load(url)
@@ -252,23 +267,17 @@ class LeaderBoardAdapter extends RecyclerView.Adapter<LeaderBoardAdapter.ViewHol
     }
 
     class ViewHolder2 extends RecyclerView.ViewHolder{
-        TextView team_name,matches_played,matches_won,matches_lost,matches_drawn,goals_scored,goals_conceived,
-            red_cards_received,points_awarded;
-        ImageView team_image;
+        TextView player_row_for_leaderboard_team_name,player_row_for_leaderboard_matches_played,player_row_for_leaderboard_matches_won,player_row_for_leaderboard_matches_lost,player_row_for_leaderboard_points_scored;
+        ImageView player_row_for_leaderboard_profile_pic;
 
         ViewHolder2(View v) {
             super(v);
-            team_name = (TextView) v.findViewById(R.id.team_name);
-            matches_played = (TextView) v.findViewById(R.id.matches_played);
-            matches_won = (TextView) v.findViewById(R.id.matches_won);
-            matches_lost = (TextView) v.findViewById(R.id.matches_lost);
-            matches_drawn = (TextView) v.findViewById(R.id.matches_drawn);
-            goals_scored = (TextView) v.findViewById(R.id.goals_scored);
-            goals_conceived = (TextView) v.findViewById(R.id.goals_conceived);
-            red_cards_received = (TextView) v.findViewById(R.id.red_cards_received);
-            points_awarded = (TextView) v.findViewById(R.id.points_awarded);
-
-            team_image = (ImageView) v.findViewById(R.id.team_image);
+            player_row_for_leaderboard_team_name = (TextView) v.findViewById(R.id.player_row_for_leaderboard_team_name);
+            player_row_for_leaderboard_matches_played = (TextView) v.findViewById(R.id.player_row_for_leaderboard_matches_played);
+            player_row_for_leaderboard_matches_won = (TextView) v.findViewById(R.id.player_row_for_leaderboard_matches_won);
+            player_row_for_leaderboard_matches_lost = (TextView) v.findViewById(R.id.player_row_for_leaderboard_matches_lost);
+            player_row_for_leaderboard_points_scored = (TextView) v.findViewById(R.id.player_row_for_leaderboard_points_scored);
+            player_row_for_leaderboard_profile_pic = (ImageView) v.findViewById(R.id.player_row_for_leaderboard_profile_pic);
         }
     }
 

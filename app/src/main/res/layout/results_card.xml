@@ -85,13 +85,15 @@
                     android:layout_width="wrap_content"
                     android:layout_alignParentStart="true"
                     android:layout_toStartOf="@+id/scoreA"
+                    android:id="@+id/include3"
                     />
 
                 <include layout="@layout/team_b"
                     android:layout_toEndOf="@+id/scoreB"
                     android:layout_height="wrap_content"
                     android:layout_width="wrap_content"
-                    android:layout_alignParentEnd="true" />
+                    android:layout_alignParentEnd="true"
+                    android:id="@+id/include4"/>
             </RelativeLayout>
 
         </LinearLayout>

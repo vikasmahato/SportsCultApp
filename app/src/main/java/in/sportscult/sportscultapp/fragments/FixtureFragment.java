@@ -2,6 +2,7 @@ package in.sportscult.sportscultapp.fragments;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -13,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -31,6 +33,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import in.sportscult.sportscultapp.R;
+import in.sportscult.sportscultapp.TeamDescriprion;
 
 public class FixtureFragment extends Fragment {
 
@@ -75,7 +78,7 @@ public class FixtureFragment extends Fragment {
         age_group_fixture.setSelection(selection_for_age_group);
         age_group = "Group - "+age_group_codes[selection_for_age_group];
 
-        fixtureListAdapter = new FixtureListAdapter(getActivity(),list_of_fixtures,team_profile_pic_download_urls);
+        fixtureListAdapter = new FixtureListAdapter(getActivity(),list_of_fixtures,team_profile_pic_download_urls,age_group);
         upcoming_matches_fixture.setAdapter(fixtureListAdapter);
         upcoming_matches_fixture.setLayoutManager(new LinearLayoutManager(getActivity()));
 
@@ -120,7 +123,7 @@ public class FixtureFragment extends Fragment {
                 list_of_fixtures = new ArrayList<Fixture>();
                 if(dataSnapshot.getValue()==null){
                     progressDialog.dismiss();
-                    upcoming_matches_fixture.setAdapter(new FixtureListAdapter(getActivity(),list_of_fixtures,team_profile_pic_download_urls));
+                    upcoming_matches_fixture.setAdapter(new FixtureListAdapter(getActivity(),list_of_fixtures,team_profile_pic_download_urls,age_group));
                     return;
                 }
                 for(DataSnapshot ChildSnapshot : dataSnapshot.getChildren()){
@@ -140,7 +143,7 @@ public class FixtureFragment extends Fragment {
                         }
                         progressDialog.dismiss();
                         //Configure Adapter for ListView
-                        upcoming_matches_fixture.setAdapter(new FixtureListAdapter(getActivity(),list_of_fixtures,team_profile_pic_download_urls));
+                        upcoming_matches_fixture.setAdapter(new FixtureListAdapter(getActivity(),list_of_fixtures,team_profile_pic_download_urls,age_group));
                     }
 
                     @Override
@@ -179,11 +182,13 @@ class FixtureListAdapter extends RecyclerView.Adapter<FixtureListAdapter.ViewHol
     Map<String,String> map_for_team_profile_pic_download_urls;
     LayoutInflater layoutInflater;
     Context context;
-    public FixtureListAdapter(Context context,ArrayList<Fixture> fixtureArrayList,Map<String,String> map_for_team_profile_pic_download_urls){
+    String AGEGROUP;
+    public FixtureListAdapter(Context context,ArrayList<Fixture> fixtureArrayList,Map<String,String> map_for_team_profile_pic_download_urls,String AGEGROUP){
         this.context = context;
         this.fixtureArrayList = fixtureArrayList;
         this.map_for_team_profile_pic_download_urls = map_for_team_profile_pic_download_urls;
         layoutInflater = LayoutInflater.from(context);
+        this.AGEGROUP = AGEGROUP;
     }
 
     @Override
@@ -272,6 +277,7 @@ class FixtureListAdapter extends RecyclerView.Adapter<FixtureListAdapter.ViewHol
         TextView teamA_name, teamB_name, date, time, venue, referee;
         ImageView teamA_image,teamB_image;
 
+        LinearLayout include2,include;
         ViewHolder1(View v) {
             super(v);
             teamA_name = (TextView) v.findViewById(R.id.teamA_name);
@@ -282,6 +288,27 @@ class FixtureListAdapter extends RecyclerView.Adapter<FixtureListAdapter.ViewHol
             referee = (TextView) v.findViewById(R.id.referee);
             teamA_image = (ImageView)v.findViewById(R.id.teamA_image);
             teamB_image = (ImageView)v.findViewById(R.id.teamB_image);
+
+            include2 = (LinearLayout)v.findViewById(R.id.include2);
+            include2.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(context, TeamDescriprion.class);
+                    intent.putExtra("Team Name",fixtureArrayList.get(getPosition()).TeamA);
+                    intent.putExtra("Age Group",AGEGROUP);
+                    context.startActivity(intent);
+                }
+            });
+            include = (LinearLayout)v.findViewById(R.id.include);
+            include.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(context,TeamDescriprion.class);
+                    intent.putExtra("Team Name",fixtureArrayList.get(getPosition()).TeamB);
+                    intent.putExtra("Age Group",AGEGROUP);
+                    context.startActivity(intent);
+                }
+            });
         }
     }
 
