@@ -223,6 +223,23 @@ class ResultsListAdapter extends RecyclerView.Adapter<ResultsListAdapter.ViewHol
         viewHolder.live_match_score_A.setText(data.TeamAGoals);
         viewHolder.live_match_score_B.setText(data.TeamBGoals);
 
+        //Set Text Color For Scores
+        int AColor,BColor;
+        if(Integer.parseInt(data.TeamAGoals)>Integer.parseInt(data.TeamBGoals)){
+            AColor = context.getResources().getColor(R.color.winning_color);
+            BColor = context.getResources().getColor(R.color.loosing_color);
+        }
+        else if(Integer.parseInt(data.TeamAGoals)<Integer.parseInt(data.TeamBGoals)){
+            BColor = context.getResources().getColor(R.color.winning_color);
+            AColor = context.getResources().getColor(R.color.loosing_color);
+        }
+        else{
+            BColor = context.getResources().getColor(R.color.draw_color);
+            AColor = context.getResources().getColor(R.color.draw_color);
+        }
+        viewHolder.live_match_score_A.setTextColor(AColor);
+        viewHolder.live_match_score_B.setTextColor(BColor);
+
         final ImageView tempImageViewA = viewHolder.teamA_image;
         final ImageView tempImageViewB = viewHolder.teamB_image;
         final String urlA = map_for_team_profile_pic_download_urls.get(data.TeamA);

@@ -86,6 +86,23 @@ public class DetailedMatchDescription extends AppCompatActivity {
                 team1score.setText(tempmap.get("Team A Goals"));
                 team2score.setText(tempmap.get("Team B Goals"));
 
+                //Set Text Colors For Scores
+                int AColor,BColor;
+                if(Integer.parseInt(tempmap.get("Team A Goals"))>Integer.parseInt(tempmap.get("Team B Goals"))){
+                    AColor = getResources().getColor(R.color.winning_color);
+                    BColor = getResources().getColor(R.color.loosing_color);
+                }
+                else if(Integer.parseInt(tempmap.get("Team A Goals"))<Integer.parseInt(tempmap.get("Team B Goals"))){
+                    BColor = getResources().getColor(R.color.winning_color);
+                    AColor = getResources().getColor(R.color.loosing_color);
+                }
+                else{
+                    BColor = getResources().getColor(R.color.draw_color);
+                    AColor = getResources().getColor(R.color.draw_color);
+                }
+                team1score.setTextColor(AColor);
+                team2score.setTextColor(BColor);
+
                 DataSnapshot GoalsSnapshot = dataSnapshot.child("Goals");
                 for(DataSnapshot childSnapshot : GoalsSnapshot.getChildren()){
                     Map<String,String> map = (Map<String,String>) childSnapshot.getValue();

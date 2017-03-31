@@ -58,4 +58,9 @@
     <color name="text_white_secondary_70">#B3FFFFFF</color>
     <color name="text_white_disabled_hint_30">#4DFFFFFF</color>
     <color name="text_white_divider_12">#1FFFFFFF</color>
+
+    <!-- ScoreCard -->
+    <color name="winning_color">#44F510</color>
+    <color name="loosing_color">#F43C14</color>
+    <color name="draw_color">#144AF4</color>
 </resources>
