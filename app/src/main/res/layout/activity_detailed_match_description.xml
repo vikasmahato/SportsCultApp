@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    tools:context="in.sportscult.sportscultapp.DetailedMatchDescription"
+    android:orientation="vertical">
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/card_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="@dimen/card_margin"
+        android:background="@color/cardview_light_background"
+        android:elevation="3dp"
+        card_view:cardCornerRadius="@dimen/card_album_radius">
+
+        <LinearLayout
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/team1score"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toLeftOf="@+id/dash"
+                    android:text="1"
+                    android:layout_centerVertical="true"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="@dimen/title_height" />
+
+                <TextView
+                    android:id="@+id/dash"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:gravity="center"
+                    android:layout_margin="@dimen/activity_vertical_margin"
+                    android:text="-"
+                    android:textColor="@color/colorAccent" />
+
+                <TextView
+                    android:id="@+id/team2score"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toEndOf="@+id/dash"
+                    android:text="1"
+                    android:textColor="@color/colorAccent"
+                    android:layout_centerVertical="true"
+                    android:textSize="@dimen/title_height" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="TEAM A NAME"
+                    android:layout_toLeftOf="@+id/team1score"
+                    android:layout_alignParentStart="true"
+                    android:id="@+id/team1name"
+                    android:textColor="@color/primaryText"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="TEAM B NAME"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_toRightOf="@+id/team2score"
+                    android:gravity="right"
+                    android:id="@+id/team2name"
+                    android:textColor="@color/primaryText"/>
+            </RelativeLayout>
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="2dip"
+                android:background="#000"/>
+
+
+        </LinearLayout>
+    </android.support.v7.widget.CardView>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dip"
+        android:fontFamily="serif-monospace"
+        android:gravity="center"
+        android:text="TIMELINE OF MATCH"
+        android:textAllCaps="false"
+        android:textColor="@color/blue_500"
+        android:textSize="20dip"
+        android:textStyle="bold" />
+<android.support.v7.widget.RecyclerView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/eventinformationrecyclerview"
+    android:layout_margin="5dip"/>
+
+</LinearLayout>

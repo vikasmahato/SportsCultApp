@@ -56,7 +56,8 @@
             android:label="@string/title_activity_main2"
             android:theme="@style/MyMaterialTheme" />
         <activity android:name=".ListOfTeams" />
-        <activity android:name=".TeamDescriprion"></activity>
+        <activity android:name=".TeamDescriprion" />
+        <activity android:name=".DetailedMatchDescription"></activity>
     </application>
 
 </manifest>

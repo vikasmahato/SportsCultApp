@@ -72,7 +72,7 @@ public class LeaderboardFragment extends Fragment {
         age_group_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         age_group_leaderboard.setAdapter(age_group_adapter);
         //Add The Functionality to get the selection_for_age_group from Shared Preferences
-        //If no data stored in Shared Preferences then do nothing,it will work on the default value
+        //If no data stored in Shared Preferences then do nothing,it will work on the time_default value
         final SharedPreferences sharedPreferences = getActivity().getSharedPreferences("UserPreferences",Context.MODE_PRIVATE);
         selection_for_age_group = sharedPreferences.getInt("selection_for_age_group",1);
 

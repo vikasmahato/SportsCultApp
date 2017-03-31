@@ -98,7 +98,7 @@ public class SponsorsAdapter extends RecyclerView.Adapter<SponsorsAdapter.MyView
                 case R.id.action_play_next:
                     Toast.makeText(mContext, "Play next", Toast.LENGTH_SHORT).show();
                     return true;
-                default:
+                time_default:
             }*/
             return false;
         }

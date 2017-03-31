@@ -190,7 +190,8 @@
                     android:layout_height="wrap_content"
                     android:textStyle="bold"
                     style="@style/Widget.AppCompat.Button.Colored"
-                    android:text="@string/request_call"/>
+                    android:text="@string/request_call"
+                    android:id="@+id/requestcall"/>
             </LinearLayout>
 
 

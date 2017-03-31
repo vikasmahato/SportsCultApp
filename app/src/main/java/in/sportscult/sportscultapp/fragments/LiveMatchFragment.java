@@ -2,6 +2,7 @@ package in.sportscult.sportscultapp.fragments;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -29,7 +30,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import in.sportscult.sportscultapp.DetailedMatchDescription;
 import in.sportscult.sportscultapp.R;
+import in.sportscult.sportscultapp.RecyclerItemClickListener;
 
 public class LiveMatchFragment extends Fragment {
 
@@ -61,6 +64,22 @@ public class LiveMatchFragment extends Fragment {
       //   mapView = (MapView) view.findViewById(R.id.card_image) ;
         Fetch_Live_Matches_From_Firebase();
 
+        Live_Matches_List.addOnItemTouchListener(new RecyclerItemClickListener(getActivity(), Live_Matches_List, new RecyclerItemClickListener.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                Intent intent = new Intent(getActivity(), DetailedMatchDescription.class);
+                intent.putExtra("Activity Name","Live");
+                intent.putExtra("Match ID",liveMatchArrayList.get(position).Key);
+                intent.putExtra("Age Group",liveMatchArrayList.get(position).AgeGroup);
+                startActivity(intent);
+            }
+
+            @Override
+            public void onItemLongClick(View view, int position) {
+
+            }
+        }));
+
         return view;
     }
 
@@ -88,7 +107,7 @@ public class LiveMatchFragment extends Fragment {
                 }
                 for(DataSnapshot childSnapshot : dataSnapshot.getChildren()){
                     Map<String,String> map = (Map<String,String>)childSnapshot.getValue();
-                    final LiveMatch liveMatch = new LiveMatch(map.get("Team A"),map.get("Team B"),map.get("Team A Goals"),
+                    final LiveMatch liveMatch = new LiveMatch(childSnapshot.getKey(),map.get("Team A"),map.get("Team B"),map.get("Team A Goals"),
                             map.get("Team B Goals"),map.get("Venue"),map.get("Start Time"),map.get("Age Group"));
                     liveMatchArrayList.add(liveMatch);
 
@@ -127,8 +146,8 @@ public class LiveMatchFragment extends Fragment {
 }
 
 class LiveMatch{
-    String TeamA,TeamB,TeamAGoals,TeamBGoals,Venue,StartTime,AgeGroup;
-    LiveMatch(String TeamA,String TeamB,String TeamAGoals,String TeamBGoals,String Venue,String StartTime,String AgeGroup){
+    String TeamA,TeamB,TeamAGoals,TeamBGoals,Venue,StartTime,AgeGroup,Key;
+    LiveMatch(String Key,String TeamA,String TeamB,String TeamAGoals,String TeamBGoals,String Venue,String StartTime,String AgeGroup){
         this.TeamA = TeamA;
         this.TeamB = TeamB;
         this.TeamAGoals = TeamAGoals;
@@ -136,6 +155,7 @@ class LiveMatch{
         this.Venue = Venue;
         this.StartTime = StartTime;
         this.AgeGroup = AgeGroup;
+        this.Key = Key;
     }
 }
 
