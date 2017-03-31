@@ -93,6 +93,7 @@ public class LiveMatchFragment extends Fragment {
         //progressDialog.show();
 
         final DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
+        databaseReference.keepSynced(true);
         databaseReference.child("Live Matches").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
