@@ -1,6 +1,5 @@
 package in.sportscult.sportscultapp;
 
-import android.animation.ObjectAnimator;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -15,14 +14,15 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.RotateAnimation;
 import android.widget.ImageView;
-import android.widget.TextView;
-import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.RotateAnimation;
 import android.widget.Toast;
 
 import in.sportscult.sportscultapp.Utils.ExpandAndCollapseViewUtil;
+import in.sportscult.sportscultapp.fragments.AboutSFLFragment;
+import in.sportscult.sportscultapp.fragments.AboutUsFragment;
+import in.sportscult.sportscultapp.fragments.HelpFragment;
+import in.sportscult.sportscultapp.fragments.RulesFragment;
+import in.sportscult.sportscultapp.fragments.TabFragment;
 
 public class MainDrawer extends AppCompatActivity {
     DrawerLayout mDrawerLayout;

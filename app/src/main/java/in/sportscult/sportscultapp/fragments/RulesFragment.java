@@ -1,4 +1,4 @@
-package in.sportscult.sportscultapp;
+package in.sportscult.sportscultapp.fragments;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -7,14 +7,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import in.sportscult.sportscultapp.R;
+
 /**
- * Created by Ratan on 7/29/2015.
+ * Created by Vikas on 25/03/2016.
  */
-public class AboutUsFragment extends Fragment {
+public class RulesFragment extends Fragment {
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.about_us_layout,null);
+        return inflater.inflate(R.layout.rule_layout,null);
     }
+
+
 }

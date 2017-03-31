@@ -1,4 +1,4 @@
-package in.sportscult.sportscultapp;
+package in.sportscult.sportscultapp.fragments;
 
 import android.content.Context;
 import android.content.Intent;
@@ -12,6 +12,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+
+import in.sportscult.sportscultapp.R;
 
 public class HelpFragment  extends Fragment {
 

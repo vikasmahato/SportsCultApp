@@ -1,4 +1,4 @@
-package in.sportscult.sportscultapp;
+package in.sportscult.sportscultapp.fragments;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import in.sportscult.sportscultapp.R;
 import in.sportscult.sportscultapp.fragments.FixtureFragment;
 import in.sportscult.sportscultapp.fragments.LeaderboardFragment;
 import in.sportscult.sportscultapp.fragments.LiveMatchFragment;
