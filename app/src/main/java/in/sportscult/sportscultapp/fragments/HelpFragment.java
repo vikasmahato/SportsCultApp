@@ -1,4 +1,4 @@
-package in.sportscult.sportscultapp;
+package in.sportscult.sportscultapp.fragments;
 
 import android.content.Context;
 import android.content.Intent;
@@ -23,6 +23,8 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import in.sportscult.sportscultapp.R;
 
 public class HelpFragment  extends Fragment {
 
