@@ -92,6 +92,20 @@
         android:layout_marginTop="5dip"
         android:layout_marginBottom="5dip"/>
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="15dip"
+        android:layout_marginRight="15dip"
+        android:layout_marginTop="40dip"
+        android:gravity="center"
+        android:text="Leader board will be updated soon.\n stay tuned..."
+        android:textAllCaps="true"
+        android:textColor="@color/primaryText"
+        android:textSize="30dip"
+        android:textStyle="italic"
+        android:visibility="gone"
+        android:id="@+id/display_on_empty_leaderboard"/>
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

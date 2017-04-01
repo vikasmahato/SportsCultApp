@@ -49,6 +49,7 @@ public class LeaderboardFragment extends Fragment {
     private static LeaderBoardAdapter leaderBoardAdapter;
     private static ProgressDialog progressDialog;
     private static int selection_for_age_group = 1;
+    private static TextView display_on_empty_leaderboard;
 
     public LeaderboardFragment() {
     }
@@ -67,6 +68,7 @@ public class LeaderboardFragment extends Fragment {
         leaderboard_list = (RecyclerView) view.findViewById(R.id.leaderboard_list);
         team_profile_pic_download_urls = new HashMap<String, String>();
         list_of_team_scorecards = new ArrayList<TeamScoreCard>();
+        display_on_empty_leaderboard= (TextView)view.findViewById(R.id.display_on_empty_leaderboard);
 
         final ArrayAdapter<String> age_group_adapter = new ArrayAdapter<String>(getActivity(),android.R.layout.simple_list_item_1,getResources().getStringArray(R.array.age_groups));
         age_group_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -138,7 +140,7 @@ public class LeaderboardFragment extends Fragment {
                 list_of_team_scorecards = new ArrayList<TeamScoreCard>();
                 if(dataSnapshot.getValue()==null){
                     progressDialog.dismiss();
-                    leaderboard_list.setAdapter(new LeaderBoardAdapter(getActivity(),list_of_team_scorecards,team_profile_pic_download_urls));
+                    ArrayListEmpty();
                     return;
                 }
                 for(DataSnapshot childSnapshot : dataSnapshot.getChildren()){
@@ -159,7 +161,12 @@ public class LeaderboardFragment extends Fragment {
                         }
                         progressDialog.dismiss();
                         //Configure ListView Adapter
-                        leaderboard_list.setAdapter(new LeaderBoardAdapter(getActivity(),list_of_team_scorecards,team_profile_pic_download_urls));
+                        if(list_of_team_scorecards.size()==0)
+                            ArrayListEmpty();
+                        else {
+                            leaderboard_list.setAdapter(new LeaderBoardAdapter(getActivity(),list_of_team_scorecards,team_profile_pic_download_urls));
+                            ArrayListNotEmpty();
+                        }
                     }
                     @Override
                     public void onCancelled(DatabaseError databaseError) {
@@ -175,6 +182,15 @@ public class LeaderboardFragment extends Fragment {
                 Toast.makeText(getActivity(),"Some Error Occurred",Toast.LENGTH_LONG).show();
             }
         });
+    }
+
+    private void ArrayListEmpty(){
+        leaderboard_list.setVisibility(View.GONE);
+        display_on_empty_leaderboard.setVisibility(View.VISIBLE);
+    }
+    private void ArrayListNotEmpty(){
+        leaderboard_list.setVisibility(View.VISIBLE);
+        display_on_empty_leaderboard.setVisibility(View.GONE);
     }
 }
 
