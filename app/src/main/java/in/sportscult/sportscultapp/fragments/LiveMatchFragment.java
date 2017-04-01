@@ -42,6 +42,7 @@ public class LiveMatchFragment extends Fragment {
     private LiveMatchAdapter liveMatchAdapter;
     MapView mapView;
     private ProgressDialog progressDialog;
+    private static TextView display_on_empty_live_match;
 
     public LiveMatchFragment() {
         // Required empty public constructor
@@ -61,7 +62,13 @@ public class LiveMatchFragment extends Fragment {
         Live_Matches_List = (RecyclerView) view.findViewById(R.id.Live_Matches_List);
         team_profile_pic_download_urls = new HashMap<String, String>();
         liveMatchArrayList = new ArrayList<LiveMatch>();
+        display_on_empty_live_match = (TextView)view.findViewById(R.id.display_on_empty_live_match);
       //   mapView = (MapView) view.findViewById(R.id.card_image) ;
+
+        liveMatchAdapter = new LiveMatchAdapter(getActivity(),liveMatchArrayList,team_profile_pic_download_urls);
+        Live_Matches_List.setAdapter(liveMatchAdapter);
+        Live_Matches_List.setLayoutManager(new LinearLayoutManager(getActivity()));
+
         Fetch_Live_Matches_From_Firebase();
 
         Live_Matches_List.addOnItemTouchListener(new RecyclerItemClickListener(getActivity(), Live_Matches_List, new RecyclerItemClickListener.OnItemClickListener() {
@@ -101,9 +108,7 @@ public class LiveMatchFragment extends Fragment {
                 liveMatchArrayList = new ArrayList<LiveMatch>();
                 if(dataSnapshot.getValue()==null){
                     progressDialog.dismiss();
-                    liveMatchAdapter = new LiveMatchAdapter(getActivity(),liveMatchArrayList,team_profile_pic_download_urls);
-                    Live_Matches_List.setAdapter(liveMatchAdapter);
-                    Live_Matches_List.setLayoutManager(new LinearLayoutManager(getActivity()));
+                    ArrayListEmpty();
                     return;
                 }
                 for(DataSnapshot childSnapshot : dataSnapshot.getChildren()){
@@ -121,9 +126,13 @@ public class LiveMatchFragment extends Fragment {
                                 team_profile_pic_download_urls.put(liveMatch.AgeGroup + ChildSnapshot.getKey(), urlmap.get("Team Profile Pic Thumbnail Url"));
                             }
                             progressDialog.dismiss();
-                            liveMatchAdapter = new LiveMatchAdapter(getActivity(),liveMatchArrayList,team_profile_pic_download_urls);
-                            Live_Matches_List.setAdapter(liveMatchAdapter);
-                            Live_Matches_List.setLayoutManager(new LinearLayoutManager(getActivity()));
+                            if(liveMatchArrayList.size()==0)
+                                ArrayListEmpty();
+                            else{
+                                liveMatchAdapter = new LiveMatchAdapter(getActivity(),liveMatchArrayList,team_profile_pic_download_urls);
+                                Live_Matches_List.setAdapter(liveMatchAdapter);
+                                ArrayListNotEmpty();
+                            }
                         }
 
                         @Override
@@ -143,6 +152,15 @@ public class LiveMatchFragment extends Fragment {
             }
         });
 
+    }
+
+    private void ArrayListEmpty(){
+        Live_Matches_List.setVisibility(View.GONE);
+        display_on_empty_live_match.setVisibility(View.VISIBLE);
+    }
+    private void ArrayListNotEmpty(){
+        Live_Matches_List.setVisibility(View.VISIBLE);
+        display_on_empty_live_match.setVisibility(View.GONE);
     }
 }
 

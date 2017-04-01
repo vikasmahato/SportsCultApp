@@ -2,7 +2,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    tools:context="in.sportscult.sportscultapp.fragments.FixtureFragment">
+    tools:context="in.sportscult.sportscultapp.fragments.FixtureFragment"
+    android:layout_margin="5dip">
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -11,20 +12,37 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
-        <Spinner
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/age_group_fixture"/>
-       <!-- <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Upcoming Matches"
-            android:textSize="25dip"
-            android:textStyle="bold"
-            android:padding="5dip"/>
-        <android.support.v7.widget.RecyclerView
+       <LinearLayout
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:layout_marginBottom="5dip">
+           <TextView
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:text="Age Group : "
+               android:textSize="20dip"
+               android:textColor="@color/primaryText"
+               android:layout_marginRight="5dip"/>
 
-            android:padding="5dip"/>-->
+           <Spinner
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:id="@+id/age_group_fixture"/>
+       </LinearLayout>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="15dip"
+            android:layout_marginRight="15dip"
+            android:layout_marginTop="40dip"
+            android:gravity="center"
+            android:text="Matches Will Be Scheduled Soon.\nStay TUNEd..."
+            android:textAllCaps="true"
+            android:textColor="@color/primaryText"
+            android:textSize="30dip"
+            android:textStyle="italic"
+            android:visibility="gone"
+            android:id="@+id/display_on_empty_fixture"/>
         <android.support.v7.widget.RecyclerView
 
             android:layout_width="match_parent"

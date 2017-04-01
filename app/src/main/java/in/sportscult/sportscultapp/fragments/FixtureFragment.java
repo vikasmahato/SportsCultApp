@@ -47,6 +47,7 @@ public class FixtureFragment extends Fragment {
     private static FixtureListAdapter fixtureListAdapter;
     private static ProgressDialog progressDialog;
     static Map<String,String> team_profile_pic_download_urls;
+    private static TextView display_on_empty_fixture;
 
     public FixtureFragment() {
         // Required empty public constructor
@@ -66,6 +67,7 @@ public class FixtureFragment extends Fragment {
         upcoming_matches_fixture = (RecyclerView) view.findViewById(R.id.upcoming_matches_fixture);
         list_of_fixtures = new ArrayList<Fixture>();
         team_profile_pic_download_urls = new HashMap<String, String>();
+        display_on_empty_fixture = (TextView)view.findViewById(R.id.display_on_empty_fixture);
 
         final ArrayAdapter<String> age_group_adapter = new ArrayAdapter<String>(getActivity(),android.R.layout.simple_list_item_1,getResources().getStringArray(R.array.age_groups));
         age_group_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -123,7 +125,7 @@ public class FixtureFragment extends Fragment {
                 list_of_fixtures = new ArrayList<Fixture>();
                 if(dataSnapshot.getValue()==null){
                     progressDialog.dismiss();
-                    upcoming_matches_fixture.setAdapter(new FixtureListAdapter(getActivity(),list_of_fixtures,team_profile_pic_download_urls,age_group));
+                    ArrayListEmpty();
                     return;
                 }
                 for(DataSnapshot ChildSnapshot : dataSnapshot.getChildren()){
@@ -143,7 +145,12 @@ public class FixtureFragment extends Fragment {
                         }
                         progressDialog.dismiss();
                         //Configure Adapter for ListView
-                        upcoming_matches_fixture.setAdapter(new FixtureListAdapter(getActivity(),list_of_fixtures,team_profile_pic_download_urls,age_group));
+                        if(list_of_fixtures.size()==0)
+                            ArrayListEmpty();
+                        else {
+                            upcoming_matches_fixture.setAdapter(new FixtureListAdapter(getActivity(), list_of_fixtures, team_profile_pic_download_urls, age_group));
+                            ArrayListNotEmpty();
+                        }
                     }
 
                     @Override
@@ -162,6 +169,15 @@ public class FixtureFragment extends Fragment {
             }
         });
 
+    }
+
+    private void ArrayListEmpty(){
+        upcoming_matches_fixture.setVisibility(View.GONE);
+        display_on_empty_fixture.setVisibility(View.VISIBLE);
+    }
+    private void ArrayListNotEmpty(){
+        upcoming_matches_fixture.setVisibility(View.VISIBLE);
+        display_on_empty_fixture.setVisibility(View.GONE);
     }
 
 }

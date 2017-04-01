@@ -49,6 +49,7 @@ public class ResultsFragment extends Fragment {
     private ProgressDialog progressDialog;
     private ResultsListAdapter resultsListAdapter;
     private RecyclerView list_of_results;
+    private static TextView display_on_empty_results;
 
     public ResultsFragment() {
         // Required empty public constructor
@@ -68,6 +69,7 @@ public class ResultsFragment extends Fragment {
         arraylist_of_results = new ArrayList<Results>();
         team_profile_pic_download_urls = new HashMap<String,String>();
         list_of_results = (RecyclerView)view.findViewById(R.id.list_of_results);
+        display_on_empty_results = (TextView)view.findViewById(R.id.display_on_empty_results);
 
         final ArrayAdapter<String> age_group_adapter = new ArrayAdapter<String>(getActivity(),android.R.layout.simple_list_item_1,getResources().getStringArray(R.array.age_groups));
         age_group_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -138,7 +140,7 @@ public class ResultsFragment extends Fragment {
                 arraylist_of_results = new ArrayList<Results>();
                 if(dataSnapshot==null){
                     progressDialog.dismiss();
-                    list_of_results.setAdapter(new ResultsListAdapter(getActivity(),arraylist_of_results,team_profile_pic_download_urls,age_group));
+                    ArrayListEmpty();
                     return;
                 }
                 for(DataSnapshot childSnapshot : dataSnapshot.getChildren()){
@@ -156,9 +158,13 @@ public class ResultsFragment extends Fragment {
                             Map<String, String> urlmap = (Map<String, String>) ChildSnapshot.getValue();
                             team_profile_pic_download_urls.put(ChildSnapshot.getKey(), urlmap.get("Team Profile Pic Thumbnail Url"));
                         }
-                        progressDialog.dismiss();
-                        //Configure Adapter for ListView
-                        list_of_results.setAdapter(new ResultsListAdapter(getActivity(),arraylist_of_results,team_profile_pic_download_urls,age_group));
+                        progressDialog.dismiss();//Configure ListView Adapter
+                        if(arraylist_of_results.size()==0)
+                            ArrayListEmpty();
+                        else {
+                            list_of_results.setAdapter(new ResultsListAdapter(getActivity(),arraylist_of_results,team_profile_pic_download_urls,age_group));
+                            ArrayListNotEmpty();
+                        }
 
                     }
 
@@ -179,6 +185,14 @@ public class ResultsFragment extends Fragment {
 
     }
 
+    private void ArrayListEmpty(){
+        list_of_results.setVisibility(View.GONE);
+        display_on_empty_results.setVisibility(View.VISIBLE);
+    }
+    private void ArrayListNotEmpty(){
+        list_of_results.setVisibility(View.VISIBLE);
+        display_on_empty_results.setVisibility(View.GONE);
+    }
 }
 
 class Results{
