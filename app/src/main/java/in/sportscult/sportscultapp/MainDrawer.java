@@ -21,6 +21,7 @@ import in.sportscult.sportscultapp.Utils.ExpandAndCollapseViewUtil;
 import in.sportscult.sportscultapp.fragments.AboutSFLFragment;
 import in.sportscult.sportscultapp.fragments.AboutUsFragment;
 import in.sportscult.sportscultapp.fragments.HelpFragment;
+import in.sportscult.sportscultapp.fragments.ResultsFragment;
 import in.sportscult.sportscultapp.fragments.RulesFragment;
 import in.sportscult.sportscultapp.fragments.TabFragment;
 
@@ -70,33 +71,27 @@ public class MainDrawer extends AppCompatActivity {
 
                  }else if (id == R.id.nav_home) {
                      FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
-                     fragmentTransaction.replace(R.id.containerView,new TabFragment()).commit();
-                 }  else if (id == R.id.nav_match_details) {
-
-                 } else if (id == R.id.nav_registration) {
+                     fragmentTransaction.replace(R.id.containerView,new TabFragment()).addToBackStack( "tag" ).commit();
+                 }  else if (id == R.id.nav_registration) {
                      FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
-                     fragmentTransaction.replace(R.id.containerView,new RegistrationFragment()).commit();
-                 } else if (id == R.id.nav_settings) {
-
+                     fragmentTransaction.replace(R.id.containerView,new RegistrationFragment()).addToBackStack( "tag" ).commit();
                  } else if (id == R.id.nav_about) {
                      FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
-                     fragmentTransaction.replace(R.id.containerView,new AboutUsFragment()).commit();
+                     fragmentTransaction.replace(R.id.containerView,new AboutUsFragment()).addToBackStack( "tag" ).commit();
                  } else if (id == R.id.nav_rules) {
                      FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
-                     fragmentTransaction.replace(R.id.containerView,new RulesFragment()).commit();
+                     fragmentTransaction.replace(R.id.containerView,new RulesFragment()).addToBackStack( "tag" ).commit();
                  } else if (id == R.id.nav_about_sfl) {
                      FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
-                     fragmentTransaction.replace(R.id.containerView,new AboutSFLFragment()).commit();
+                     fragmentTransaction.replace(R.id.containerView,new AboutSFLFragment()).addToBackStack( "tag" ).commit();
                  } else if (id == R.id.nav_help) {
                      FragmentTransaction xfragmentTransaction = mFragmentManager.beginTransaction();
-                     xfragmentTransaction.replace(R.id.containerView,new HelpFragment()).commit();
-                 } else if (id == R.id.nav_signout) {
-
+                     xfragmentTransaction.replace(R.id.containerView,new HelpFragment()).addToBackStack( "tag" ).commit();
                  }
 
-                if (id == R.id.nav_match_details) {
+               else if (id == R.id.nav_match_details) {
                     FragmentTransaction xfragmentTransaction = mFragmentManager.beginTransaction();
-                    xfragmentTransaction.replace(R.id.containerView,new TabFragment()).commit();
+                    xfragmentTransaction.replace(R.id.containerView,new ResultsFragment()).addToBackStack( "tag" ).commit();
                 }
 
                  return false;
