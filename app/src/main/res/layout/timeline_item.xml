@@ -49,7 +49,7 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/teamresponsible"
                     android:gravity="right"
-                    android:textSize="18sp"
+                    android:textSize="15sp"
                     android:textColor="@color/primaryText"
                     tools:text="Team Name"/>
             </LinearLayout>

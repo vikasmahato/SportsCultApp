@@ -68,6 +68,7 @@ public class LiveMatchFragment extends Fragment {
         liveMatchAdapter = new LiveMatchAdapter(getActivity(),liveMatchArrayList,team_profile_pic_download_urls);
         Live_Matches_List.setAdapter(liveMatchAdapter);
         Live_Matches_List.setLayoutManager(new LinearLayoutManager(getActivity()));
+        Live_Matches_List.setNestedScrollingEnabled(false);
 
         Fetch_Live_Matches_From_Firebase();
 
