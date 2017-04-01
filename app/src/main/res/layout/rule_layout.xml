@@ -147,7 +147,7 @@
         android:orientation="horizontal"
         android:layout_height="wrap_content">
 
-        <android.support.v4.widget.CircleImageView
+        <ImageView
             android:layout_width="48dp"
             android:gravity="left"
             android:layout_margin="@dimen/md_keylines"
@@ -170,7 +170,7 @@
         android:orientation="horizontal"
         android:layout_height="wrap_content">
 
-        <de.hdodenhof.circleimageview.CircleImageView
+        <ImageView
             android:layout_width="48dp"
             android:gravity="left"
             android:layout_margin="@dimen/md_keylines"

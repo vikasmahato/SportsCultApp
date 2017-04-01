@@ -86,12 +86,12 @@
             android:id="@+id/leaderboard_points_scored"/>
     </RelativeLayout>
 
-    <ImageView
+    <View
+        android:id="@+id/line"
         android:layout_width="match_parent"
-        android:layout_height="1dip"
-        android:background="#000"
-        android:layout_marginTop="5dip"
-        android:layout_marginBottom="5dip"/>
+        android:layout_height="1dp"
+        android:background="@color/colorPrimary"
+        android:layout_below="@+id/textView"/>
 
     <TextView
         android:layout_width="match_parent"
@@ -102,8 +102,9 @@
         android:gravity="center"
         android:text="Leader board will be updated soon.\n stay tuned..."
         android:textAllCaps="true"
-        android:textColor="@color/primaryText"
-        android:textSize="30dip"
+        android:textColor="@color/secondaryText"
+        android:fontFamily="sans-serif-light"
+        android:textSize="@dimen/title_height"
         android:textStyle="italic"
         android:visibility="gone"
         android:id="@+id/display_on_empty_leaderboard"/>
