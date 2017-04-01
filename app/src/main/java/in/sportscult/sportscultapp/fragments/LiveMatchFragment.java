@@ -131,6 +131,7 @@ public class LiveMatchFragment extends Fragment {
                                 ArrayListEmpty();
                             else{
                                 liveMatchAdapter = new LiveMatchAdapter(getActivity(),liveMatchArrayList,team_profile_pic_download_urls);
+                                Live_Matches_List.scrollToPosition(2);
                                 Live_Matches_List.setAdapter(liveMatchAdapter);
                                 ArrayListNotEmpty();
                             }
