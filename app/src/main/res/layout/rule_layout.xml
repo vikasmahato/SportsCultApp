@@ -41,7 +41,7 @@
         android:layout_margin="@dimen/md_keylines"
         android:layout_below="@id/line"
         android:layout_height="48dp"
-        android:src="@drawable/goal"/>
+        android:src="@drawable/fb"/>
 
     <com.uncopt.android.widget.text.justify.JustifiedTextView
         android:layout_margin="@dimen/md_keylines"
@@ -118,6 +118,74 @@
             android:text="@string/rule4"/>
 
     </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:layout_width="48dp"
+            android:gravity="left"
+            android:layout_margin="@dimen/md_keylines"
+            android:layout_below="@id/line"
+            android:layout_height="48dp"
+            android:src="@drawable/time_substitutions"/>
+
+        <com.uncopt.android.widget.text.justify.JustifiedTextView
+            android:layout_margin="@dimen/md_keylines"
+            android:layout_below="@id/dot1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/rule5"/>
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:layout_width="48dp"
+            android:gravity="left"
+            android:layout_margin="@dimen/md_keylines"
+            android:layout_below="@id/line"
+            android:layout_height="48dp"
+            android:src="@drawable/ts"/>
+
+        <com.uncopt.android.widget.text.justify.JustifiedTextView
+            android:layout_margin="@dimen/md_keylines"
+            android:layout_below="@id/dot1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/rule6"/>
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:layout_width="48dp"
+            android:gravity="left"
+            android:layout_margin="@dimen/md_keylines"
+
+            android:layout_height="48dp"
+            android:src="@drawable/basket"/>
+
+        <com.uncopt.android.widget.text.justify.JustifiedTextView
+            android:layout_margin="@dimen/md_keylines"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/rule7"/>
+
+    </LinearLayout>
+
 
 </LinearLayout>
     </ScrollView>

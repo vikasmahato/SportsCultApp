@@ -82,5 +82,13 @@
     <string name="name">Name</string>
     <string name="contact">Contact</string>
     <string name="request_call">Request Call</string>
+    <string name="reg_closed">Registrations have been closed</string>
+    <string name="rule6">It is mandatory to play under the jerseys provided by SportsCult.</string>
+    <string name="rule7">A copy of Aadhar card will be required to be submitted by each player as a proof of age.</string>
+    <string name="about1">SportsCult with its mission \'to make Sports a Culture\', has incubated a football league for the emerging talent in football to play their best game in Delhi NCR.</string>
+    <string name="about2">SFL provides opportunities to hundreds of players to experience real time competitive matches every Saturday from 8th April 2017 to 20th May 2017 at a prime location in Gurugram in a brand new football field.</string>
+    <string name="about3">Exposure to higher number of real-time matches.</string>
+    <string name="about4">Best players will receive a free session with the Senior coaches at SportsCult.</string>
+    <string name="about5">Motivating rewards to the top three teams.</string>
 
 </resources>

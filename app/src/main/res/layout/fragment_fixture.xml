@@ -20,6 +20,7 @@
                android:layout_width="wrap_content"
                android:layout_height="wrap_content"
                android:text="Age Group : "
+               android:fontFamily="sans-serif-light"
                android:textSize="20dip"
                android:textColor="@color/primaryText"
                android:layout_marginRight="5dip"/>
@@ -38,8 +39,9 @@
             android:gravity="center"
             android:text="Matches Will Be Scheduled Soon.\nStay TUNEd..."
             android:textAllCaps="true"
-            android:textColor="@color/primaryText"
-            android:textSize="30dip"
+            android:textColor="@color/secondaryText"
+            android:fontFamily="sans-serif-light"
+            android:textSize="@dimen/title_height"
             android:textStyle="italic"
             android:visibility="gone"
             android:id="@+id/display_on_empty_fixture"/>
