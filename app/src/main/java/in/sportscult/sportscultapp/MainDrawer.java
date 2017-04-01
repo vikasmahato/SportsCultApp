@@ -74,8 +74,8 @@ public class MainDrawer extends AppCompatActivity {
                  }  else if (id == R.id.nav_match_details) {
 
                  } else if (id == R.id.nav_registration) {
-                     Intent registrationIntent = new Intent(getBaseContext(), RegistrationActivity.class);
-                     startActivity(registrationIntent);
+                     FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
+                     fragmentTransaction.replace(R.id.containerView,new RegistrationFragment()).commit();
                  } else if (id == R.id.nav_settings) {
 
                  } else if (id == R.id.nav_about) {
@@ -93,10 +93,6 @@ public class MainDrawer extends AppCompatActivity {
                  } else if (id == R.id.nav_signout) {
 
                  }
-                 if (id == R.id.nav_registration) {
-
-
-                 }
 
                 if (id == R.id.nav_match_details) {
                     FragmentTransaction xfragmentTransaction = mFragmentManager.beginTransaction();
@@ -108,9 +104,7 @@ public class MainDrawer extends AppCompatActivity {
 
         });
 
-        /**
-         * Setup Drawer Toggle of the Toolbar
-         */
+
 
                 android.support.v7.widget.Toolbar toolbar = (android.support.v7.widget.Toolbar) findViewById(R.id.toolbar);
                 ActionBarDrawerToggle mDrawerToggle = new ActionBarDrawerToggle(this,mDrawerLayout, toolbar,R.string.app_name,

@@ -14,6 +14,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Age Group : "
+            android:fontFamily="sans-serif-light"
             android:textSize="20dip"
             android:textColor="@color/primaryText"/>
         <Spinner
@@ -30,9 +31,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="TEAMS"
-            android:textColor="@color/primaryText"
-            android:textSize="15dip"
-            android:paddingLeft="5dip"
+            android:textColor="@color/colorPrimary"
+            android:textSize="15dp"
+            android:paddingLeft="5dp"
             android:gravity="center"
             android:layout_centerVertical="true"
             android:layout_toLeftOf="@+id/leaderboard_matches_played"
@@ -43,7 +44,7 @@
             android:layout_height="wrap_content"
             android:textSize="15dip"
             android:text="P"
-            android:textColor="@color/primaryText"
+            android:textColor="@color/colorPrimary"
             android:layout_toLeftOf="@+id/leaderboard_matches_won"
             android:id="@+id/leaderboard_matches_played"
             android:gravity="center"
@@ -55,7 +56,7 @@
             android:layout_height="wrap_content"
             android:textSize="15dip"
             android:text="W"
-            android:textColor="@color/primaryText"
+            android:textColor="@color/colorPrimary"
             android:layout_toLeftOf="@+id/leaderboard_matches_lost"
             android:id="@+id/leaderboard_matches_won"
             android:gravity="center"
@@ -67,7 +68,7 @@
             android:layout_height="wrap_content"
             android:textSize="15dip"
             android:text="L"
-            android:textColor="@color/primaryText"
+            android:textColor="@color/colorPrimary"
             android:layout_toLeftOf="@+id/leaderboard_points_scored"
             android:id="@+id/leaderboard_matches_lost"
             android:gravity="center"
@@ -80,17 +81,17 @@
             android:textSize="15dip"
             android:text="S"
             android:gravity="center"
-            android:textColor="@color/primaryText"
+            android:textColor="@color/colorPrimary"
             android:layout_alignParentEnd="true"
             android:id="@+id/leaderboard_points_scored"/>
     </RelativeLayout>
 
-    <ImageView
+    <View
+        android:id="@+id/line"
         android:layout_width="match_parent"
-        android:layout_height="1dip"
-        android:background="#000"
-        android:layout_marginTop="5dip"
-        android:layout_marginBottom="5dip"/>
+        android:layout_height="1dp"
+        android:background="@color/colorPrimary"
+        android:layout_below="@+id/textView"/>
 
     <TextView
         android:layout_width="match_parent"
@@ -101,8 +102,9 @@
         android:gravity="center"
         android:text="Leader board will be updated soon.\n stay tuned..."
         android:textAllCaps="true"
-        android:textColor="@color/primaryText"
-        android:textSize="30dip"
+        android:textColor="@color/secondaryText"
+        android:fontFamily="sans-serif-light"
+        android:textSize="@dimen/title_height"
         android:textStyle="italic"
         android:visibility="gone"
         android:id="@+id/display_on_empty_leaderboard"/>

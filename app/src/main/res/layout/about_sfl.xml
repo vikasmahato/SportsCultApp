@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView  xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:card_view="http://schemas.android.com/tools">
 <LinearLayout
     android:orientation="vertical"
     android:layout_margin="@dimen/activity_horizontal_margin"
@@ -28,95 +29,162 @@
         android:background="@color/colorPrimary"
         android:layout_below="@+id/textView"/>
 
-    <LinearLayout
+    <android.support.v7.widget.CardView
         android:layout_width="match_parent"
-        android:orientation="horizontal"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        card_view:cardBackgroundColor="@android:color/white"
+        card_view:cardElevation="4dp"
+        card_view:cardUseCompatPadding="true"
+        android:layout_gravity="center"
+        android:layout_margin="@dimen/card_margin"
+        android:background="@color/cardview_light_background"
+        android:elevation="4dp"
+        card_view:cardCornerRadius="1dp">
 
-        <ImageView
-            android:layout_width="48dp"
-            android:gravity="left"
-            android:id="@+id/dot"
-            android:layout_margin="@dimen/md_keylines"
-            android:layout_below="@id/line"
-            android:layout_height="48dp"
-            android:src="@drawable/goal"/>
-
-        <com.uncopt.android.widget.text.justify.JustifiedTextView
-            android:layout_margin="@dimen/md_keylines"
-            android:id="@+id/rule1"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/rule1"/>
-    </LinearLayout>
+            android:layout_margin="@dimen/md_keylines"
+            android:orientation="vertical">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:orientation="horizontal"
+                android:layout_height="wrap_content">
 
-    <LinearLayout
+                <ImageView
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_gravity="center"
+                    android:layout_margin="@dimen/md_keylines"
+                    android:src="@drawable/cup" />
+
+                <com.uncopt.android.widget.text.justify.JustifiedTextView
+                    android:layout_margin="@dimen/md_keylines"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/about4"/>
+            </LinearLayout>
+
+        </LinearLayout>
+    </android.support.v7.widget.CardView>
+
+    <android.support.v7.widget.CardView
         android:layout_width="match_parent"
-        android:orientation="horizontal"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        card_view:cardBackgroundColor="@android:color/white"
+        card_view:cardElevation="4dp"
+        card_view:cardUseCompatPadding="true"
+        android:layout_gravity="center"
+        android:layout_margin="@dimen/card_margin"
+        android:background="@color/cardview_light_background"
+        android:elevation="4dp"
+        card_view:cardCornerRadius="1dp">
 
-        <ImageView
-            android:layout_width="48dp"
-            android:gravity="left"
-            android:id="@+id/dot1"
-            android:layout_margin="@dimen/md_keylines"
-            android:layout_below="@id/line"
-            android:layout_height="48dp"
-            android:src="@drawable/foul"/>
-
-        <com.uncopt.android.widget.text.justify.JustifiedTextView
-            android:layout_margin="@dimen/md_keylines"
-            android:id="@+id/rule2"
-            android:layout_below="@id/dot1"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/rule2"/>
+            android:layout_margin="@dimen/md_keylines"
+            android:orientation="vertical">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:orientation="horizontal"
+                android:layout_height="wrap_content">
 
-    </LinearLayout>
+                <ImageView
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_gravity="center"
+                    android:layout_margin="@dimen/md_keylines"
+                    android:src="@drawable/penalty_kik" />
 
-    <LinearLayout
+                <com.uncopt.android.widget.text.justify.JustifiedTextView
+                    android:layout_margin="@dimen/md_keylines"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/about2"/>
+            </LinearLayout>
+
+        </LinearLayout>
+    </android.support.v7.widget.CardView>
+    <android.support.v7.widget.CardView
         android:layout_width="match_parent"
-        android:orientation="horizontal"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        card_view:cardBackgroundColor="@android:color/white"
+        card_view:cardElevation="4dp"
+        card_view:cardUseCompatPadding="true"
+        android:layout_gravity="center"
+        android:layout_margin="@dimen/card_margin"
+        android:background="@color/cardview_light_background"
+        android:elevation="4dp"
+        card_view:cardCornerRadius="1dp">
 
-        <ImageView
-            android:layout_width="48dp"
-            android:gravity="left"
-            android:layout_margin="@dimen/md_keylines"
-            android:layout_below="@id/line"
-            android:layout_height="48dp"
-            android:src="@drawable/penalty_kik"/>
-
-        <com.uncopt.android.widget.text.justify.JustifiedTextView
-            android:layout_margin="@dimen/md_keylines"
-            android:layout_below="@id/dot1"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/rule3"/>
+            android:layout_margin="@dimen/md_keylines"
+            android:orientation="vertical">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:orientation="horizontal"
+                android:layout_height="wrap_content">
 
-    </LinearLayout>
+                <ImageView
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_gravity="center"
+                    android:layout_margin="@dimen/md_keylines"
+                    android:src="@drawable/foul" />
 
-    <LinearLayout
+                <com.uncopt.android.widget.text.justify.JustifiedTextView
+                    android:layout_margin="@dimen/md_keylines"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/about3"/>
+            </LinearLayout>
+
+        </LinearLayout>
+    </android.support.v7.widget.CardView>
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/contact_card"
         android:layout_width="match_parent"
-        android:orientation="horizontal"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        card_view:cardBackgroundColor="@android:color/white"
+        card_view:cardElevation="4dp"
+        card_view:cardUseCompatPadding="true"
+        android:layout_gravity="center"
+        android:layout_margin="@dimen/card_margin"
+        android:background="@color/cardview_light_background"
+        android:elevation="4dp"
+        card_view:cardCornerRadius="1dp">
 
-        <ImageView
-            android:layout_width="48dp"
-            android:gravity="left"
-            android:layout_margin="@dimen/md_keylines"
-            android:layout_below="@id/line"
-            android:layout_height="48dp"
-            android:src="@drawable/red_card"/>
-
-        <com.uncopt.android.widget.text.justify.JustifiedTextView
-            android:layout_margin="@dimen/md_keylines"
-            android:layout_below="@id/dot1"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/rule4"/>
+            android:layout_margin="@dimen/md_keylines"
+            android:orientation="vertical">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:orientation="horizontal"
+                android:layout_height="wrap_content">
 
-    </LinearLayout>
+                <ImageView
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_gravity="center"
+                    android:layout_margin="@dimen/md_keylines"
+                    android:src="@drawable/fb" />
+
+                <com.uncopt.android.widget.text.justify.JustifiedTextView
+                    android:layout_margin="@dimen/md_keylines"
+                    android:id="@+id/rule1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/about5"/>
+            </LinearLayout>
+
+        </LinearLayout>
+    </android.support.v7.widget.CardView>
 
 </LinearLayout>
     </ScrollView>

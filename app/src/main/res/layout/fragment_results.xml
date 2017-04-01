@@ -17,6 +17,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Age Group : "
+                android:fontFamily="sans-serif-light"
                 android:textSize="20dip"
                 android:textColor="@color/primaryText"
                 android:layout_marginRight="5dip"/>
@@ -26,20 +27,29 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/age_group_results"/>
         </LinearLayout>
-        <TextView
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="15dip"
-            android:layout_marginRight="15dip"
-            android:layout_marginTop="40dip"
-            android:gravity="center"
-            android:text="None Of The Matches Have Yet Been Completed.\n stay tuned..."
-            android:textAllCaps="true"
-            android:textColor="@color/primaryText"
-            android:textSize="30dip"
-            android:textStyle="italic"
-            android:visibility="gone"
-            android:id="@+id/display_on_empty_results"/>
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="15dip"
+                android:layout_marginRight="15dip"
+                android:layout_marginTop="40dip"
+                android:gravity="center"
+                android:fontFamily="sans-serif-light"
+                android:text="None Of The Matches Have Yet Been Completed.\n stay tuned..."
+                android:textAllCaps="true"
+                android:textColor="@color/secondaryText"
+                android:textSize="@dimen/title_height"
+                android:textStyle="italic"
+                android:visibility="gone"
+                android:id="@+id/display_on_empty_results"/>
+
+        </LinearLayout>
+
 
 
         <android.support.v7.widget.RecyclerView
