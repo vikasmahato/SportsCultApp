@@ -1,17 +1,11 @@
 package in.sportscult.sportscultapp.fragments;
 
-import android.content.Context;
-import android.content.Intent;
-import android.net.Uri;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -28,7 +22,7 @@ import in.sportscult.sportscultapp.R;
 
 public class HelpFragment  extends Fragment {
 
-    private static EditText name,number;
+    private static EditText name,number,city;
     private static Button requestcall;
 
     @Nullable
@@ -38,6 +32,7 @@ public class HelpFragment  extends Fragment {
 
         name = (EditText)view.findViewById(R.id.name);
         number = (EditText)view.findViewById(R.id.number);
+        city = (EditText)view.findViewById(R.id.city);
         requestcall = (Button)view.findViewById(R.id.requestcall);
         requestcall.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -54,6 +49,7 @@ public class HelpFragment  extends Fragment {
         final View view = view1;
         String Name = name.getText().toString();
         String Number = number.getText().toString();
+        String City = city.getText().toString();
 
         if(Name.length()<3){
             name.setError("Name Too Short");
@@ -65,10 +61,16 @@ public class HelpFragment  extends Fragment {
             number.requestFocus();
             return;
         }
+        if(City.length()<3){
+            city.setError("City Name Too Short");
+            city.requestFocus();
+            return;
+        }
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child("Call Requests");
         Map<String,String> map = new HashMap<String,String>();
         map.put("Name",Name.trim().toUpperCase());
         map.put("Contact Number",Number);
+        map.put("City",City.trim().toUpperCase());
         databaseReference.push().setValue(map).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
