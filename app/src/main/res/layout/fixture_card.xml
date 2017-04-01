@@ -43,7 +43,8 @@
                     android:text="VS"
                     android:textColor="@color/colorAccent"
                     android:textSize="@dimen/title_height"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    />
                 <include
                     android:id="@+id/include"
                     layout="@layout/team_b"

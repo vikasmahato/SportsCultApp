@@ -2,6 +2,7 @@ package in.sportscult.sportscultapp.fragments;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -13,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -30,7 +32,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import in.sportscult.sportscultapp.DetailedMatchDescription;
 import in.sportscult.sportscultapp.R;
+import in.sportscult.sportscultapp.RecyclerItemClickListener;
+import in.sportscult.sportscultapp.TeamDescriprion;
 
 public class ResultsFragment extends Fragment {
 
@@ -68,16 +73,31 @@ public class ResultsFragment extends Fragment {
         age_group_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         age_group_results.setAdapter(age_group_adapter);
         //The Functionality to get the selection_for_age_group from Shared Preferences
-        //If no data stored in Shared Preferences then do nothing,it will work on the default value
+        //If no data stored in Shared Preferences then do nothing,it will work on the time_default value
         final SharedPreferences sharedPreferences = getActivity().getSharedPreferences("UserPreferences", Context.MODE_PRIVATE);
         selection_for_age_group = sharedPreferences.getInt("selection_for_age_group",1);
 
         age_group_results.setSelection(selection_for_age_group);
         age_group = "Group - "+age_group_codes[selection_for_age_group];
 
-        resultsListAdapter = new ResultsListAdapter(getActivity(),arraylist_of_results,team_profile_pic_download_urls);
+        resultsListAdapter = new ResultsListAdapter(getActivity(),arraylist_of_results,team_profile_pic_download_urls,age_group);
         list_of_results.setAdapter(resultsListAdapter);
         list_of_results.setLayoutManager(new LinearLayoutManager(getActivity()));
+        list_of_results.addOnItemTouchListener(new RecyclerItemClickListener(getActivity(), list_of_results, new RecyclerItemClickListener.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                Intent intent = new Intent(getActivity(), DetailedMatchDescription.class);
+                intent.putExtra("Activity Name","Results");
+                intent.putExtra("Age Group",age_group);
+                intent.putExtra("Match ID",arraylist_of_results.get(position).Key);
+                startActivity(intent);
+            }
+
+            @Override
+            public void onItemLongClick(View view, int position) {
+
+            }
+        }));
 
         Fetching_Results_From_Firebase();
         //Listening for change in age groups
@@ -118,12 +138,12 @@ public class ResultsFragment extends Fragment {
                 arraylist_of_results = new ArrayList<Results>();
                 if(dataSnapshot==null){
                     progressDialog.dismiss();
-                    list_of_results.setAdapter(new ResultsListAdapter(getActivity(),arraylist_of_results,team_profile_pic_download_urls));
+                    list_of_results.setAdapter(new ResultsListAdapter(getActivity(),arraylist_of_results,team_profile_pic_download_urls,age_group));
                     return;
                 }
                 for(DataSnapshot childSnapshot : dataSnapshot.getChildren()){
                     Map<String,String> map = (Map<String,String>)childSnapshot.getValue();
-                    Results results = new Results(map.get("Team A"),map.get("Team B"),map.get("Team A Goals")
+                    Results results = new Results(childSnapshot.getKey(),map.get("Team A"),map.get("Team B"),map.get("Team A Goals")
                     ,map.get("Team B Goals"),map.get("Venue"),map.get("Time"));
                     arraylist_of_results.add(results);
                 }
@@ -138,7 +158,7 @@ public class ResultsFragment extends Fragment {
                         }
                         progressDialog.dismiss();
                         //Configure Adapter for ListView
-                        list_of_results.setAdapter(new ResultsListAdapter(getActivity(),arraylist_of_results,team_profile_pic_download_urls));
+                        list_of_results.setAdapter(new ResultsListAdapter(getActivity(),arraylist_of_results,team_profile_pic_download_urls,age_group));
 
                     }
 
@@ -162,14 +182,15 @@ public class ResultsFragment extends Fragment {
 }
 
 class Results{
-    String TeamA,TeamB,TeamAGoals,TeamBGoals,Venue,Time;
-    Results(String TeamA,String TeamB,String TeamAGoals,String TeamBGoals,String Venue,String Time){
+    String Key,TeamA,TeamB,TeamAGoals,TeamBGoals,Venue,Time;
+    Results(String Key,String TeamA,String TeamB,String TeamAGoals,String TeamBGoals,String Venue,String Time){
         this.TeamA = TeamA;
         this.TeamB = TeamB;
         this.TeamAGoals = TeamAGoals;
         this.TeamBGoals = TeamBGoals;
         this.Venue = Venue;
         this.Time = Time;
+        this.Key = Key;
     }
 }
 
@@ -178,11 +199,13 @@ class ResultsListAdapter extends RecyclerView.Adapter<ResultsListAdapter.ViewHol
     ArrayList<Results> resultsArrayList;
     Map<String,String> map_for_team_profile_pic_download_urls;
     Context context;
+    String AGEGROUP;
 
-    public ResultsListAdapter(Context context,ArrayList<Results> resultsArrayList,Map<String,String> map_for_team_profile_pic_download_urls){
+    public ResultsListAdapter(Context context,ArrayList<Results> resultsArrayList,Map<String,String> map_for_team_profile_pic_download_urls,String AGEGROUP){
         this.context = context;
         this.map_for_team_profile_pic_download_urls = map_for_team_profile_pic_download_urls;
         this.resultsArrayList = resultsArrayList;
+        this.AGEGROUP = AGEGROUP;
     }
 
     @Override
@@ -199,6 +222,23 @@ class ResultsListAdapter extends RecyclerView.Adapter<ResultsListAdapter.ViewHol
         viewHolder.teamB_name.setText(data.TeamB);
         viewHolder.live_match_score_A.setText(data.TeamAGoals);
         viewHolder.live_match_score_B.setText(data.TeamBGoals);
+
+        //Set Text Color For Scores
+        int AColor,BColor;
+        if(Integer.parseInt(data.TeamAGoals)>Integer.parseInt(data.TeamBGoals)){
+            AColor = context.getResources().getColor(R.color.winning_color);
+            BColor = context.getResources().getColor(R.color.loosing_color);
+        }
+        else if(Integer.parseInt(data.TeamAGoals)<Integer.parseInt(data.TeamBGoals)){
+            BColor = context.getResources().getColor(R.color.winning_color);
+            AColor = context.getResources().getColor(R.color.loosing_color);
+        }
+        else{
+            BColor = context.getResources().getColor(R.color.draw_color);
+            AColor = context.getResources().getColor(R.color.draw_color);
+        }
+        viewHolder.live_match_score_A.setTextColor(AColor);
+        viewHolder.live_match_score_B.setTextColor(BColor);
 
         final ImageView tempImageViewA = viewHolder.teamA_image;
         final ImageView tempImageViewB = viewHolder.teamB_image;
@@ -269,6 +309,8 @@ class ResultsListAdapter extends RecyclerView.Adapter<ResultsListAdapter.ViewHol
     class ViewHolder4 extends RecyclerView.ViewHolder{
         TextView teamA_name,teamB_name,live_match_score_A,live_match_score_B;
         ImageView teamA_image,teamB_image;
+
+        LinearLayout include3,include4;
         ViewHolder4(View view){
             super(view);
             teamA_name = (TextView)view.findViewById(R.id.teamA_name);
@@ -277,6 +319,27 @@ class ResultsListAdapter extends RecyclerView.Adapter<ResultsListAdapter.ViewHol
             live_match_score_B = (TextView)view.findViewById(R.id.scoreB);
             teamA_image = (ImageView)view.findViewById(R.id.teamA_image);
             teamB_image = (ImageView)view.findViewById(R.id.teamB_image);
+
+            include3 = (LinearLayout)view.findViewById(R.id.include3);
+            include3.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(context, TeamDescriprion.class);
+                    intent.putExtra("Team Name",resultsArrayList.get(getPosition()).TeamA);
+                    intent.putExtra("Age Group",AGEGROUP);
+                    context.startActivity(intent);
+                }
+            });
+            include4 = (LinearLayout)view.findViewById(R.id.include4);
+            include4.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(context,TeamDescriprion.class);
+                    intent.putExtra("Team Name",resultsArrayList.get(getPosition()).TeamB);
+                    intent.putExtra("Age Group",AGEGROUP);
+                    context.startActivity(intent);
+                }
+            });
         }
     }
 }
