@@ -43,6 +43,8 @@ public class LiveMatchFragment extends Fragment {
     MapView mapView;
     private ProgressDialog progressDialog;
     private static TextView display_on_empty_live_match;
+    final DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
+    ValueEventListener liveMatchListener;
 
     public LiveMatchFragment() {
         // Required empty public constructor
@@ -92,6 +94,11 @@ public class LiveMatchFragment extends Fragment {
     }
 
 
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        databaseReference.child("Live Matches").removeEventListener(liveMatchListener);
+    }
 
     public void Fetch_Live_Matches_From_Firebase(){
 
@@ -100,9 +107,8 @@ public class LiveMatchFragment extends Fragment {
         progressDialog.setCancelable(false);
         //progressDialog.show();
 
-        final DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
         databaseReference.keepSynced(true);
-        databaseReference.child("Live Matches").addValueEventListener(new ValueEventListener() {
+        liveMatchListener = databaseReference.child("Live Matches").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 
