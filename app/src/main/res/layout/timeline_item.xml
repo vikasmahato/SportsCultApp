@@ -41,15 +41,15 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/time"
-                    android:textSize="18sp"
-                    android:textColor="@color/primaryText"
+                    android:textSize="@dimen/secondary_text_size"
+                    android:textColor="@color/secondaryText"
                     tools:text="56 min"/>
                 <android.support.v7.widget.AppCompatTextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/teamresponsible"
                     android:gravity="right"
-                    android:textSize="15sp"
+                    android:textSize="@dimen/secondary_text_size"
                     android:textColor="@color/primaryText"
                     tools:text="Team Name"/>
             </LinearLayout>
@@ -71,9 +71,9 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
                     android:id="@+id/playerjersey"
-                    android:textColor="@android:color/black"
+                    android:textColor="@color/primaryText"
                     tools:text="333"
-                    android:textSize="18sp"
+                    android:textSize="@dimen/text_size_14"
                     android:layout_marginRight="15dip"/>
 
                 <android.support.v7.widget.AppCompatTextView
@@ -81,9 +81,9 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
                     android:id="@+id/playername"
-                    android:textColor="@android:color/black"
+                    android:textColor="@color/primaryText"
                     tools:text="Player name"
-                    android:textSize="18sp"/>
+                    android:textSize="@dimen/text_size_14"/>
             </LinearLayout>
 
             <LinearLayout
@@ -103,9 +103,9 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
                     android:id="@+id/playerjersey2"
-                    android:textColor="@android:color/black"
+                    android:textColor="@color/primaryText"
                     tools:text="333"
-                    android:textSize="18sp"
+                    android:textSize="@dimen/text_size_14"
                     android:layout_marginRight="15dip"/>
 
                 <android.support.v7.widget.AppCompatTextView
@@ -113,9 +113,9 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
                     android:id="@+id/playername2"
-                    android:textColor="@android:color/black"
+                    android:textColor="@color/primaryText"
                     tools:text="Player name"
-                    android:textSize="18sp"/>
+                    android:textSize="@dimen/text_size_14"/>
             </LinearLayout>
 
         </LinearLayout>
