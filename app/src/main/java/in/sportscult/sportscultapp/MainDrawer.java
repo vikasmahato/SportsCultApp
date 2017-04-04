@@ -113,7 +113,7 @@ public class MainDrawer extends AppCompatActivity {
 
     public void sendEmail(View v){
         Intent emailIntent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts(
-                "mailto","vikasmahato0@gmail.com", null));
+                "mailto","sportscultprototype@gmail.com", null));
         emailIntent.putExtra(Intent.EXTRA_SUBJECT, "SFL Enquiry");
         emailIntent.putExtra(Intent.EXTRA_TEXT, "");
         startActivity(Intent.createChooser(emailIntent, "Send email..."));
