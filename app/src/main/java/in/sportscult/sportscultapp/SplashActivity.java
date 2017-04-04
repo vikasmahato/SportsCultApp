@@ -39,7 +39,7 @@ public class SplashActivity extends AppCompatActivity {
         waitHandler.postDelayed(waitCallback, 1500);
     }
 
-    private boolean isNetworkAvailable() {
+    public boolean isNetworkAvailable() {
         ConnectivityManager connectivityManager
                 = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
