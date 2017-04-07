@@ -34,6 +34,10 @@ import in.sportscult.sportscultapp.DetailedMatchDescription;
 import in.sportscult.sportscultapp.R;
 import in.sportscult.sportscultapp.RecyclerItemClickListener;
 
+/**
+ * Created by Vishal Gautam
+ * Displays the list of Live Matches
+ */
 public class LiveMatchFragment extends Fragment {
 
     private RecyclerView Live_Matches_List;
@@ -73,7 +77,11 @@ public class LiveMatchFragment extends Fragment {
         Live_Matches_List.setNestedScrollingEnabled(false);
 
         Fetch_Live_Matches_From_Firebase();
-
+/**
+ * Add onClickListener to recycler Items
+ * Launches DetailedMatch Description on click of a Card
+ * Passes Activity Name, MAtch ID and Age Group with Intent
+ */
         Live_Matches_List.addOnItemTouchListener(new RecyclerItemClickListener(getActivity(), Live_Matches_List, new RecyclerItemClickListener.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
@@ -93,13 +101,18 @@ public class LiveMatchFragment extends Fragment {
         return view;
     }
 
-
+    /**
+     * Remove database listeners to prevent app crash on restart
+     */
     @Override
     public void onDestroyView() {
         super.onDestroyView();
         databaseReference.child("Live Matches").removeEventListener(liveMatchListener);
     }
 
+    /**
+     * Fetches the list of Live MAtches rom firebase
+     */
     public void Fetch_Live_Matches_From_Firebase(){
 
         progressDialog = new ProgressDialog(getActivity());
@@ -108,6 +121,9 @@ public class LiveMatchFragment extends Fragment {
         //progressDialog.show();
 
         databaseReference.keepSynced(true);
+        /**
+         * Fetch list of Live Matches from firebase database's "Live Matches" node
+         **/
         liveMatchListener = databaseReference.child("Live Matches").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -120,14 +136,21 @@ public class LiveMatchFragment extends Fragment {
                 }
                 for(DataSnapshot childSnapshot : dataSnapshot.getChildren()){
                     Map<String,String> map = (Map<String,String>)childSnapshot.getValue();
+
+                    /**
+                     * Fetch all relevant details from node and store it in a map
+                     */
                     final LiveMatch liveMatch = new LiveMatch(childSnapshot.getKey(),map.get("Team A"),map.get("Team B"),map.get("Team A Goals"),
                             map.get("Team B Goals"),map.get("Venue"),map.get("Start Time"),map.get("Age Group"));
+
+                    //Add LiveMatch Object to list
                     liveMatchArrayList.add(liveMatch);
 
                     databaseReference.child(liveMatch.AgeGroup).child("Team Names").addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
 
+                            //Fetch Team's Profile pic
                             for(DataSnapshot ChildSnapshot : dataSnapshot.getChildren()) {
                                 Map<String, String> urlmap = (Map<String, String>) ChildSnapshot.getValue();
                                 team_profile_pic_download_urls.put(liveMatch.AgeGroup + ChildSnapshot.getKey(), urlmap.get("Team Profile Pic Thumbnail Url"));
@@ -138,6 +161,9 @@ public class LiveMatchFragment extends Fragment {
                             else{
                                 liveMatchAdapter = new LiveMatchAdapter(getActivity(),liveMatchArrayList,team_profile_pic_download_urls);
                                 Live_Matches_List.scrollToPosition(2);
+                                /**
+                                 * Add adapter to Live Match List
+                                 */
                                 Live_Matches_List.setAdapter(liveMatchAdapter);
                                 ArrayListNotEmpty();
                             }
@@ -162,18 +188,42 @@ public class LiveMatchFragment extends Fragment {
 
     }
 
+    /**
+     * Hide ArrayList if it is empty
+     * Display message that there are no live matches
+     */
     private void ArrayListEmpty(){
         Live_Matches_List.setVisibility(View.GONE);
         display_on_empty_live_match.setVisibility(View.VISIBLE);
     }
+
+    /**
+     * Hide message
+     * Show Array list with list of matches
+     */
     private void ArrayListNotEmpty(){
         Live_Matches_List.setVisibility(View.VISIBLE);
         display_on_empty_live_match.setVisibility(View.GONE);
     }
 }
 
+/**
+ * Live Match Object
+ */
 class LiveMatch{
     String TeamA,TeamB,TeamAGoals,TeamBGoals,Venue,StartTime,AgeGroup,Key;
+
+    /**
+     *
+     * @param Key THe Firebase Node ID used to reference the match
+     * @param TeamA Name of Team A
+     * @param TeamB NAme of Team B
+     * @param TeamAGoals Goals scored by team A
+     * @param TeamBGoals Goals scored by team B
+     * @param Venue Location of the match
+     * @param StartTime Time when the match Started
+     * @param AgeGroup Age grop of the competing teams
+     */
     LiveMatch(String Key,String TeamA,String TeamB,String TeamAGoals,String TeamBGoals,String Venue,String StartTime,String AgeGroup){
         this.TeamA = TeamA;
         this.TeamB = TeamB;
@@ -186,6 +236,9 @@ class LiveMatch{
     }
 }
 
+/**
+ * The Live match adapeter to which binds the Array list items to the viewholder
+ */
 class LiveMatchAdapter extends RecyclerView.Adapter<LiveMatchAdapter.Viewholder3>{
 
     ArrayList<LiveMatch> arrayListForLiveMatch;
@@ -193,6 +246,12 @@ class LiveMatchAdapter extends RecyclerView.Adapter<LiveMatchAdapter.Viewholder3
     LayoutInflater layoutInflater;
     Context context;
 
+    /**
+     *
+     * @param context Context of the Activity that called the constructor
+     * @param arrayListForLiveMatch An ArrayList of LiveMatch object
+     * @param urlMap A map of the team profile pic urls
+     */
     LiveMatchAdapter(Context context,ArrayList<LiveMatch> arrayListForLiveMatch,Map<String,String> urlMap){
         this.arrayListForLiveMatch = arrayListForLiveMatch;
         layoutInflater = LayoutInflater.from(context);
@@ -202,6 +261,7 @@ class LiveMatchAdapter extends RecyclerView.Adapter<LiveMatchAdapter.Viewholder3
 
     @Override
     public Viewholder3 onCreateViewHolder(ViewGroup parent, int viewType) {
+        //Inflates the layout of the viewholder
         View view = layoutInflater.inflate(R.layout.live_match_card,parent,false);
         Viewholder3 viewholder3 = new Viewholder3(view);
         return viewholder3;
@@ -209,6 +269,9 @@ class LiveMatchAdapter extends RecyclerView.Adapter<LiveMatchAdapter.Viewholder3
 
     @Override
     public void onBindViewHolder(Viewholder3 viewHolder, int position) {
+        /**
+         * Sets the contents of the viewholder by populating it from the LiveMatch Object
+         */
         LiveMatch data = arrayListForLiveMatch.get(position);
         viewHolder.teamA_name.setText(data.TeamA);
         viewHolder.teamB_name.setText(data.TeamB);
@@ -234,26 +297,22 @@ class LiveMatchAdapter extends RecyclerView.Adapter<LiveMatchAdapter.Viewholder3
 
         viewHolder.live_match_start_time.setText("Start Time : " + data.StartTime);
         viewHolder.live_match_venue.setText("Venue : " + data.Venue);
+        //Display the Age group of the teams
         switch (data.AgeGroup){
             case "Group - A":
                 viewHolder.group.setText("Group - A");
-             //   viewHolder.live_match_detail_card.setBackgroundColor(Color.parseColor("#EA80FC"));
                 break;
             case "Group - B":
                 viewHolder.group.setText("Group - B");
-              //  viewHolder.live_match_detail_card.setBackgroundColor(Color.parseColor("#E040FB"));
                 break;
             case "Group - C":
                 viewHolder.group.setText("Group - C");
-            //    viewHolder.live_match_detail_card.setBackgroundColor(Color.parseColor("#D500F9"));
                 break;
             case "Group - D":
                 viewHolder.group.setText("Group - D");
-             //   viewHolder.live_match_detail_card.setBackgroundColor(Color.parseColor("#AA00FF"));
                 break;
             default:
                 viewHolder.group.setText("Unspecified Group");
-             //   viewHolder.live_match_detail_card.setBackgroundColor(Color.WHITE);
                 break;
         }
 
@@ -261,7 +320,11 @@ class LiveMatchAdapter extends RecyclerView.Adapter<LiveMatchAdapter.Viewholder3
         final ImageView tempImageViewB = viewHolder.teamB_image;
         final String urlA = urlMap.get(data.AgeGroup + data.TeamA);
         final String urlB = urlMap.get(data.AgeGroup + data.TeamB);
-        //Load profile pic thumbnails
+        /**
+         * Load Team Pic of TEAM A
+         * Looks if Image is cached.
+         * If it finds Cached image it loads the same
+         */
         Picasso.with(context)
                 .load(urlA)
                 .networkPolicy(NetworkPolicy.OFFLINE)
@@ -271,6 +334,9 @@ class LiveMatchAdapter extends RecyclerView.Adapter<LiveMatchAdapter.Viewholder3
 
                     }
 
+                    /**
+                     * Loads Team pic from Url if not found in Cache
+                     */
                     @Override
                     public void onError() {
                         //Try again online if cache failed
@@ -289,6 +355,13 @@ class LiveMatchAdapter extends RecyclerView.Adapter<LiveMatchAdapter.Viewholder3
                                 });
                     }
                 });
+
+        /**
+         * Load Team Pic of TEAM B
+         * Looks if Image is cached.
+         * If it finds Cached image it loads the same
+         */
+
         Picasso.with(context)
                 .load(urlB)
                 .networkPolicy(NetworkPolicy.OFFLINE)
@@ -297,6 +370,10 @@ class LiveMatchAdapter extends RecyclerView.Adapter<LiveMatchAdapter.Viewholder3
                     public void onSuccess() {
 
                     }
+
+                    /**
+                     * Loads Team pic from Url if not found in Cache
+                     */
 
                     @Override
                     public void onError() {
@@ -323,6 +400,9 @@ class LiveMatchAdapter extends RecyclerView.Adapter<LiveMatchAdapter.Viewholder3
         return arrayListForLiveMatch.size();
     }
 
+    /**
+     * The viewHolder for the LiveMatch Object
+     */
     class Viewholder3 extends RecyclerView.ViewHolder{
         LinearLayout live_match_detail_card;
         TextView teamA_name,teamB_name,live_match_score_A,live_match_score_B,live_match_start_time,live_match_venue,group;
