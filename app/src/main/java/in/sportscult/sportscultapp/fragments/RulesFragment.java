@@ -11,6 +11,7 @@ import in.sportscult.sportscultapp.R;
 
 /**
  * Created by Vikas on 25/03/2016.
+ * Displays the Rules of the Tournament
  */
 public class RulesFragment extends Fragment {
 
@@ -19,6 +20,4 @@ public class RulesFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.rule_layout,null);
     }
-
-
 }

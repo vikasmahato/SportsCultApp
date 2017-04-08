@@ -17,6 +17,8 @@ import android.widget.ImageView;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.google.firebase.messaging.FirebaseMessaging;
+
 import in.sportscult.sportscultapp.Utils.ExpandAndCollapseViewUtil;
 import in.sportscult.sportscultapp.fragments.AboutSFLFragment;
 import in.sportscult.sportscultapp.fragments.AboutUsFragment;
@@ -42,6 +44,8 @@ public class MainDrawer extends AppCompatActivity {
         /**
          *Setup the DrawerLayout and NavigationView
          */
+        FirebaseMessaging.getInstance().subscribeToTopic("news");
+        Toast.makeText(this, "news", Toast.LENGTH_SHORT).show();
 
              mDrawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
              mNavigationView = (NavigationView) findViewById(R.id.shitstuff) ;
@@ -115,6 +119,11 @@ public class MainDrawer extends AppCompatActivity {
 
     }
 
+    /**
+     * Launches E-mail intent to send email using Installed email client
+     * Called from HelpFragment
+     * @param v The view that launches the intent
+     */
     public void sendEmail(View v){
         Intent emailIntent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts(
                 "mailto","sportscultprototype@gmail.com", null));
@@ -123,6 +132,10 @@ public class MainDrawer extends AppCompatActivity {
         startActivity(Intent.createChooser(emailIntent, "Send email..."));
     }
 
+    /**
+     * Expands and collapses the Request call card in help  fragment
+     * @param view
+     */
     public void toggleDetails(View view) {
 
         linearLayoutDetails = (ViewGroup) findViewById(R.id.linearLayoutDetails);
@@ -139,6 +152,10 @@ public class MainDrawer extends AppCompatActivity {
         }
     }
 
+    /**
+     * Animates the arrow button in Request a call card in HelpFragment
+     * @param angle
+     */
     private void rotate(float angle) {
         Animation animation = new RotateAnimation(0.0f, angle, Animation.RELATIVE_TO_SELF, 0.5f,
                 Animation.RELATIVE_TO_SELF, 0.5f);
@@ -147,6 +164,10 @@ public class MainDrawer extends AppCompatActivity {
         imageViewExpand.startAnimation(animation);
     }
 
+    /**
+     * Launches the google navigation app to show directions to qHub Football field
+     * @param view
+     */
     public void getDirections(View view){
 
         Uri gmmIntentUri = Uri.parse("google.navigation:q=qhub+by+Quantum+Sports");
@@ -162,6 +183,10 @@ public class MainDrawer extends AppCompatActivity {
 
     }
 
+    /**
+     * Launches google maps to pinpoint qHub football field on a map
+     * @param view
+     */
     public void viewLocation(View view){
         Uri gmmIntentUri = Uri.parse("geo:28.4219738,77.1348673");
         Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);

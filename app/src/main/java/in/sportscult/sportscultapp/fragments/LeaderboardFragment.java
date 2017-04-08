@@ -37,6 +37,9 @@ import in.sportscult.sportscultapp.R;
 import in.sportscult.sportscultapp.RecyclerItemClickListener;
 import in.sportscult.sportscultapp.TeamDescriprion;
 
+/**
+ * Loads the LeaderBoard and displays it in cardview
+ */
 public class LeaderboardFragment extends Fragment {
 
     private static DatabaseReference databaseReference;
@@ -52,6 +55,7 @@ public class LeaderboardFragment extends Fragment {
     private static TextView display_on_empty_leaderboard;
 
     public LeaderboardFragment() {
+        //Required constructor
     }
 
     @Override
@@ -81,11 +85,18 @@ public class LeaderboardFragment extends Fragment {
         age_group_leaderboard.setSelection(selection_for_age_group);
         age_group = "Group - "+age_group_codes[selection_for_age_group];
 
+        //Create the leader board adapter
         leaderBoardAdapter = new LeaderBoardAdapter(getActivity(),list_of_team_scorecards,team_profile_pic_download_urls);
         leaderboard_list.setAdapter(leaderBoardAdapter);
         leaderboard_list.setLayoutManager(new LinearLayoutManager(getActivity()));
 
+        //Add onclick listener to leaderboard list
         leaderboard_list.addOnItemTouchListener(new RecyclerItemClickListener(getActivity(), leaderboard_list, new RecyclerItemClickListener.OnItemClickListener() {
+            /**
+             * Launch an intent to display team description
+             * @param view The view which was clicked
+             * @param position The position which was clicked
+             */
             @Override
             public void onItemClick(View view, int position) {
                 Intent intent = new Intent(getActivity(), TeamDescriprion.class);
@@ -126,6 +137,9 @@ public class LeaderboardFragment extends Fragment {
         return view;
     }
 
+    /**
+     * Fetch data rom Firebase 'Leaderboard' node
+     */
     public void Fetching_Leaderboard_From_Firebase(){
 
         progressDialog = new ProgressDialog(getActivity());
@@ -194,8 +208,24 @@ public class LeaderboardFragment extends Fragment {
     }
 }
 
+/**
+ * TeamScoreCard class stores info about the team
+ */
 class TeamScoreCard{
     String TeamName,MacthesPlayed,MatchesWon,MatchesLost,MatchesDrawn,GoalsScored,GolasConceived,RedCardsReceived,PointsAwarded;
+
+    /**
+     * Team information stored
+     * @param TeamName Team Name
+     * @param MacthesPlayed Number of matches played
+     * @param MatchesWon Number of matches won
+     * @param MatchesLost Number of matches lost
+     * @param MatchesDrawn Number of matches drawn
+     * @param GoalsScored Number of goals scored
+     * @param GoalsConceived Number of goals concieved
+     * @param RedCardsReceived Number of red cards recieved
+     * @param PointsAwarded Number of points
+     */
     TeamScoreCard(String TeamName,String MacthesPlayed,String MatchesWon,String MatchesLost,String MatchesDrawn,
                   String GoalsScored,String GoalsConceived,String RedCardsReceived,String PointsAwarded){
 
@@ -213,12 +243,21 @@ class TeamScoreCard{
     }
 }
 
+/**
+ * Leaderboard adapter class
+ */
 class LeaderBoardAdapter extends RecyclerView.Adapter<LeaderBoardAdapter.ViewHolder2>{
 
     ArrayList<TeamScoreCard> team_Scorecards;
     Map<String,String> map_for_team_profile_pic_download_urls;
     Context context;
 
+    /**
+     * The Leaderboard adapter
+     * @param context The context of the activity thst requested the Adapter
+     * @param team_Scorecards ArrayList of the leaderboard objects
+     * @param map_for_team_profile_pic_download_urls Map which stores the url of Team profile pics
+     */
     LeaderBoardAdapter(Context context,ArrayList<TeamScoreCard> team_Scorecards,Map<String,String> map_for_team_profile_pic_download_urls){
 
         this.context = context;
@@ -229,6 +268,7 @@ class LeaderBoardAdapter extends RecyclerView.Adapter<LeaderBoardAdapter.ViewHol
 
     @Override
     public ViewHolder2 onCreateViewHolder(ViewGroup parent, int viewType) {
+        //Inflate the leader_card for the view
         View view = LayoutInflater.from(context).inflate(R.layout.leaderboard_card,parent,false);
         ViewHolder2 viewHolder2 = new ViewHolder2(view);
         return viewHolder2;
@@ -281,7 +321,9 @@ class LeaderBoardAdapter extends RecyclerView.Adapter<LeaderBoardAdapter.ViewHol
     public int getItemCount() {
         return team_Scorecards.size();
     }
-
+    /**
+     * The viewHolder for the LeaderBoard Object
+     */
     class ViewHolder2 extends RecyclerView.ViewHolder{
         TextView player_row_for_leaderboard_team_name,player_row_for_leaderboard_matches_played,player_row_for_leaderboard_matches_won,player_row_for_leaderboard_matches_lost,player_row_for_leaderboard_points_scored;
         ImageView player_row_for_leaderboard_profile_pic;

@@ -19,6 +19,9 @@ import com.bumptech.glide.Glide;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ *
+ */
 public class SponsorsActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;

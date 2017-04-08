@@ -104,6 +104,9 @@ public class ListOfTeams extends AppCompatActivity {
         }));
     }
 
+    /**
+     *
+     */
     public void Fetching_Teams_From_Firebase(){
 
         RootReference.child(age_group).child("Team Names").addValueEventListener(new ValueEventListener() {
