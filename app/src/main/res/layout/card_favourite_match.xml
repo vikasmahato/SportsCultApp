@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:layout_marginBottom="@dimen/md_keylines">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/background_for_fav_match">
+
+
+        <include
+            layout="@layout/live_match_card"
+            android:id="@+id/favourite_live_card"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dip"
+            android:background="#000"
+            android:layout_below="@id/favourite_live_card"
+            />
+
+        <TextView
+            android:id="@+id/favourite_card_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/favourite_live_card"
+            android:layout_marginTop="5dip"
+            android:layout_marginLeft="@dimen/md_keylines"
+            android:text="qHub Football Field"
+            android:textAppearance="@style/TextAppearance.AppCompat.Title"
+            android:textColor="#000" />
+
+        <TextView
+            android:id="@+id/favourite_card_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/favourite_card_title"
+            android:layout_marginLeft="@dimen/md_keylines"
+            android:layout_marginTop="@dimen/md_keylines"
+            android:layout_marginBottom="2dp"
+            android:layout_marginRight="@dimen/md_keylines"
+            android:text="Baliawas, Gurugram"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:textColor="@color/secondaryText"
+            android:textSize="@dimen/article_subheading" />
+
+        <ImageButton
+            android:id="@+id/ic_location_on_black_24dp"
+            android:layout_width="@dimen/cards_button_width"
+            android:layout_height="@dimen/cards_button_height"
+            android:layout_marginRight="@dimen/md_keylines"
+            app:srcCompat="@drawable/ic_location_on_black_24dp"
+            android:layout_below="@+id/favourite_card_text"
+            android:layout_alignParentRight="true"
+            style="?android:attr/borderlessButtonStyle"
+            android:onClick="viewLocation"
+            android:tint="@color/button_grey" />
+
+        <ImageButton
+            android:id="@+id/directions"
+            android:layout_width="@dimen/cards_button_width"
+            android:layout_height="@dimen/cards_button_height"
+            android:layout_marginRight="@dimen/md_keylines"
+            android:onClick="getDirections"
+            app:srcCompat="@drawable/ic_directions_black_24dp"
+            android:layout_below="@+id/favourite_card_text"
+            android:layout_toLeftOf="@id/ic_location_on_black_24dp"
+            style="?android:attr/borderlessButtonStyle"
+            android:tint="@color/button_grey" />
+    </RelativeLayout>
+
+
+</android.support.v7.widget.CardView>
