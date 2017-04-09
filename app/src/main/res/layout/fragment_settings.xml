@@ -3,6 +3,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="in.sportscult.sportscultapp.fragments.SettingsFragment">
+  <LinearLayout 
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:layout_margin="5dip">
     <LinearLayout
         android:layout_margin="@dimen/activity_vertical_margin"
         android:layout_width="match_parent"
@@ -28,4 +33,50 @@
     </LinearLayout>
 
 
+
+<TextView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:text="Choose Your Favourite Team"
+    android:textColor="@color/primaryText"
+    android:textSize="@dimen/title_height"
+    android:layout_margin="@dimen/md_keylines"
+    android:gravity="center"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/primaryText"
+            android:text="Age Group : "
+            android:paddingRight="10dip"/>
+        <Spinner
+            android:id="@+id/fav_team_age_group"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/md_keylines" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/primaryText"
+            android:text="Team : "
+            android:paddingRight="10dip"/>
+        <Spinner
+            android:id="@+id/fav_team_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/md_keylines" />
+    </LinearLayout>
+</LinearLayout>  
 </FrameLayout>
+

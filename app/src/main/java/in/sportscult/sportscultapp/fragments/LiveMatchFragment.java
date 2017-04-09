@@ -3,16 +3,20 @@ package in.sportscult.sportscultapp.fragments;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -41,6 +45,7 @@ import in.sportscult.sportscultapp.RecyclerItemClickListener;
 public class LiveMatchFragment extends Fragment {
 
     private RecyclerView Live_Matches_List;
+    private CardView location_card,favourite_match_card;
     private ArrayList<LiveMatch> liveMatchArrayList;
     private Map<String,String> team_profile_pic_download_urls;
     private LiveMatchAdapter liveMatchAdapter;
@@ -66,6 +71,8 @@ public class LiveMatchFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view =  inflater.inflate(R.layout.fragment_live_match, container, false);
         Live_Matches_List = (RecyclerView) view.findViewById(R.id.Live_Matches_List);
+        location_card = (CardView)view.findViewById(R.id.location_card);
+        favourite_match_card = (CardView)view.findViewById(R.id.favourite_match_card);
         team_profile_pic_download_urls = new HashMap<String, String>();
         liveMatchArrayList = new ArrayList<LiveMatch>();
         display_on_empty_live_match = (TextView)view.findViewById(R.id.display_on_empty_live_match);
@@ -75,6 +82,8 @@ public class LiveMatchFragment extends Fragment {
         Live_Matches_List.setAdapter(liveMatchAdapter);
         Live_Matches_List.setLayoutManager(new LinearLayoutManager(getActivity()));
         Live_Matches_List.setNestedScrollingEnabled(false);
+
+        setup_top_card();
 
         Fetch_Live_Matches_From_Firebase();
 /**
@@ -132,6 +141,7 @@ public class LiveMatchFragment extends Fragment {
                 if(dataSnapshot.getValue()==null){
                     progressDialog.dismiss();
                     ArrayListEmpty();
+                    setup_top_card();
                     return;
                 }
                 for(DataSnapshot childSnapshot : dataSnapshot.getChildren()){
@@ -166,6 +176,7 @@ public class LiveMatchFragment extends Fragment {
                                  */
                                 Live_Matches_List.setAdapter(liveMatchAdapter);
                                 ArrayListNotEmpty();
+                                setup_top_card();
                             }
                         }
 
@@ -193,6 +204,7 @@ public class LiveMatchFragment extends Fragment {
      * Display message that there are no live matches
      */
     private void ArrayListEmpty(){
+        display_location_card();
         Live_Matches_List.setVisibility(View.GONE);
         display_on_empty_live_match.setVisibility(View.VISIBLE);
     }
@@ -204,6 +216,131 @@ public class LiveMatchFragment extends Fragment {
     private void ArrayListNotEmpty(){
         Live_Matches_List.setVisibility(View.VISIBLE);
         display_on_empty_live_match.setVisibility(View.GONE);
+    }
+
+    public void setup_top_card(){
+
+        display_location_card();
+
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("UserPreferences",Context.MODE_PRIVATE);
+        String FavouriteAgeGroup = sharedPreferences.getString("Favourite Age Group","");
+        String FavouriteTeamName = sharedPreferences.getString("Favourite Team Name","");
+        if(!FavouriteAgeGroup.equals(""))
+            for(LiveMatch liveMatch : liveMatchArrayList) {
+                //Log.d("MY CHECK", liveMatch.AgeGroup + liveMatch.TeamB+liveMatch.TeamA);
+                if (liveMatch.AgeGroup.equals(FavouriteAgeGroup) && (liveMatch.TeamB.equals(FavouriteTeamName) || liveMatch.TeamA.equals(FavouriteTeamName))) {
+
+                    //Log.d("MY CHECK", FavouriteAgeGroup + FavouriteTeamName);
+
+                    TextView textViewGroup = (TextView) favourite_match_card.findViewById(R.id.group);
+                    TextView textViewScoreA = (TextView) favourite_match_card.findViewById(R.id.scoreA);
+                    TextView textViewScoreB = (TextView) favourite_match_card.findViewById(R.id.scoreB);
+                    TextView textViewTeamA = (TextView) favourite_match_card.findViewById(R.id.teamA_name);
+                    TextView textViewTeamB = (TextView) favourite_match_card.findViewById(R.id.teamB_name);
+                    TextView textViewStartTime = (TextView) favourite_match_card.findViewById(R.id.live_match_start_time);
+                    RelativeLayout background_for_fav_match = (RelativeLayout)favourite_match_card.findViewById(R.id.background_for_fav_match);
+                    final ImageView imageViewTeamA = (ImageView) favourite_match_card.findViewById(R.id.teamA_image);
+                    final ImageView imageViewTeamB = (ImageView) favourite_match_card.findViewById(R.id.teamB_image);
+
+                    textViewGroup.setText("Your Favourite Team Is Live Now!!");
+                    textViewScoreA.setText(liveMatch.TeamAGoals);
+                    textViewScoreB.setText(liveMatch.TeamBGoals);
+                    textViewTeamA.setText(liveMatch.TeamA);
+                    textViewTeamB.setText(liveMatch.TeamB);
+                    textViewStartTime.setText("Start Time : " + liveMatch.StartTime);
+
+                    //Set Text Color For Scores
+                    int AColor, BColor;
+                    if (Integer.parseInt(liveMatch.TeamAGoals) > Integer.parseInt(liveMatch.TeamBGoals)) {
+                        AColor = getActivity().getResources().getColor(R.color.winning_color);
+                        BColor = getActivity().getResources().getColor(R.color.loosing_color);
+                    } else if (Integer.parseInt(liveMatch.TeamAGoals) < Integer.parseInt(liveMatch.TeamBGoals)) {
+                        BColor = getActivity().getResources().getColor(R.color.winning_color);
+                        AColor = getActivity().getResources().getColor(R.color.loosing_color);
+                    } else {
+                        BColor = getActivity().getResources().getColor(R.color.draw_color);
+                        AColor = getActivity().getResources().getColor(R.color.draw_color);
+                    }
+                    textViewScoreA.setTextColor(AColor);
+                    textViewScoreB.setTextColor(BColor);
+
+                    if(liveMatch.TeamA.equals(FavouriteTeamName))
+                        background_for_fav_match.setBackgroundColor(AColor);
+                    else
+                        background_for_fav_match.setBackgroundColor(BColor);
+
+                        final String urlA = team_profile_pic_download_urls.get(liveMatch.AgeGroup + liveMatch.TeamA);
+                    final String urlB = team_profile_pic_download_urls.get(liveMatch.AgeGroup + liveMatch.TeamB);
+                    Picasso.with(getActivity())
+                            .load(urlA)
+                            .networkPolicy(NetworkPolicy.OFFLINE)
+                            .into(imageViewTeamA, new Callback() {
+                                @Override
+                                public void onSuccess() {
+
+                                }
+
+                                @Override
+                                public void onError() {
+                                    //Try again online if cache failed
+                                    Picasso.with(getActivity())
+                                            .load(urlA)
+                                            //.error(R.drawable.common_full_open_on_phone)
+                                            .into(imageViewTeamA, new Callback() {
+                                                @Override
+                                                public void onSuccess() {
+
+                                                }
+
+                                                @Override
+                                                public void onError() {
+                                                }
+                                            });
+                                }
+                            });
+                    Picasso.with(getActivity())
+                            .load(urlB)
+                            .networkPolicy(NetworkPolicy.OFFLINE)
+                            .into(imageViewTeamB, new Callback() {
+                                @Override
+                                public void onSuccess() {
+
+                                }
+
+                                @Override
+                                public void onError() {
+                                    //Try again online if cache failed
+                                    Picasso.with(getActivity())
+                                            .load(urlB)
+                                            //.error(R.drawable.common_full_open_on_phone)
+                                            .into(imageViewTeamB, new Callback() {
+                                                @Override
+                                                public void onSuccess() {
+
+                                                }
+
+                                                @Override
+                                                public void onError() {
+                                                }
+                                            });
+                                }
+                            });
+                    hide_location_card();
+                    break;
+                }
+            }
+    }
+
+    private void display_location_card(){
+
+        location_card.setVisibility(View.VISIBLE);
+        favourite_match_card.setVisibility(View.GONE);
+    }
+
+    private void hide_location_card(){
+
+        location_card.setVisibility(View.GONE);
+        favourite_match_card.setVisibility(View.VISIBLE);
     }
 }
 

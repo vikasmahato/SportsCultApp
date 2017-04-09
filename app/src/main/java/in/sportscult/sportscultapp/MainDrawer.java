@@ -97,6 +97,11 @@ public class MainDrawer extends AppCompatActivity {
                  } else if (id == R.id.nav_help) {
                      FragmentTransaction xfragmentTransaction = mFragmentManager.beginTransaction();
                      xfragmentTransaction.replace(R.id.containerView,new HelpFragment()).addToBackStack( "tag" ).commit();
+                 }
+                    else if(id == R.id.nav_settings){
+                     FragmentTransaction xfragmentTransaction = mFragmentManager.beginTransaction();
+                     xfragmentTransaction.replace(R.id.containerView,new SettingsFragment()).addToBackStack( "tag" ).commit();
+              
                  } else if (id == R.id.nav_match_details) {
                     FragmentTransaction xfragmentTransaction = mFragmentManager.beginTransaction();
                     xfragmentTransaction.replace(R.id.containerView,new ResultsFragment()).addToBackStack( "tag" ).commit();
