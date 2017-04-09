@@ -125,7 +125,12 @@ public class MainDrawer extends AppCompatActivity {
     private void readSettings() {
         SharedPreferences sharedPref = getSharedPreferences(SETTINGS, Context.MODE_PRIVATE);
         boolean live_match = sharedPref.getBoolean(getString(R.string.live_match),  true);
-        boolean Live_score = sharedPref.getBoolean(getString(R.string.live_score),  true);
+        boolean live_score = sharedPref.getBoolean(getString(R.string.live_score),  true);
+
+        if(live_match) FirebaseMessaging.getInstance().subscribeToTopic(getString(R.string.live_match));
+        if(live_score) FirebaseMessaging.getInstance().subscribeToTopic(getString(R.string.live_score));
+
+
     }
 
     /**
