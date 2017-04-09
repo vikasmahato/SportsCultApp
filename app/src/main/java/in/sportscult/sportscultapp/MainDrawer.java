@@ -122,6 +122,9 @@ public class MainDrawer extends AppCompatActivity {
 
     }
 
+    /**
+     * reads settings from shared preferences and subscribes to topics for notification
+     */
     private void readSettings() {
         SharedPreferences sharedPref = getSharedPreferences(SETTINGS, Context.MODE_PRIVATE);
         boolean live_match = sharedPref.getBoolean(getString(R.string.live_match),  true);

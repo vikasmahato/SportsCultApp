@@ -30,6 +30,10 @@ public class SettingsFragment extends Fragment {
 
     }
 
+    /**
+     * Inflates the layout and sets click listeners for Live Match Switch and Live Score switch
+     * This method also calls set preferences to save user actions to preferences
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -58,6 +62,11 @@ public class SettingsFragment extends Fragment {
         return view;
     }
 
+    /**
+     * Saves the user actions to shared preferences
+     * @param sw The switch which was clicked
+     * @param checked The State of the Switch
+     */
     private void setPreferences(String sw, boolean checked) {
         SharedPreferences sp = getActivity().getSharedPreferences(SETTINGS, Context.MODE_PRIVATE );
         SharedPreferences.Editor editor = sp.edit();
@@ -66,6 +75,9 @@ public class SettingsFragment extends Fragment {
 
     }
 
+    /**
+     * Loads the Preferences and sets the state of the switch accordingly
+     */
     private void loadPreferences() {
         SharedPreferences sp = getActivity().getSharedPreferences(SETTINGS, Context.MODE_PRIVATE );
         boolean lm = sp.getBoolean(getString(R.string.live_match), true);
