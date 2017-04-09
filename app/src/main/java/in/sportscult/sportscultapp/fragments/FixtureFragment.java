@@ -35,6 +35,10 @@ import java.util.Map;
 import in.sportscult.sportscultapp.R;
 import in.sportscult.sportscultapp.TeamDescriprion;
 
+/**
+ * Created by Vishal Gautam
+ * Displays list o Fixtures
+ */
 public class FixtureFragment extends Fragment {
 
     private static DatabaseReference databaseReference;
@@ -170,19 +174,40 @@ public class FixtureFragment extends Fragment {
         });
 
     }
-
+    /**
+     * Hide ArrayList if it is empty
+     * Display message that there are no fixtures
+     */
     private void ArrayListEmpty(){
         upcoming_matches_fixture.setVisibility(View.GONE);
         display_on_empty_fixture.setVisibility(View.VISIBLE);
     }
+    /**
+     * Hide message
+     * Show Array list with list of fixtures
+     */
     private void ArrayListNotEmpty(){
         upcoming_matches_fixture.setVisibility(View.VISIBLE);
         display_on_empty_fixture.setVisibility(View.GONE);
     }
 
 }
+
+/**
+ * Fixture Object
+ */
 class Fixture{
     String TeamA,TeamB,Time,Venue,Referee,Date;
+
+    /**
+     * Constructor
+     * @param TeamA Name of team A
+     * @param TeamB Name of Team B
+     * @param Date Date of match
+     * @param Time Time of match
+     * @param Venue Venue of match
+     * @param Referee Refree for the match
+     */
     Fixture(String TeamA,String TeamB,String Date,String Time,String Venue,String Referee){
         this.TeamA = TeamA;
         this.TeamB = TeamB;
@@ -192,13 +217,23 @@ class Fixture{
         this.Date = Date;
     }
 }
-
+/**
+ * The Fixture adapeter to which binds the Array list items to the viewholder
+ */
 class FixtureListAdapter extends RecyclerView.Adapter<FixtureListAdapter.ViewHolder1>{
     ArrayList<Fixture> fixtureArrayList;
     Map<String,String> map_for_team_profile_pic_download_urls;
     LayoutInflater layoutInflater;
     Context context;
     String AGEGROUP;
+
+    /**
+     *
+     * @param context Context of the Activity that called the constructor
+     * @param fixtureArrayList Fixture ArrayList
+     * @param map_for_team_profile_pic_download_urls Map with urls for profile pic
+     * @param AGEGROUP Age group of teams
+     */
     public FixtureListAdapter(Context context,ArrayList<Fixture> fixtureArrayList,Map<String,String> map_for_team_profile_pic_download_urls,String AGEGROUP){
         this.context = context;
         this.fixtureArrayList = fixtureArrayList;
@@ -209,6 +244,9 @@ class FixtureListAdapter extends RecyclerView.Adapter<FixtureListAdapter.ViewHol
 
     @Override
     public ViewHolder1 onCreateViewHolder(ViewGroup parent, int viewType) {
+        /**
+         * Inflates the layout for Object
+         */
         View view = layoutInflater.inflate(R.layout.fixture_card,parent,false);
         ViewHolder1 viewHolder1 = new ViewHolder1(view);
         return viewHolder1;
@@ -216,6 +254,9 @@ class FixtureListAdapter extends RecyclerView.Adapter<FixtureListAdapter.ViewHol
 
     @Override
     public void onBindViewHolder(ViewHolder1 viewHolder, int position) {
+        /**
+         * Sets the contents of the viewholder by populating it from the Fixture Object
+         */
         viewHolder.teamA_name.setText(fixtureArrayList.get(position).TeamA);
         viewHolder.teamB_name.setText(fixtureArrayList.get(position).TeamB);
         viewHolder.date.setText(fixtureArrayList.get(position).Date);
@@ -227,7 +268,11 @@ class FixtureListAdapter extends RecyclerView.Adapter<FixtureListAdapter.ViewHol
         final ImageView tempImageViewB = viewHolder.teamB_image;
         final String urlA = map_for_team_profile_pic_download_urls.get(fixtureArrayList.get(position).TeamA);
         final String urlB = map_for_team_profile_pic_download_urls.get(fixtureArrayList.get(position).TeamB);
-        //Load profile pic thumbnails
+        /**
+         * Load profile pic thumbnails
+         * Looks if Image is cached.
+         * If it finds Cached image it loads the same or else it downloads it from firebase
+         */
         Picasso.with(context)
                 .load(urlA)
                 .networkPolicy(NetworkPolicy.OFFLINE)
@@ -289,6 +334,9 @@ class FixtureListAdapter extends RecyclerView.Adapter<FixtureListAdapter.ViewHol
         return fixtureArrayList.size();
     }
 
+    /**
+     * The viewHolder for the Fixture Object
+     */
     class ViewHolder1 extends RecyclerView.ViewHolder{
         TextView teamA_name, teamB_name, date, time, venue, referee;
         ImageView teamA_image,teamB_image;

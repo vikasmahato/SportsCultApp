@@ -18,7 +18,7 @@ import in.sportscult.sportscultapp.fragments.LiveMatchFragment;
 import in.sportscult.sportscultapp.fragments.ResultsFragment;
 
 /**
- * Created by Ratan on 7/27/2015.
+ * Created by Vikas on 24/03/2017.
  */
 public class TabFragment extends Fragment {
 
@@ -44,7 +44,7 @@ public class TabFragment extends Fragment {
         /**
          * Now , this is a workaround ,
          * The setupWithViewPager dose't works without the runnable .
-         * Maybe a Support Library Bug .
+         * Maybe a Bug .
          */
 
         tabLayout.post(new Runnable() {

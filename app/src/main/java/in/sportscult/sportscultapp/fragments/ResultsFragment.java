@@ -37,6 +37,10 @@ import in.sportscult.sportscultapp.R;
 import in.sportscult.sportscultapp.RecyclerItemClickListener;
 import in.sportscult.sportscultapp.TeamDescriprion;
 
+/**
+ * Results Fragment
+ * this fragment displays the results in a recycler view
+ */
 public class ResultsFragment extends Fragment {
 
     private Spinner age_group_results;
@@ -83,11 +87,14 @@ public class ResultsFragment extends Fragment {
         age_group = "Group - "+age_group_codes[selection_for_age_group];
 
         resultsListAdapter = new ResultsListAdapter(getActivity(),arraylist_of_results,team_profile_pic_download_urls,age_group);
+        //Attaches the Adapter to list
         list_of_results.setAdapter(resultsListAdapter);
         list_of_results.setLayoutManager(new LinearLayoutManager(getActivity()));
+        //Sets onCLickListener to List items
         list_of_results.addOnItemTouchListener(new RecyclerItemClickListener(getActivity(), list_of_results, new RecyclerItemClickListener.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
+                //Pass Activity name, age group and ID to detailes match description and launch the  activity
                 Intent intent = new Intent(getActivity(), DetailedMatchDescription.class);
                 intent.putExtra("Activity Name","Results");
                 intent.putExtra("Age Group",age_group);
@@ -195,8 +202,21 @@ public class ResultsFragment extends Fragment {
     }
 }
 
+/**
+ * The Results class which holds details of the Team
+ */
 class Results{
     String Key,TeamA,TeamB,TeamAGoals,TeamBGoals,Venue,Time;
+
+    /**
+     * @param Key Firebase Key to reference the record
+     * @param TeamA Name of Team A
+     * @param TeamB Name of Team B
+     * @param TeamAGoals Goals of Team A
+     * @param TeamBGoals Goals of Team B
+     * @param Venue Venue of the match
+     * @param Time Time of the match
+     */
     Results(String Key,String TeamA,String TeamB,String TeamAGoals,String TeamBGoals,String Venue,String Time){
         this.TeamA = TeamA;
         this.TeamB = TeamB;
@@ -208,6 +228,9 @@ class Results{
     }
 }
 
+/**
+ * Adapter for RESULT list
+ */
 class ResultsListAdapter extends RecyclerView.Adapter<ResultsListAdapter.ViewHolder4>{
 
     ArrayList<Results> resultsArrayList;

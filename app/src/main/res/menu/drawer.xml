@@ -26,7 +26,7 @@
             android:id="@+id/nav_rules"
             android:icon="@drawable/ic_featured_play_list_black_24dp"
             android:title="Rules" />
-        <item
+       <item
             android:id="@+id/nav_settings"
             android:icon="@drawable/ic_menu_manage"
             android:title="Settings" />
