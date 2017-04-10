@@ -36,7 +36,7 @@
             android:layout_marginLeft="@dimen/md_keylines"
             android:text="qHub Football Field"
             android:textAppearance="@style/TextAppearance.AppCompat.Title"
-            android:textColor="#000" />
+            android:textColor="#FFF" />
 
         <TextView
             android:id="@+id/favourite_card_text"
@@ -50,7 +50,7 @@
             android:text="Baliawas, Gurugram"
             android:ellipsize="end"
             android:singleLine="true"
-            android:textColor="@color/secondaryText"
+            android:textColor="#FFF"
             android:textSize="@dimen/article_subheading" />
 
         <ImageButton
@@ -63,7 +63,8 @@
             android:layout_alignParentRight="true"
             style="?android:attr/borderlessButtonStyle"
             android:onClick="viewLocation"
-            android:tint="@color/button_grey" />
+            android:tint="@color/button_grey"
+            android:background="#FFF"/>
 
         <ImageButton
             android:id="@+id/directions"
@@ -75,7 +76,8 @@
             android:layout_below="@+id/favourite_card_text"
             android:layout_toLeftOf="@id/ic_location_on_black_24dp"
             style="?android:attr/borderlessButtonStyle"
-            android:tint="@color/button_grey" />
+            android:tint="@color/button_grey"
+            android:background="#FFF"/>
     </RelativeLayout>
 
 
