@@ -72,8 +72,8 @@ public class TabFragment extends Fragment {
         public Fragment getItem(int position)
         {
           switch (position){
-             // case 0 : return new LiveMatchFragment();
-              case 0 : return new ResultsFragment();
+              case 0 : return new LiveMatchFragment();
+            //  case 0 : return new ResultsFragment();
               case 1 : return new LeaderboardFragment();
               case 2 : return new FixtureFragment();
               case 3 : return new ResultsFragment();
