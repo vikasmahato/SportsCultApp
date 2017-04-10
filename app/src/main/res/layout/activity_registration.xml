@@ -4,6 +4,7 @@
     android:orientation="vertical"
     android:layout_margin="@dimen/activity_horizontal_margin"
     android:layout_width="match_parent"
+    android:background="@color/viewBg"
     android:layout_height="match_parent">
     <ImageView
         android:layout_width="64dp"

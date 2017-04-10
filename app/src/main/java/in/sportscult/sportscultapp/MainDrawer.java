@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
@@ -20,6 +21,8 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.google.firebase.messaging.FirebaseMessaging;
+
+import java.util.Stack;
 
 import in.sportscult.sportscultapp.Utils.ExpandAndCollapseViewUtil;
 import in.sportscult.sportscultapp.fragments.AboutSFLFragment;
@@ -38,12 +41,13 @@ public class MainDrawer extends AppCompatActivity {
     FragmentTransaction mFragmentTransaction;
     ViewGroup linearLayoutDetails;
     ImageView imageViewExpand;
+
+
     private static final int DURATION = 250;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_drawer);
-
 
         FirebaseMessaging.getInstance().subscribeToTopic("news");
        // Toast.makeText(this, "news", Toast.LENGTH_SHORT).show();
@@ -62,7 +66,12 @@ public class MainDrawer extends AppCompatActivity {
 
              mFragmentManager = getSupportFragmentManager();
              mFragmentTransaction = mFragmentManager.beginTransaction();
-             mFragmentTransaction.replace(R.id.containerView,new TabFragment()).commit();
+        Fragment fragment = new TabFragment();
+        String tag = fragment.toString();
+        mFragmentTransaction.add(R.id.containerView, fragment,tag);
+        mFragmentTransaction.addToBackStack(tag);
+        mFragmentTransaction.commit();
+            // mFragmentTransaction.replace(R.id.containerView,new TabFragment()).commit();
         /**
          * Setup click events on the Navigation View Items.
          */
@@ -71,7 +80,8 @@ public class MainDrawer extends AppCompatActivity {
              @Override
              public boolean onNavigationItemSelected(MenuItem menuItem) {
                 mDrawerLayout.closeDrawers();
-
+                 Fragment newFragment = null;
+                 String tag = null;
                  int id = menuItem.getItemId();
 
                  if (id == R.id.nav_teams) {
@@ -80,36 +90,40 @@ public class MainDrawer extends AppCompatActivity {
                      startActivity(teamsIntent);
 
                  }else if (id == R.id.nav_home) {
-                     FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
-                     fragmentTransaction.replace(R.id.containerView,new TabFragment()).addToBackStack( "tag" ).commit();
+                     newFragment = new TabFragment();
+                     tag = newFragment.toString();
                  }  else if (id == R.id.nav_registration) {
-                     FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
-                     fragmentTransaction.replace(R.id.containerView,new RegistrationFragment()).addToBackStack( "tag" ).commit();
+                     newFragment = new RegistrationFragment();
+                     tag = newFragment.toString();
                  } else if (id == R.id.nav_about) {
-                     FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
-                     fragmentTransaction.replace(R.id.containerView,new AboutUsFragment()).addToBackStack( "tag" ).commit();
+                     newFragment = new AboutUsFragment();
+                     tag = newFragment.toString();
                  } else if (id == R.id.nav_rules) {
-                     FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
-                     fragmentTransaction.replace(R.id.containerView,new RulesFragment()).addToBackStack( "tag" ).commit();
+                     newFragment = new RulesFragment();
+                     tag = newFragment.toString();
                  } else if (id == R.id.nav_about_sfl) {
-                     FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
-                     fragmentTransaction.replace(R.id.containerView,new AboutSFLFragment()).addToBackStack( "tag" ).commit();
+                     newFragment = new AboutSFLFragment();
+                     tag = newFragment.toString();
                  } else if (id == R.id.nav_help) {
-                     FragmentTransaction xfragmentTransaction = mFragmentManager.beginTransaction();
-                     xfragmentTransaction.replace(R.id.containerView,new HelpFragment()).addToBackStack( "tag" ).commit();
+                     newFragment = new HelpFragment();
+                     tag = newFragment.toString();
                  }
                     else if(id == R.id.nav_settings){
-                     FragmentTransaction xfragmentTransaction = mFragmentManager.beginTransaction();
-                     xfragmentTransaction.replace(R.id.containerView,new SettingsFragment()).addToBackStack( "tag" ).commit();
-              
-                 } else if (id == R.id.nav_match_details) {
-                    FragmentTransaction xfragmentTransaction = mFragmentManager.beginTransaction();
-                    xfragmentTransaction.replace(R.id.containerView,new ResultsFragment()).addToBackStack( "tag" ).commit();
-                }else if (id == R.id.nav_settings) {
-                     FragmentTransaction xfragmentTransaction = mFragmentManager.beginTransaction();
-                     xfragmentTransaction.replace(R.id.containerView,new SettingsFragment()).addToBackStack( "tag" ).commit();
-                 }
+                     newFragment = new SettingsFragment();
+                     tag = newFragment.toString();
 
+                 } else if (id == R.id.nav_match_details) {
+                     newFragment = new ResultsFragment();
+                     tag = newFragment.toString();
+                }
+
+                if(newFragment!=null && tag != null) {
+                    FragmentTransaction transaction = mFragmentManager.beginTransaction();
+                    transaction.setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out);
+                    transaction.replace(R.id.containerView, newFragment, newFragment.toString());
+                  //  transaction.addToBackStack(tag);
+                    transaction.commit();
+                }
                  return false;
             }
 
