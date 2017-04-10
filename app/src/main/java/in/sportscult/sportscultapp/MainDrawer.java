@@ -1,6 +1,8 @@
 package in.sportscult.sportscultapp;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
@@ -29,6 +31,7 @@ import in.sportscult.sportscultapp.fragments.SettingsFragment;
 import in.sportscult.sportscultapp.fragments.TabFragment;
 
 public class MainDrawer extends AppCompatActivity {
+    public static final String SETTINGS = "settings" ;
     DrawerLayout mDrawerLayout;
     NavigationView mNavigationView;
     FragmentManager mFragmentManager;
@@ -41,12 +44,14 @@ public class MainDrawer extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_drawer);
 
-        /**
-         *Setup the DrawerLayout and NavigationView
-         */
-        FirebaseMessaging.getInstance().subscribeToTopic("news");
-        Toast.makeText(this, "news", Toast.LENGTH_SHORT).show();
 
+        FirebaseMessaging.getInstance().subscribeToTopic("news");
+       // Toast.makeText(this, "news", Toast.LENGTH_SHORT).show();
+
+        readSettings();
+/**
+ *Setup the DrawerLayout and NavigationView
+ */
              mDrawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
              mNavigationView = (NavigationView) findViewById(R.id.shitstuff) ;
 
@@ -96,11 +101,14 @@ public class MainDrawer extends AppCompatActivity {
                     else if(id == R.id.nav_settings){
                      FragmentTransaction xfragmentTransaction = mFragmentManager.beginTransaction();
                      xfragmentTransaction.replace(R.id.containerView,new SettingsFragment()).addToBackStack( "tag" ).commit();
-                 }
-               else if (id == R.id.nav_match_details) {
+              
+                 } else if (id == R.id.nav_match_details) {
                     FragmentTransaction xfragmentTransaction = mFragmentManager.beginTransaction();
                     xfragmentTransaction.replace(R.id.containerView,new ResultsFragment()).addToBackStack( "tag" ).commit();
-                }
+                }else if (id == R.id.nav_settings) {
+                     FragmentTransaction xfragmentTransaction = mFragmentManager.beginTransaction();
+                     xfragmentTransaction.replace(R.id.containerView,new SettingsFragment()).addToBackStack( "tag" ).commit();
+                 }
 
                  return false;
             }
@@ -116,6 +124,20 @@ public class MainDrawer extends AppCompatActivity {
                 mDrawerLayout.setDrawerListener(mDrawerToggle);
 
                 mDrawerToggle.syncState();
+
+    }
+
+    /**
+     * reads settings from shared preferences and subscribes to topics for notification
+     */
+    private void readSettings() {
+        SharedPreferences sharedPref = getSharedPreferences(SETTINGS, Context.MODE_PRIVATE);
+        boolean live_match = sharedPref.getBoolean(getString(R.string.live_match),  true);
+        boolean live_score = sharedPref.getBoolean(getString(R.string.live_score),  true);
+
+        if(live_match) FirebaseMessaging.getInstance().subscribeToTopic(getString(R.string.live_match));
+        if(live_score) FirebaseMessaging.getInstance().subscribeToTopic(getString(R.string.live_score));
+
 
     }
 
@@ -196,6 +218,16 @@ public class MainDrawer extends AppCompatActivity {
         }else {
             Toast.makeText(this, "No Application to View maps", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    public void setSettings(){
+        SharedPreferences sharedpreferences;
+        sharedpreferences = getSharedPreferences(SETTINGS, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedpreferences.edit();
+
+        editor.putBoolean("live_match", true);
+        editor.putBoolean("score", true);
+        editor.commit();
     }
 
 }

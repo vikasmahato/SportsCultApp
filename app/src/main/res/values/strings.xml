@@ -90,5 +90,10 @@
     <string name="about3">Exposure to higher number of real-time matches.</string>
     <string name="about4">Best players will receive a free session with the Senior coaches at SportsCult.</string>
     <string name="about5">Motivating rewards to the top three teams.</string>
+    <string name="loading">loading</string>
+    <string name="match_live">Live Match updates</string>
+    <string name="new_score">Score Updates</string>
+    <string name="live_score">live_score</string>
+    <string name="live_match">live_match</string>
 
 </resources>
