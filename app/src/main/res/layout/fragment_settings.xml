@@ -19,18 +19,20 @@
         android:layout_height="2dp"
         android:textColor="@color/colorPrimary"
         android:gravity="left"
-        android:fontFamily="sans-serif-light"
+        android:fontFamily="sans-serif"
+        android:textSize="@dimen/title"
         android:text="@string/match_live" />
 
         <Switch
             android:id="@+id/live_score"
             android:layout_width="match_parent"
-            android:fontFamily="sans-serif-light"
+            android:textSize="@dimen/title"
+            android:fontFamily="sans-serif"
             android:gravity="left"
             android:layout_height="wrap_content"
             android:textColor="@color/colorPrimary"
             android:text="@string/new_score" />
-    </LinearLayout>
+
 
 
 
@@ -39,7 +41,8 @@
     android:layout_height="wrap_content"
     android:text="Choose Your Favourite Team"
     android:textColor="@color/primaryText"
-    android:textSize="@dimen/title_height"
+    android:textSize="@dimen/title"
+    android:fontFamily="sans-serif"
     android:layout_margin="@dimen/md_keylines"
     android:gravity="center"/>
 
@@ -50,8 +53,11 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/primaryText"
-            android:text="Age Group : "
+            android:text="Age Group"
+            android:textColor="@color/colorPrimary"
+            android:gravity="left"
+            android:fontFamily="sans-serif"
+            android:textSize="@dimen/title"
             android:paddingRight="10dip"/>
         <Spinner
             android:id="@+id/fav_team_age_group"
@@ -68,14 +74,18 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/primaryText"
-            android:text="Team : "
+            android:textColor="@color/colorPrimary"
+            android:gravity="left"
+            android:fontFamily="sans-serif"
+            android:textSize="@dimen/title"
+            android:text="Team"
             android:paddingRight="10dip"/>
         <Spinner
             android:id="@+id/fav_team_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/md_keylines" />
+    </LinearLayout>
     </LinearLayout>
 </LinearLayout>  
 </FrameLayout>

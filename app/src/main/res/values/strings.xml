@@ -1,27 +1,7 @@
 <resources>
     <string name="app_name">SportscultApp</string>
 
-    <string name="navigation_drawer_open">Open navigation drawer</string>
-    <string name="navigation_drawer_close">Close navigation drawer</string>
-
-    <string name="action_settings">Settings</string>
-    <string name="registration">SportsCult Reg.</string>
-    <string name="team_name">Team Name</string>
-    <string name="coach_name">Coach Name</string>
-    <string name="coach_contact">Coach Contact</string>
-    <string name="coach_email">Coach Email</string>
-    <string name="team_location">Team Location</string>
-    <string name="add_more_players">Add Player Info</string>
-    <string name="player_contact">Player Contact</string>
-    <string name="player_name">Player Name</string>
-    <string name="submit">Submit</string>
-    <string name="upload_id_proof">"Upload Id Proof Scan</string>
-
-    <string name="empty_field">"Cannot Be Left Blank</string>
-    <string name="status">status</string>
-
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="history">Our History</string>
     <string name="content_history">Founded with a Mission to ‘Make Sports a Culture’ and a belief that it’s never too early or too late to learn a sport, we deliver well-structured comprehensive programs suited for all ages and skill levels – be it amateurs, professionals or recreational and leisure. Great Quality Facilities, Standardized Training (in skill and fitness), balanced nutrition guidance and technology driven assessment process are the cornerstones of Sports Cult’s training programs.</string>
     <string name="philosophy">Our Philosophy</string>
@@ -38,42 +18,12 @@
         <item>12yrs - 13yrs</item>
     </string-array>
 
-    <string name="refree_name">Refree Name</string>
-    <string name="prompt_password">Password</string>
-    <string name="hint_password_confirm">Confirm Password</string>
-
-    <string name="rank">Rank</string>
-
-    <string name="title_activity_splash">SplashActivity</string>
-    <string name="dummy_button">Dummy Button</string>
-    <string name="dummy_content">DUMMY\nCONTENT</string>
-    <string name="matches_played">Played</string>
-    <string name="matches_won">Won</string>
-    <string name="matches_lost">Lost</string>
-    <string name="matches_draw">Draw</string>
-    <string name="matches_goals">Goals Scored</string>
-    <string name="matches_goals_concieved">Goals Concieved</string>
-    <string name="red_cards">Red Cards</string>
-    <string name="points">Points</string>
     <string name="google_maps_api_key">AIzaSyC2yoXfDPcWtYb39XoqWtMW1ek1OGFSNRM</string>
 
     <!-- Toolbar titles -->
-    <string name="toolbar_title_home">Home</string>
-    <string name="toolbar_title_explore">Explore</string>
-    <string name="other_activity">Other Activity</string>
 
     <!-- Navigation Drawer -->
-    <string name="nav_drawer_item_home">Home</string>
-    <string name="nav_drawer_item_explore">Explore</string>
-    <string name="nav_drawer_help_and_feedback"><![CDATA[Help & feedback]]></string>
-    <string name="nav_drawer_about">About</string>
-    <string name="navigation_drawer_opened">The navigation drawer is opened</string>
-    <string name="navigation_drawer_closed">The navigation drawer is closed</string>
-    <string name="tag_nav_drawer_main_entry">nav_drawer_main_entry</string>
-    <string name="tag_nav_drawer_special_entry">nav_drawer_special_entry</string>
-    <string name="tools_text_account_information_username">Username</string>
-    <string name="tools_text_account_information_email">user@mail.com</string>
-    <string name="title_activity_main2">Main2Activity</string>
+    <string name="title_activity_main2">SFL 2017</string>
     <string name="rule1">All players, including substitution players are mandated to play only under their age group.</string>
     <string name="rule2">Each match will be of 45 minutes with 20 minutes for each half and 5 minutes of break.</string>
     <string name="rule3">The event is of league format. Thus, each team will play with each of the other team and points table will be maintained.</string>
@@ -85,7 +35,6 @@
     <string name="reg_closed">Online Registrations have been closed.\nFor Offline registrations\n Please Contact \nMr. Jalaj at 9205-846-046</string>
     <string name="rule6">It is mandatory to play under the jerseys provided by SportsCult.</string>
     <string name="rule7">A copy of Aadhar card will be required to be submitted by each player as a proof of age.</string>
-    <string name="about1">SportsCult with its mission \'to make Sports a Culture\', has incubated a football league for the emerging talent in football to play their best game in Delhi NCR.</string>
     <string name="about2">SFL provides opportunities to hundreds of players to experience real time competitive matches every Saturday from 8th April 2017 to 20th May 2017 at a prime location in Gurugram in a brand new football field.</string>
     <string name="about3">Exposure to higher number of real-time matches.</string>
     <string name="about4">Best players will receive a free session with the Senior coaches at SportsCult.</string>
