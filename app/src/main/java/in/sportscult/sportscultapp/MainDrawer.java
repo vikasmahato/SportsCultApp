@@ -24,6 +24,7 @@ import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.util.Stack;
 
+import in.sportscult.sportscultapp.Animations.ExpandCollapse;
 import in.sportscult.sportscultapp.Utils.ExpandAndCollapseViewUtil;
 import in.sportscult.sportscultapp.fragments.AboutSFLFragment;
 import in.sportscult.sportscultapp.fragments.AboutUsFragment;
@@ -176,28 +177,7 @@ public class MainDrawer extends AppCompatActivity {
 
         linearLayoutDetails = (ViewGroup) findViewById(R.id.linearLayoutDetails);
         imageViewExpand = (ImageView) findViewById(R.id.imageViewExpand);
-
-        if (linearLayoutDetails.getVisibility() == View.GONE) {
-            ExpandAndCollapseViewUtil.expand(linearLayoutDetails, DURATION);
-            imageViewExpand.setImageResource(R.drawable.ic_expand_more_black_24dp);
-            rotate(-180.0f);
-        } else {
-            ExpandAndCollapseViewUtil.collapse(linearLayoutDetails, DURATION);
-            imageViewExpand.setImageResource(R.drawable.ic_expand_less_black_24dp);
-            rotate(180.0f);
-        }
-    }
-
-    /**
-     * Animates the arrow button in Request a call card in HelpFragment
-     * @param angle
-     */
-    private void rotate(float angle) {
-        Animation animation = new RotateAnimation(0.0f, angle, Animation.RELATIVE_TO_SELF, 0.5f,
-                Animation.RELATIVE_TO_SELF, 0.5f);
-        animation.setFillAfter(true);
-        animation.setDuration(DURATION);
-        imageViewExpand.startAnimation(animation);
+        new ExpandCollapse(linearLayoutDetails, imageViewExpand);
     }
 
     /**
