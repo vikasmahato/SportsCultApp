@@ -1,6 +1,7 @@
 package in.sportscult.sportscultapp;
 
 import android.content.Context;
+import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -50,6 +51,12 @@ public class TeamDescriprion extends AppCompatActivity {
         Bundle bundle = getIntent().getExtras();
         TeamName = bundle.getString("Team Name");
         AgeGroup = bundle.getString("Age Group");
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            String imageTransitionName = bundle.getString("EXTRA_TRANSITION_NAME");
+            String textTransitionName = bundle.getString("EXTRA_TRANSITION_NAME_");
+            specific_team_profile_pic.setTransitionName(imageTransitionName);
+            specific_team_name.setTransitionName(textTransitionName);
+        }
         FetchDataForSpecificTeam();
     }
 
