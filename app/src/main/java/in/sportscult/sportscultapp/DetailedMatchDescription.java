@@ -1,17 +1,18 @@
 package in.sportscult.sportscultapp;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.github.vipulasri.timelineview.TimelineView;
@@ -31,15 +32,17 @@ public class DetailedMatchDescription extends AppCompatActivity {
     private static String OpenerActivity,UniqueMatchID,AgeGroup;
     private static DatabaseReference databaseReference;
     private static ArrayList<EventInformation> eventinformationarraylist;
-    private static RecyclerView eventinformationrecyclerview;
-    private static TextView team1name,team1score,team2name,team2score;
+    private static ArrayList<PlayerDetails> lineupA,lineupB;
+    private static RecyclerView eventinformationrecyclerview,lineup_recyclerview;
+    private static TextView team1name,team1score,team2name,team2score,lineup_teama,lineup_teamb;
     private static final int STARTOFMATCH = -1;
     private static final int ENDOFMATCH = 1000;
+    private static int selection_for_team_name;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_detailed_match_description);
+        setContentView(R.layout.detailed_match_description_trial);
 
         Bundle bundle = getIntent().getExtras();
         OpenerActivity = bundle.getString("Activity Name");
@@ -58,11 +61,27 @@ public class DetailedMatchDescription extends AppCompatActivity {
         team1score = (TextView)findViewById(R.id.team1score);
         team2name = (TextView)findViewById(R.id.team2name);
         team2score = (TextView)findViewById(R.id.team2score);
+        lineup_teama = (TextView)findViewById(R.id.lineup_teama);
+        lineup_teamb = (TextView)findViewById(R.id.lineup_teamb);
+        lineupA = new ArrayList<PlayerDetails>();
+        lineupB = new ArrayList<PlayerDetails>();
         eventinformationrecyclerview = (RecyclerView)findViewById(R.id.eventinformationrecyclerview);
         eventinformationrecyclerview.setAdapter(new TimeLineAdapter(this,eventinformationarraylist));
         eventinformationrecyclerview.setLayoutManager(new LinearLayoutManager(this));
 
+        lineup_recyclerview = (RecyclerView)findViewById(R.id.lineup_recyclerview);
+        lineup_recyclerview.setLayoutManager(new LinearLayoutManager(this));
+        display_lineup_of_teamA(lineup_teama);
+        //Set the adapter
+
         Fetch_MatchDescription_From_Firebase();
+    }
+
+    public void setAdapterForLineup(){
+        if(selection_for_team_name==1)
+            lineup_recyclerview.setAdapter(new LineupAdapter(this,lineupA));
+        else
+            lineup_recyclerview.setAdapter(new LineupAdapter(this,lineupB));
     }
 
     public void prepare_array_list(){
@@ -74,17 +93,74 @@ public class DetailedMatchDescription extends AppCompatActivity {
             eventinformationarraylist.add(1,new EventInformation(ENDOFMATCH,"Match Is Going On","","",-1));
     }
 
+    public void display_lineup_of_teamA(View view){
+
+        lineup_teama.setBackgroundColor(getResources().getColor(R.color.blue_500));
+        lineup_teamb.setBackgroundColor(getResources().getColor(R.color.viewBg));
+        selection_for_team_name=1;
+        setAdapterForLineup();
+    }
+
+    public void display_lineup_of_teamB(View view){
+
+        lineup_teama.setBackgroundColor(getResources().getColor(R.color.viewBg));
+        lineup_teamb.setBackgroundColor(getResources().getColor(R.color.blue_500));
+        selection_for_team_name=2;
+        setAdapterForLineup();
+    }
+
+    public void toggletimeline(View view){
+
+        ImageView ExpandTimeline = (ImageView)findViewById(R.id.ExpandTimeline);
+        ImageView CollapseTimeline = (ImageView)findViewById(R.id.CollapseTimeline);
+        if(ExpandTimeline.getVisibility()==View.VISIBLE){
+            ExpandTimeline.setVisibility(View.GONE);
+            CollapseTimeline.setVisibility(View.VISIBLE);
+            eventinformationrecyclerview.setVisibility(View.VISIBLE);
+        }
+        else{
+            ExpandTimeline.setVisibility(View.VISIBLE);
+            CollapseTimeline.setVisibility(View.GONE);
+            eventinformationrecyclerview.setVisibility(View.GONE);
+        }
+
+    }
+
+    public void togglelineup(View view){
+
+        ImageView ExpandLineup = (ImageView)findViewById(R.id.ExpandLineup);
+        ImageView CollapseLineup = (ImageView)findViewById(R.id.CollapseLineup);
+        RelativeLayout lineup_team_names = (RelativeLayout)findViewById(R.id.lineup_team_names);
+        if(ExpandLineup.getVisibility()==View.VISIBLE){
+            ExpandLineup.setVisibility(View.GONE);
+            CollapseLineup.setVisibility(View.VISIBLE);
+            lineup_team_names.setVisibility(View.VISIBLE);
+            lineup_recyclerview.setVisibility(View.VISIBLE);
+        }
+        else{
+            ExpandLineup.setVisibility(View.VISIBLE);
+            CollapseLineup.setVisibility(View.GONE);
+            lineup_team_names.setVisibility(View.GONE);
+            lineup_recyclerview.setVisibility(View.GONE);
+        }
+
+    }
+
     private void Fetch_MatchDescription_From_Firebase() {
 
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 prepare_array_list();
+                lineupA = new ArrayList<PlayerDetails>();
+                lineupB = new ArrayList<PlayerDetails>();
                 Map<String,String> tempmap = (Map<String, String>)dataSnapshot.getValue();
                 team1name.setText(tempmap.get("Team A"));
                 team2name.setText(tempmap.get("Team B"));
                 team1score.setText(tempmap.get("Team A Goals"));
                 team2score.setText(tempmap.get("Team B Goals"));
+                lineup_teama.setText(tempmap.get("Team A"));
+                lineup_teamb.setText(tempmap.get("Team B"));
 
                 //Set Text Colors For Scores
                 int AColor,BColor;
@@ -123,6 +199,21 @@ public class DetailedMatchDescription extends AppCompatActivity {
                 Collections.sort(eventinformationarraylist,new GenerateTimeLine());
                 eventinformationrecyclerview.setAdapter(new TimeLineAdapter(DetailedMatchDescription.this,eventinformationarraylist));
 
+                DataSnapshot TeamALineup = dataSnapshot.child("Lineups").child("Team A");
+                for(DataSnapshot childSnapshot : TeamALineup.getChildren()){
+                    Map<String,String> map = (Map<String,String>)childSnapshot.getValue();
+                    lineupA.add(new PlayerDetails(map.get("Jersey Number"),map.get("Player Name")));
+                    //Log.d("MY CHECK",map.get("Jersey Number")+map.get("Player Name"));
+                }
+
+                DataSnapshot TeamBLineup = dataSnapshot.child("Lineups").child("Team B");
+                for(DataSnapshot childSnapshot : TeamBLineup.getChildren()){
+                    Map<String,String> map = (Map<String,String>)childSnapshot.getValue();
+                    lineupB.add(new PlayerDetails(map.get("Jersey Number"),map.get("Player Name")));
+                    //Log.d("MY CHECK",map.get("Jersey Number")+map.get("Player Name"));
+                }
+
+                setAdapterForLineup();
             }
 
             @Override
@@ -131,6 +222,14 @@ public class DetailedMatchDescription extends AppCompatActivity {
             }
         });
 
+    }
+}
+
+class PlayerDetails{
+    String JerseyNumber,PlayerName;
+    PlayerDetails(String JerseyNumber,String PlayerName){
+        this.JerseyNumber = JerseyNumber;
+        this.PlayerName = PlayerName;
     }
 }
 
@@ -253,5 +352,45 @@ class TimeLineViewHolder extends RecyclerView.ViewHolder{
         red_arrow = (ImageView)view.findViewById(R.id.red_arrow);
         teamresponsible = (TextView)view.findViewById(R.id.teamresponsible);
         mTimeLineView.initLine(viewType);
+    }
+}
+
+class LineupAdapter extends RecyclerView.Adapter<LineupViewHolder>{
+
+    Context context;
+    ArrayList<PlayerDetails> playerDetails;
+    LineupAdapter(Context context,ArrayList<PlayerDetails> playerDetails){
+
+        this.context = context;
+        this.playerDetails = playerDetails;
+    }
+
+    @Override
+    public LineupViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        LayoutInflater layoutInflater = LayoutInflater.from(context);
+        View view = layoutInflater.inflate(R.layout.player_description_row,parent,false);
+        return new LineupViewHolder(view);
+    }
+
+    @Override
+    public void onBindViewHolder(LineupViewHolder holder, int position) {
+        PlayerDetails temp = playerDetails.get(position);
+        holder.specific_team_player_name.setText(temp.PlayerName);
+        holder.specific_team_player_jersey_number.setText(temp.JerseyNumber);
+    }
+
+    @Override
+    public int getItemCount() {
+        return playerDetails.size();
+    }
+}
+
+class LineupViewHolder extends RecyclerView.ViewHolder{
+
+    TextView specific_team_player_jersey_number,specific_team_player_name;
+    public LineupViewHolder(View view) {
+        super(view);
+        specific_team_player_jersey_number = (TextView)view.findViewById(R.id.specific_team_player_jersey_number);
+        specific_team_player_name = (TextView)view.findViewById(R.id.specific_team_player_name);
     }
 }

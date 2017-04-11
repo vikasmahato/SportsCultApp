@@ -1,0 +1,270 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/viewBg"
+    android:layout_margin="@dimen/card_margin"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto">
+
+  <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:orientation="vertical">
+      <android.support.v7.widget.CardView
+          android:id="@+id/card_view"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_gravity="center"
+          android:layout_margin="@dimen/card_margin"
+          android:background="@color/cardview_light_background"
+          android:elevation="3dp"
+          card_view:cardCornerRadius="@dimen/card_album_radius">
+
+          <LinearLayout
+              android:layout_marginLeft="@dimen/activity_vertical_margin"
+              android:layout_marginRight="@dimen/activity_vertical_margin"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:orientation="vertical">
+
+              <RelativeLayout
+                  android:layout_width="match_parent"
+                  android:layout_height="match_parent">
+
+                  <TextView
+                      android:id="@+id/team1score"
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:layout_toLeftOf="@+id/dash"
+                      android:text="1"
+                      android:layout_centerVertical="true"
+                      android:textColor="@color/colorAccent"
+                      android:textSize="@dimen/title_height" />
+
+                  <TextView
+                      android:id="@+id/dash"
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:layout_centerInParent="true"
+                      android:gravity="center"
+                      android:layout_margin="@dimen/activity_vertical_margin"
+                      android:text="-"
+                      android:textColor="@color/colorAccent" />
+
+                  <TextView
+                      android:id="@+id/team2score"
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:layout_toEndOf="@+id/dash"
+                      android:text="1"
+                      android:textColor="@color/colorAccent"
+                      android:layout_centerVertical="true"
+                      android:textSize="@dimen/title_height" />
+
+                  <TextView
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:layout_centerVertical="true"
+                      android:text="TEAM A NAME"
+                      android:layout_toLeftOf="@+id/team1score"
+                      android:layout_alignParentStart="true"
+                      android:id="@+id/team1name"
+                      android:textColor="@color/primaryText"
+                      />
+
+                  <TextView
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:text="TEAM B NAME"
+                      android:layout_alignParentEnd="true"
+                      android:layout_centerVertical="true"
+                      android:layout_toRightOf="@+id/team2score"
+                      android:gravity="right"
+                      android:id="@+id/team2name"
+                      android:textColor="@color/primaryText"/>
+              </RelativeLayout>
+
+          </LinearLayout>
+
+      </android.support.v7.widget.CardView>
+
+      <View
+          android:layout_width="match_parent"
+          android:layout_height="1dip"
+          android:background="#000"
+          />
+      <android.support.v7.widget.CardView
+          android:id="@+id/card1"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          card_view:cardBackgroundColor="@android:color/white"
+          card_view:cardUseCompatPadding="true">
+
+      <LinearLayout
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:orientation="vertical">
+          <RelativeLayout
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:orientation="horizontal"
+              android:padding="5dip"
+              android:onClick="toggletimeline">
+              <TextView
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_marginTop="5dip"
+                  android:fontFamily="sans-serif-light"
+                  android:text="TIMELINE OF MATCH"
+                  android:textAllCaps="true"
+                  android:textColor="@color/blue_500"
+                  android:textSize="20dip"
+                  android:textStyle="bold" />
+
+              <ImageView
+                  android:id="@+id/CollapseTimeline"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:tint="@color/button_grey"
+                  android:background="@android:color/transparent"
+                  android:contentDescription="Details"
+                  android:layout_alignParentRight="true"
+                  app:srcCompat="@drawable/ic_arrow_drop_up_black_24dp" />
+              <ImageView
+                  android:id="@+id/ExpandTimeline"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:tint="@color/button_grey"
+                  android:background="@android:color/transparent"
+                  android:contentDescription="Details"
+                  android:layout_alignParentRight="true"
+                  app:srcCompat="@drawable/ic_arrow_drop_down_black_24dp"
+                  android:visibility="gone"/>
+          </RelativeLayout>
+
+          <android.support.v7.widget.RecyclerView
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:id="@+id/eventinformationrecyclerview"
+              android:layout_margin="5dip"/>
+
+      </LinearLayout>
+      </android.support.v7.widget.CardView>
+
+      <android.support.v7.widget.CardView
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:id="@+id/card2"
+          card_view:cardBackgroundColor="@android:color/white"
+          card_view:cardUseCompatPadding="true">
+          <LinearLayout
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:orientation="vertical"
+              android:onClick="togglelineup">
+
+              <RelativeLayout
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:orientation="horizontal"
+                  android:padding="5dip">
+                  <TextView
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:fontFamily="sans-serif-light"
+                      android:text="THE PLAYING TEAM"
+                      android:textAllCaps="true"
+                      android:textColor="@color/blue_500"
+                      android:textSize="20dip"
+                      android:textStyle="bold"
+                      android:layout_alignParentBottom="true"
+                      android:layout_alignParentStart="true" />
+
+                  <ImageView
+                      android:id="@+id/CollapseLineup"
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:tint="@color/button_grey"
+                      android:background="@android:color/transparent"
+                      android:contentDescription="Details"
+                      android:layout_alignParentRight="true"
+                      app:srcCompat="@drawable/ic_arrow_drop_up_black_24dp"
+                      android:visibility="gone" />
+                  <ImageView
+                      android:id="@+id/ExpandLineup"
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:tint="@color/button_grey"
+                      android:background="@android:color/transparent"
+                      android:contentDescription="Details"
+                      android:layout_alignParentRight="true"
+                      app:srcCompat="@drawable/ic_arrow_drop_down_black_24dp"/>
+              </RelativeLayout>
+
+              <RelativeLayout
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:layout_marginBottom="5dip"
+                  android:visibility="gone"
+                  android:id="@+id/lineup_team_names">
+
+                  <TextView
+                      android:id="@+id/lineup_teama"
+                      android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:text="Team A"
+                      android:textAllCaps="true"
+                      android:textColor="@color/splash"
+                      android:textSize="15dip"
+                      android:textStyle="bold"
+                      android:gravity="center"
+                      android:paddingTop="7dip"
+                      android:paddingBottom="7dip"
+                      android:background="@color/blue_500"
+                      android:clickable="true"
+                      android:onClick="display_lineup_of_teamA"
+                      android:layout_toLeftOf="@+id/seperator_line"
+                      android:layout_alignParentStart="true" />
+                  <View
+                      android:layout_width="1dip"
+                      android:layout_height="29dip"
+                      android:background="#000"
+                      android:layout_centerHorizontal="true"
+                      android:id="@+id/seperator_line"
+                      android:layout_centerVertical="true"
+                      />
+                  <TextView
+                      android:id="@+id/lineup_teamb"
+                      android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:text="Team B"
+                      android:textAllCaps="true"
+                      android:textColor="@color/splash"
+                      android:textSize="15dip"
+                      android:textStyle="bold"
+                      android:layout_alignParentEnd="true"
+                      android:layout_toRightOf="@+id/seperator_line"
+                      android:gravity="center"
+                      android:paddingTop="7dip"
+                      android:paddingBottom="7dip"
+                      android:background="@color/viewBg"
+                      android:clickable="true"
+                      android:onClick="display_lineup_of_teamB"
+                      />
+
+              </RelativeLayout>
+
+              <android.support.v7.widget.RecyclerView
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:id="@+id/lineup_recyclerview"
+                  android:visibility="gone"/>
+          </LinearLayout>
+
+  </android.support.v7.widget.CardView>
+
+  </LinearLayout>
+</android.support.v4.widget.NestedScrollView>
