@@ -4,13 +4,11 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,7 +18,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.maps.MapView;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -49,7 +46,7 @@ public class LiveMatchFragment extends Fragment {
     private ArrayList<LiveMatch> liveMatchArrayList;
     private Map<String,String> team_profile_pic_download_urls;
     private LiveMatchAdapter liveMatchAdapter;
-    MapView mapView;
+    //MapView mapView;
     private ProgressDialog progressDialog;
     private static TextView display_on_empty_live_match;
     final DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
@@ -72,7 +69,9 @@ public class LiveMatchFragment extends Fragment {
         View view =  inflater.inflate(R.layout.fragment_live_match, container, false);
         Live_Matches_List = (RecyclerView) view.findViewById(R.id.Live_Matches_List);
         location_card = (CardView)view.findViewById(R.id.location_card);
+        //location_card.requestFocus();
         favourite_match_card = (CardView)view.findViewById(R.id.favourite_match_card);
+        //favourite_match_card.requestFocus();
         team_profile_pic_download_urls = new HashMap<String, String>();
         liveMatchArrayList = new ArrayList<LiveMatch>();
         display_on_empty_live_match = (TextView)view.findViewById(R.id.display_on_empty_live_match);
@@ -89,7 +88,7 @@ public class LiveMatchFragment extends Fragment {
 /**
  * Add onClickListener to recycler Items
  * Launches DetailedMatch Description on click of a Card
- * Passes Activity Name, MAtch ID and Age Group with Intent
+ * Passes Activity Name, Match ID and Age Group with Intent
  */
         Live_Matches_List.addOnItemTouchListener(new RecyclerItemClickListener(getActivity(), Live_Matches_List, new RecyclerItemClickListener.OnItemClickListener() {
             @Override
@@ -170,7 +169,6 @@ public class LiveMatchFragment extends Fragment {
                                 ArrayListEmpty();
                             else{
                                 liveMatchAdapter = new LiveMatchAdapter(getActivity(),liveMatchArrayList,team_profile_pic_download_urls);
-                                Live_Matches_List.scrollToPosition(2);
                                 /**
                                  * Add adapter to Live Match List
                                  */

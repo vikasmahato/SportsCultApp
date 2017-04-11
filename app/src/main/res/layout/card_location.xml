@@ -45,7 +45,7 @@
             android:text="Baliawas, Gurugram"
             android:ellipsize="end"
             android:singleLine="true"
-            android:textColor="@color/secondaryText"
+            android:textColor="@color/primaryText"
             android:textSize="@dimen/article_subheading" />
 
         <ImageButton
