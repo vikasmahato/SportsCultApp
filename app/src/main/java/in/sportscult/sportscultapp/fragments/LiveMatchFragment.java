@@ -1,14 +1,11 @@
 package in.sportscult.sportscultapp.fragments;
 
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
-import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -35,9 +32,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 import in.sportscult.sportscultapp.DetailedMatchDescription;
+import in.sportscult.sportscultapp.MainDrawer;
 import in.sportscult.sportscultapp.R;
 import in.sportscult.sportscultapp.RecyclerItemClickListener;
 import in.sportscult.sportscultapp.TeamDescriprion;
+import in.sportscult.sportscultapp.MainDrawer;
 
 /**
  * Created by Vishal Gautam
@@ -65,6 +64,15 @@ public class LiveMatchFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+//        if(location_card.getVisibility()==View.VISIBLE)
+//            location_card.requestFocus();
+//        else
+//            favourite_match_card.requestFocus();
     }
 
     @Override
@@ -271,62 +279,72 @@ public class LiveMatchFragment extends Fragment {
                     else
                         background_for_fav_match.setBackgroundColor(BColor);
 
-                        final String urlA = team_profile_pic_download_urls.get(liveMatch.AgeGroup + liveMatch.TeamA);
+                    final String urlA = team_profile_pic_download_urls.get(liveMatch.AgeGroup + liveMatch.TeamA);
+                    if(urlA==null || urlA.equals("Not Set"))
+                        MainDrawer.DefaultProfilePic(liveMatch.TeamA,(TextView)favourite_match_card.findViewById(R.id.default_profile_picA));
+                    else {
+                        ((TextView) favourite_match_card.findViewById(R.id.default_profile_picA)).setText("");
+                        Picasso.with(getActivity())
+                                .load(urlA)
+                                .networkPolicy(NetworkPolicy.OFFLINE)
+                                .into(imageViewTeamA, new Callback() {
+                                    @Override
+                                    public void onSuccess() {
+
+                                    }
+
+                                    @Override
+                                    public void onError() {
+                                        //Try again online if cache failed
+                                        Picasso.with(getActivity())
+                                                .load(urlA)
+                                                //.error(R.drawable.common_full_open_on_phone)
+                                                .into(imageViewTeamA, new Callback() {
+                                                    @Override
+                                                    public void onSuccess() {
+
+                                                    }
+
+                                                    @Override
+                                                    public void onError() {
+                                                    }
+                                                });
+                                    }
+                                });
+                    }
                     final String urlB = team_profile_pic_download_urls.get(liveMatch.AgeGroup + liveMatch.TeamB);
-                    Picasso.with(getActivity())
-                            .load(urlA)
-                            .networkPolicy(NetworkPolicy.OFFLINE)
-                            .into(imageViewTeamA, new Callback() {
-                                @Override
-                                public void onSuccess() {
+                    if(urlB ==null || urlB.equals("Not Set"))
+                        MainDrawer.DefaultProfilePic(liveMatch.TeamB,(TextView)favourite_match_card.findViewById(R.id.default_profile_picB));
+                    else {
+                        ((TextView) favourite_match_card.findViewById(R.id.default_profile_picB)).setText("");
+                        Picasso.with(getActivity())
+                                .load(urlB)
+                                .networkPolicy(NetworkPolicy.OFFLINE)
+                                .into(imageViewTeamB, new Callback() {
+                                    @Override
+                                    public void onSuccess() {
 
-                                }
+                                    }
 
-                                @Override
-                                public void onError() {
-                                    //Try again online if cache failed
-                                    Picasso.with(getActivity())
-                                            .load(urlA)
-                                            //.error(R.drawable.common_full_open_on_phone)
-                                            .into(imageViewTeamA, new Callback() {
-                                                @Override
-                                                public void onSuccess() {
+                                    @Override
+                                    public void onError() {
+                                        //Try again online if cache failed
+                                        Picasso.with(getActivity())
+                                                .load(urlB)
+                                                //.error(R.drawable.common_full_open_on_phone)
+                                                .into(imageViewTeamB, new Callback() {
+                                                    @Override
+                                                    public void onSuccess() {
 
-                                                }
+                                                    }
 
-                                                @Override
-                                                public void onError() {
-                                                }
-                                            });
-                                }
-                            });
-                    Picasso.with(getActivity())
-                            .load(urlB)
-                            .networkPolicy(NetworkPolicy.OFFLINE)
-                            .into(imageViewTeamB, new Callback() {
-                                @Override
-                                public void onSuccess() {
-
-                                }
-
-                                @Override
-                                public void onError() {
-                                    //Try again online if cache failed
-                                    Picasso.with(getActivity())
-                                            .load(urlB)
-                                            //.error(R.drawable.common_full_open_on_phone)
-                                            .into(imageViewTeamB, new Callback() {
-                                                @Override
-                                                public void onSuccess() {
-
-                                                }
-
-                                                @Override
-                                                public void onError() {
-                                                }
-                                            });
-                                }
-                            });
+                                                    @Override
+                                                    public void onError() {
+                                                    }
+                                                });
+                                    }
+                                });
+                    }
                     hide_location_card();
                     break;
                 }
@@ -464,79 +482,83 @@ class LiveMatchAdapter extends RecyclerView.Adapter<LiveMatchAdapter.Viewholder3
          * Looks if Image is cached.
          * If it finds Cached image it loads the same
          */
-        Picasso.with(context)
-                .load(urlA)
-                .networkPolicy(NetworkPolicy.OFFLINE)
-                .into(tempImageViewA, new Callback() {
-                    @Override
-                    public void onSuccess() {
+        if(urlA==null ||urlA.equals("Not Set"))
+            MainDrawer.DefaultProfilePic(data.TeamA,viewHolder.DefaultProfileA);
+        else {
+            (viewHolder.DefaultProfileA).setText("");
+            Picasso.with(context)
+                    .load(urlA)
+                    .networkPolicy(NetworkPolicy.OFFLINE)
+                    .into(tempImageViewA, new Callback() {
+                        @Override
+                        public void onSuccess() {
 
-                    }
+                        }
 
-                    /**
-                     * Loads Team pic from Url if not found in Cache
-                     */
-                    @Override
-                    public void onError() {
-                        //Try again online if cache failed
-                        Picasso.with(context)
-                                .load(urlA)
-                                //.error(R.drawable.common_full_open_on_phone)
-                                .into(tempImageViewA, new Callback() {
-                                    @Override
-                                    public void onSuccess() {
+                        /**
+                         * Loads Team pic from Url if not found in Cache
+                         */
+                        @Override
+                        public void onError() {
+                            //Try again online if cache failed
+                            Picasso.with(context)
+                                    .load(urlA)
+                                    //.error(R.drawable.common_full_open_on_phone)
+                                    .into(tempImageViewA, new Callback() {
+                                        @Override
+                                        public void onSuccess() {
 
-                                    }
+                                        }
 
-                                    @Override
-                                    public void onError() {
-                                    }
-                                });
-                    }
-                });
-
+                                        @Override
+                                        public void onError() {
+                                        }
+                                    });
+                        }
+                    });
+        }
         /**
          * Load Team Pic of TEAM B
          * Looks if Image is cached.
          * If it finds Cached image it loads the same
          */
 
-        Picasso.with(context)
-                .load(urlB)
-                .networkPolicy(NetworkPolicy.OFFLINE)
-                .into(tempImageViewB, new Callback() {
-                    @Override
-                    public void onSuccess() {
+        if(urlB == null || urlB.equals("Not Set"))
+            MainDrawer.DefaultProfilePic(data.TeamB,viewHolder.DefaultProfileB);
+        else {
+            (viewHolder.DefaultProfileB).setText("");
+            Picasso.with(context)
+                    .load(urlB)
+                    .networkPolicy(NetworkPolicy.OFFLINE)
+                    .into(tempImageViewB, new Callback() {
+                        @Override
+                        public void onSuccess() {
 
-                    }
+                        }
 
-                    /**
-                     * Loads Team pic from Url if not found in Cache
-                     */
+                        /**
+                         * Loads Team pic from Url if not found in Cache
+                         */
 
-                    @Override
-                    public void onError() {
-                        //Try again online if cache failed
-                        Picasso.with(context)
-                                .load(urlB)
-                                //.error(R.drawable.common_full_open_on_phone)
-                                .into(tempImageViewB, new Callback() {
-                                    @Override
-                                    public void onSuccess() {
+                        @Override
+                        public void onError() {
+                            //Try again online if cache failed
+                            Picasso.with(context)
+                                    .load(urlB)
+                                    //.error(R.drawable.common_full_open_on_phone)
+                                    .into(tempImageViewB, new Callback() {
+                                        @Override
+                                        public void onSuccess() {
 
-                                    }
+                                        }
 
-                                    @Override
-                                    public void onError() {
-                                    }
-                                });
-                    }
-                });
-        ViewCompat.setTransitionName(viewHolder.teamA_image,arrayListForLiveMatch.get(position).TeamA);
-        ViewCompat.setTransitionName(viewHolder.teamB_image,arrayListForLiveMatch.get(position).TeamB);
-
-        ViewCompat.setTransitionName(viewHolder.teamA_name,arrayListForLiveMatch.get(position).TeamA+"_");
-        ViewCompat.setTransitionName(viewHolder.teamB_name,arrayListForLiveMatch.get(position).TeamA+"_");
+                                        @Override
+                                        public void onError() {
+                                        }
+                                    });
+                        }
+                    });
+        }
     }
 
     @Override
@@ -548,53 +570,41 @@ class LiveMatchAdapter extends RecyclerView.Adapter<LiveMatchAdapter.Viewholder3
      * The viewHolder for the LiveMatch Object
      */
     class Viewholder3 extends RecyclerView.ViewHolder{
-        LinearLayout live_match_detail_card;
-        TextView teamA_name,teamB_name,live_match_score_A,live_match_score_B,live_match_start_time,live_match_venue,group;
+        LinearLayout live_match_teamA_imageView,live_match_teamB_imageView;
+        TextView teamA_name,teamB_name,live_match_score_A,live_match_score_B,live_match_start_time,live_match_venue,group,DefaultProfileA,DefaultProfileB;
         ImageView teamA_image,teamB_image;
         Viewholder3(View view){
             super(view);
-            live_match_detail_card = (LinearLayout)view.findViewById(R.id.live_match_detail_card);
+            live_match_teamA_imageView = (LinearLayout)view.findViewById(R.id.live_match_teamA_imageView);
+            live_match_teamB_imageView = (LinearLayout)view.findViewById(R.id.live_match_teamB_imageView);
             teamA_name = (TextView)view.findViewById(R.id.teamA_name);
             teamB_name = (TextView)view.findViewById(R.id.teamB_name);
             live_match_score_A = (TextView)view.findViewById(R.id.scoreA);
             live_match_score_B = (TextView)view.findViewById(R.id.scoreB);
             live_match_start_time = (TextView)view.findViewById(R.id.live_match_start_time);
             live_match_venue = (TextView)view.findViewById(R.id.live_match_venue);
+            DefaultProfileA = (TextView)view.findViewById(R.id.default_profile_picA);
+            DefaultProfileB = (TextView)view.findViewById(R.id.default_profile_picB);
             teamA_image = (ImageView)view.findViewById(R.id.teamA_image);
             teamB_image = (ImageView)view.findViewById(R.id.teamB_image);
             group = (TextView)view.findViewById(R.id.group);
 
-            teamA_image.setOnClickListener(new View.OnClickListener() {
+            live_match_teamA_imageView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(context, TeamDescriprion.class);
-                    intent.putExtra("EXTRA_TRANSITION_NAME", ViewCompat.getTransitionName(teamA_image));
-                    intent.putExtra("EXTRA_TRANSITION_NAME_", ViewCompat.getTransitionName(teamA_name));
                     intent.putExtra("Team Name",arrayListForLiveMatch.get(getPosition()).TeamA);
-                    intent.putExtra("Age Group",group.getText());
-                    ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(
-                            (Activity) context,
-                            teamA_image,
-                            ViewCompat.getTransitionName(teamA_image));
-
-                    context.startActivity(intent, options.toBundle());
+                    intent.putExtra("Age Group",arrayListForLiveMatch.get(getPosition()).AgeGroup);
+                    context.startActivity(intent);
                 }
             });
-            teamB_image.setOnClickListener(new View.OnClickListener() {
+            live_match_teamB_imageView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(context,TeamDescriprion.class);
-                    intent.putExtra("EXTRA_TRANSITION_NAME", ViewCompat.getTransitionName(teamB_image));
-                    intent.putExtra("EXTRA_TRANSITION_NAME_", ViewCompat.getTransitionName(teamB_name));
                     intent.putExtra("Team Name",arrayListForLiveMatch.get(getPosition()).TeamB);
-                    intent.putExtra("Age Group",group.getText());
-
-                    ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(
-                            (Activity) context,
-                            teamB_image,
-                            ViewCompat.getTransitionName(teamB_image));
-
-                    context.startActivity(intent, options.toBundle());
+                    intent.putExtra("Age Group",arrayListForLiveMatch.get(getPosition()).AgeGroup);
+                    context.startActivity(intent);
                 }
             });
         }
