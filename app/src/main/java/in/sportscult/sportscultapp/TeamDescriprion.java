@@ -27,7 +27,7 @@ import java.util.Map;
 public class TeamDescriprion extends AppCompatActivity {
 
     private static ImageView specific_team_profile_pic;
-    private static TextView specific_team_name,specific_coach_name,specific_team_location;
+    private static TextView specific_team_name,specific_coach_name,specific_team_location,specific_team_default_profile_pic;
     private static RecyclerView specific_team_players_list;
     private static String TeamName,AgeGroup;
     private static ArrayList<String> playerjerseynumberarraylist,playernamearraylist;
@@ -41,7 +41,9 @@ public class TeamDescriprion extends AppCompatActivity {
         specific_team_name = (TextView)findViewById(R.id.specific_team_name);
         specific_coach_name = (TextView)findViewById(R.id.specific_team_coach_name);
         specific_team_location = (TextView)findViewById(R.id.specific_team_location);
+        specific_team_default_profile_pic = (TextView)findViewById(R.id.specific_team_default_profile_pic);
         specific_team_players_list = (RecyclerView)findViewById(R.id.specific_team_players_list);
+        specific_team_players_list.setNestedScrollingEnabled(false);
         playerjerseynumberarraylist = new ArrayList<String>();
         playernamearraylist = new ArrayList<String>();
 
@@ -90,43 +92,51 @@ public class TeamDescriprion extends AppCompatActivity {
         FirebaseDatabase.getInstance().getReference().child(AgeGroup).child("Team Names").child(TeamName).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                Map<String,String> map = (Map<String,String>) dataSnapshot.getValue();
+                Map<String, String> map = (Map<String, String>) dataSnapshot.getValue();
                 final String url = map.get("Team Profile Pic Thumbnail Url");
-                Picasso.with(TeamDescriprion.this)
-                        .load(url)
-                        .resize(100,100)
-                        .networkPolicy(NetworkPolicy.OFFLINE)
-                        .into(specific_team_profile_pic, new Callback() {
-                            @Override
-                            public void onSuccess() {
+                if (url==null || url.equals("Not Set"))
+                    MainDrawer.DefaultProfilePic(TeamName, specific_team_default_profile_pic);
+                else {
+                    (specific_team_default_profile_pic).setText("");
+                    Picasso.with(TeamDescriprion.this)
+                            .load(url)
+                            .networkPolicy(NetworkPolicy.OFFLINE)
+                            .into(specific_team_profile_pic, new Callback() {
+                                @Override
+                                public void onSuccess() {
 
-                            }
+                                }
 
-                            @Override
-                            public void onError() {
-                                //Try again online if cache failed
-                                Picasso.with(TeamDescriprion.this)
-                                        .load(url)
-                                        //.error(R.drawable.common_full_open_on_phone)
-                                        .into(specific_team_profile_pic, new Callback() {
-                                            @Override
-                                            public void onSuccess() {
+                                /**
+                                 * Loads Team pic from Url if not found in Cache
+                                 */
+                                @Override
+                                public void onError() {
+                                    //Try again online if cache failed
+                                    Picasso.with(TeamDescriprion.this)
+                                            .load(url)
+                                            //.error(R.drawable.common_full_open_on_phone)
+                                            .into(specific_team_profile_pic, new Callback() {
+                                                @Override
+                                                public void onSuccess() {
 
-                                            }
+                                                }
 
-                                            @Override
-                                            public void onError() {
-                                            }
-                                        });
-                            }
-                        });
+                                                @Override
+                                                public void onError() {
+                                                }
+                                            });
+                                }
+                            });
+                }
             }
+
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
 
             }
-        });
+            });
     }
 }
 

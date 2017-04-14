@@ -33,6 +33,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import in.sportscult.sportscultapp.DetailedMatchDescription;
+import in.sportscult.sportscultapp.MainDrawer;
 import in.sportscult.sportscultapp.R;
 import in.sportscult.sportscultapp.RecyclerItemClickListener;
 import in.sportscult.sportscultapp.TeamDescriprion;
@@ -128,6 +129,7 @@ public class ResultsFragment extends Fragment {
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
             }
+
         });
 
         return view;
@@ -282,60 +284,76 @@ class ResultsListAdapter extends RecyclerView.Adapter<ResultsListAdapter.ViewHol
         final String urlA = map_for_team_profile_pic_download_urls.get(data.TeamA);
         final String urlB = map_for_team_profile_pic_download_urls.get(data.TeamB);
         //Load profile pic thumbnails
-        Picasso.with(context)
-                .load(urlA)
-                .networkPolicy(NetworkPolicy.OFFLINE)
-                .into(tempImageViewA, new Callback() {
-                    @Override
-                    public void onSuccess() {
+        if(urlA==null || urlA.equals("Not Set"))
+            MainDrawer.DefaultProfilePic(data.TeamA,viewHolder.default_profile_picA);
+        else {
+            (viewHolder.default_profile_picA).setText("");
+            Picasso.with(context)
+                    .load(urlA)
+                    .networkPolicy(NetworkPolicy.OFFLINE)
+                    .into(tempImageViewA, new Callback() {
+                        @Override
+                        public void onSuccess() {
 
-                    }
+                        }
 
-                    @Override
-                    public void onError() {
-                        //Try again online if cache failed
-                        Picasso.with(context)
-                                .load(urlA)
-                                //.error(R.drawable.common_full_open_on_phone)
-                                .into(tempImageViewA, new Callback() {
-                                    @Override
-                                    public void onSuccess() {
+                        /**
+                         * Loads Team pic from Url if not found in Cache
+                         */
+                        @Override
+                        public void onError() {
+                            //Try again online if cache failed
+                            Picasso.with(context)
+                                    .load(urlA)
+                                    //.error(R.drawable.common_full_open_on_phone)
+                                    .into(tempImageViewA, new Callback() {
+                                        @Override
+                                        public void onSuccess() {
 
-                                    }
+                                        }
 
-                                    @Override
-                                    public void onError() {
-                                    }
-                                });
-                    }
-                });
-        Picasso.with(context)
-                .load(urlB)
-                .networkPolicy(NetworkPolicy.OFFLINE)
-                .into(tempImageViewB, new Callback() {
-                    @Override
-                    public void onSuccess() {
+                                        @Override
+                                        public void onError() {
+                                        }
+                                    });
+                        }
+                    });
+        }
+        if(urlA==null || urlA.equals("Not Set"))
+            MainDrawer.DefaultProfilePic(data.TeamB,viewHolder.default_profile_picB);
+        else {
+            (viewHolder.default_profile_picB).setText("");
+            Picasso.with(context)
+                    .load(urlB)
+                    .networkPolicy(NetworkPolicy.OFFLINE)
+                    .into(tempImageViewB, new Callback() {
+                        @Override
+                        public void onSuccess() {
 
-                    }
+                        }
 
-                    @Override
-                    public void onError() {
-                        //Try again online if cache failed
-                        Picasso.with(context)
-                                .load(urlB)
-                                //.error(R.drawable.common_full_open_on_phone)
-                                .into(tempImageViewB, new Callback() {
-                                    @Override
-                                    public void onSuccess() {
+                        /**
+                         * Loads Team pic from Url if not found in Cache
+                         */
+                        @Override
+                        public void onError() {
+                            //Try again online if cache failed
+                            Picasso.with(context)
+                                    .load(urlB)
+                                    //.error(R.drawable.common_full_open_on_phone)
+                                    .into(tempImageViewB, new Callback() {
+                                        @Override
+                                        public void onSuccess() {
 
-                                    }
+                                        }
 
-                                    @Override
-                                    public void onError() {
-                                    }
-                                });
-                    }
-                });
+                                        @Override
+                                        public void onError() {
+                                        }
+                                    });
+                        }
+                    });
+        }
     }
 
     @Override
@@ -344,7 +362,7 @@ class ResultsListAdapter extends RecyclerView.Adapter<ResultsListAdapter.ViewHol
     }
 
     class ViewHolder4 extends RecyclerView.ViewHolder{
-        TextView teamA_name,teamB_name,live_match_score_A,live_match_score_B;
+        TextView teamA_name,teamB_name,live_match_score_A,live_match_score_B,default_profile_picA,default_profile_picB;
         ImageView teamA_image,teamB_image;
 
         LinearLayout include3,include4;
@@ -356,6 +374,8 @@ class ResultsListAdapter extends RecyclerView.Adapter<ResultsListAdapter.ViewHol
             live_match_score_B = (TextView)view.findViewById(R.id.scoreB);
             teamA_image = (ImageView)view.findViewById(R.id.teamA_image);
             teamB_image = (ImageView)view.findViewById(R.id.teamB_image);
+            default_profile_picA = (TextView)view.findViewById(R.id.default_profile_picA);
+            default_profile_picB = (TextView)view.findViewById(R.id.default_profile_picB);
 
             include3 = (LinearLayout)view.findViewById(R.id.include3);
             include3.setOnClickListener(new View.OnClickListener() {

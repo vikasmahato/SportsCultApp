@@ -41,6 +41,7 @@ public class DetailedMatchDescription extends AppCompatActivity {
     private static final int STARTOFMATCH = -1;
     private static final int ENDOFMATCH = 1000;
     private static int selection_for_team_name;
+
     private static final int DURATION = 250;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -112,7 +113,7 @@ public class DetailedMatchDescription extends AppCompatActivity {
         setAdapterForLineup();
     }
 
-    public void toggletimeline(View view){
+     public void toggletimeline(View view){
         ImageView ExpandTimeline = (ImageView)findViewById(R.id.ExpandTimeline);
         new ExpandCollapse(eventinformationrecyclerview, ExpandTimeline);
     }

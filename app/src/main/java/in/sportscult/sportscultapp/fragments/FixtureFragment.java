@@ -5,7 +5,6 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
@@ -36,6 +35,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import in.sportscult.sportscultapp.MainDrawer;
 import in.sportscult.sportscultapp.R;
 import in.sportscult.sportscultapp.TeamDescriprion;
 
@@ -277,66 +277,82 @@ class FixtureListAdapter extends RecyclerView.Adapter<FixtureListAdapter.ViewHol
          * Looks if Image is cached.
          * If it finds Cached image it loads the same or else it downloads it from firebase
          */
-        Picasso.with(context)
-                .load(urlA)
-                .networkPolicy(NetworkPolicy.OFFLINE)
-                .into(tempImageViewA, new Callback() {
-                    @Override
-                    public void onSuccess() {
+        if(urlA==null || urlA.equals("Not Set"))
+            MainDrawer.DefaultProfilePic(fixtureArrayList.get(position).TeamA,viewHolder.DefaultProfileA);
+        else {
+            (viewHolder.DefaultProfileA).setText("");
+            Picasso.with(context)
+                    .load(urlA)
+                    .networkPolicy(NetworkPolicy.OFFLINE)
+                    .into(tempImageViewA, new Callback() {
+                        @Override
+                        public void onSuccess() {
 
-                    }
+                        }
 
-                    @Override
-                    public void onError() {
-                        //Try again online if cache failed
-                        Picasso.with(context)
-                                .load(urlA)
-                                //.error(R.drawable.common_full_open_on_phone)
-                                .into(tempImageViewA, new Callback() {
-                                    @Override
-                                    public void onSuccess() {
+                        /**
+                         * Loads Team pic from Url if not found in Cache
+                         */
+                        @Override
+                        public void onError() {
+                            //Try again online if cache failed
+                            Picasso.with(context)
+                                    .load(urlA)
+                                    //.error(R.drawable.common_full_open_on_phone)
+                                    .into(tempImageViewA, new Callback() {
+                                        @Override
+                                        public void onSuccess() {
 
-                                    }
+                                        }
 
-                                    @Override
-                                    public void onError() {
-                                    }
-                                });
-                    }
-                });
+                                        @Override
+                                        public void onError() {
+                                        }
+                                    });
+                        }
+                    });
+        }
+        if(urlB==null || urlB.equals("Not Set"))
+            MainDrawer.DefaultProfilePic(fixtureArrayList.get(position).TeamB,viewHolder.DefaultProfileB);
+        else {
+            (viewHolder.DefaultProfileB).setText("");
+            Picasso.with(context)
+                    .load(urlB)
+                    .networkPolicy(NetworkPolicy.OFFLINE)
+                    .into(tempImageViewB, new Callback() {
+                        @Override
+                        public void onSuccess() {
 
-        Picasso.with(context)
-                .load(urlB)
-                .networkPolicy(NetworkPolicy.OFFLINE)
-                .into(tempImageViewB, new Callback() {
-                    @Override
-                    public void onSuccess() {
+                        }
 
-                    }
+                        /**
+                         * Loads Team pic from Url if not found in Cache
+                         */
 
-                    @Override
-                    public void onError() {
-                        //Try again online if cache failed
-                        Picasso.with(context)
-                                .load(urlB)
-                                //.error(R.drawable.common_full_open_on_phone)
-                                .into(tempImageViewB, new Callback() {
-                                    @Override
-                                    public void onSuccess() {
+                        @Override
+                        public void onError() {
+                            //Try again online if cache failed
+                            Picasso.with(context)
+                                    .load(urlB)
+                                    //.error(R.drawable.common_full_open_on_phone)
+                                    .into(tempImageViewB, new Callback() {
+                                        @Override
+                                        public void onSuccess() {
 
-                                    }
+                                        }
 
-                                    @Override
-                                    public void onError() {
-                                    }
-                                });
-                    }
-                });
-        ViewCompat.setTransitionName(viewHolder.teamA_image,fixtureArrayList.get(position).TeamA);
-        ViewCompat.setTransitionName(viewHolder.teamB_image,fixtureArrayList.get(position).TeamB);
+                                        @Override
+                                        public void onError() {
+                                        }
+                                    });
+                        }
+                    });
+        }
+        ViewCompat.setTransitionName(viewHolder.teamA_image,fixtureArrayList.get(position).TeamA+position);
+        ViewCompat.setTransitionName(viewHolder.teamB_image,fixtureArrayList.get(position).TeamB+position);
 
-        ViewCompat.setTransitionName(viewHolder.teamA_name,fixtureArrayList.get(position).TeamA+"_");
-        ViewCompat.setTransitionName(viewHolder.teamB_name,fixtureArrayList.get(position).TeamA+"_");
+        ViewCompat.setTransitionName(viewHolder.teamA_name,fixtureArrayList.get(position).TeamA+"_"+position);
+        ViewCompat.setTransitionName(viewHolder.teamB_name,fixtureArrayList.get(position).TeamA+"_"+position);
     }
 
     @Override
@@ -348,7 +364,7 @@ class FixtureListAdapter extends RecyclerView.Adapter<FixtureListAdapter.ViewHol
      * The viewHolder for the Fixture Object
      */
     class ViewHolder1 extends RecyclerView.ViewHolder{
-        TextView teamA_name, teamB_name, date, time, venue, referee;
+        TextView teamA_name, teamB_name, date, time, venue, referee,DefaultProfileA,DefaultProfileB;
         ImageView teamA_image,teamB_image;
 
         LinearLayout include2,include;
@@ -360,6 +376,8 @@ class FixtureListAdapter extends RecyclerView.Adapter<FixtureListAdapter.ViewHol
             time = (TextView) v.findViewById(R.id.time);
             venue = (TextView) v.findViewById(R.id.venue);
             referee = (TextView) v.findViewById(R.id.referee);
+            DefaultProfileA = (TextView)v.findViewById(R.id.default_profile_picA);
+            DefaultProfileB = (TextView)v.findViewById(R.id.default_profile_picB);
             teamA_image = (ImageView)v.findViewById(R.id.teamA_image);
             teamB_image = (ImageView)v.findViewById(R.id.teamB_image);
 

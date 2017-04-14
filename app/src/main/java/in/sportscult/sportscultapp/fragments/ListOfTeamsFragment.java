@@ -1,10 +1,10 @@
-package in.sportscult.sportscultapp;
+package in.sportscult.sportscultapp.fragments;
 
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -28,8 +28,12 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 import java.util.Map;
 
+import in.sportscult.sportscultapp.MainDrawer;
+import in.sportscult.sportscultapp.R;
+import in.sportscult.sportscultapp.RecyclerItemClickListener;
+import in.sportscult.sportscultapp.TeamDescriprion;
 
-public class ListOfTeams extends AppCompatActivity {
+public class ListOfTeamsFragment extends Fragment {
 
     private static Spinner list_of_teams_age_spinner;
     private static int selection_for_age_group = 1;
@@ -41,30 +45,40 @@ public class ListOfTeams extends AppCompatActivity {
     private static ArrayList<AdditionalInformation> additionalInformationArrayList;
     private static DatabaseReference RootReference = FirebaseDatabase.getInstance().getReference();
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_list_of_teams);
+    public ListOfTeamsFragment() {
+        // Required empty public constructor
+    }
 
-        list_of_teams_age_spinner = (Spinner)findViewById(R.id.list_of_teams_age_spinner);
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        View view = inflater.inflate(R.layout.fragment_list_of_teams, container, false);
+
+        list_of_teams_age_spinner = (Spinner)view.findViewById(R.id.list_of_teams_age_spinner);
         teamInformationArrayList = new ArrayList<TeamInformation>();
         additionalInformationArrayList = new ArrayList<AdditionalInformation>();
 
-        final ArrayAdapter<String> age_group_adapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,getResources().getStringArray(R.array.age_groups));
+        final ArrayAdapter<String> age_group_adapter = new ArrayAdapter<String>(getActivity(),android.R.layout.simple_list_item_1,getResources().getStringArray(R.array.age_groups));
         age_group_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         list_of_teams_age_spinner.setAdapter(age_group_adapter);
         //The Functionality to get the selection_for_age_group from Shared Preferences
         //If no data stored in Shared Preferences then do nothing,it will work on the time_default value
-        final SharedPreferences sharedPreferences = getSharedPreferences("UserPreferences", Context.MODE_PRIVATE);
+        final SharedPreferences sharedPreferences = getActivity().getSharedPreferences("UserPreferences", Context.MODE_PRIVATE);
         selection_for_age_group = sharedPreferences.getInt("selection_for_age_group",1);
 
         list_of_teams_age_spinner.setSelection(selection_for_age_group);
         age_group = "Group - "+age_group_codes[selection_for_age_group];
 
-        list_of_teams = (RecyclerView)findViewById(R.id.list_of_teams);
-        teamAdapter = new TeamAdapter(this,teamInformationArrayList,additionalInformationArrayList);
+        list_of_teams = (RecyclerView)view.findViewById(R.id.list_of_teams);
+        teamAdapter = new TeamAdapter(getActivity(),teamInformationArrayList,additionalInformationArrayList);
         list_of_teams.setAdapter(teamAdapter);
-        list_of_teams.setLayoutManager(new LinearLayoutManager(this));
+        list_of_teams.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         Fetching_Teams_From_Firebase();
         //Listening for change in age groups
@@ -88,10 +102,10 @@ public class ListOfTeams extends AppCompatActivity {
             }
         });
 
-        list_of_teams.addOnItemTouchListener(new RecyclerItemClickListener(this, list_of_teams, new RecyclerItemClickListener.OnItemClickListener() {
+        list_of_teams.addOnItemTouchListener(new RecyclerItemClickListener(getActivity(), list_of_teams, new RecyclerItemClickListener.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                Intent intent = new Intent(ListOfTeams.this,TeamDescriprion.class);
+                Intent intent = new Intent(getActivity(),TeamDescriprion.class);
                 intent.putExtra("Age Group",age_group);
                 intent.putExtra("Team Name",teamInformationArrayList.get(position).TeamName);
                 startActivity(intent);
@@ -102,11 +116,10 @@ public class ListOfTeams extends AppCompatActivity {
 
             }
         }));
+
+        return view;
     }
 
-    /**
-     *
-     */
     public void Fetching_Teams_From_Firebase(){
 
         RootReference.child(age_group).child("Team Names").addValueEventListener(new ValueEventListener() {
@@ -116,7 +129,7 @@ public class ListOfTeams extends AppCompatActivity {
                 additionalInformationArrayList = new ArrayList<AdditionalInformation>();
 
                 if(dataSnapshot.getValue()==null){
-                    list_of_teams.setAdapter(new TeamAdapter(ListOfTeams.this,teamInformationArrayList,additionalInformationArrayList));
+                    list_of_teams.setAdapter(new TeamAdapter(getActivity(),teamInformationArrayList,additionalInformationArrayList));
                     return;
                 }
                 for(DataSnapshot childSnapshot : dataSnapshot.getChildren()){
@@ -133,7 +146,7 @@ public class ListOfTeams extends AppCompatActivity {
                             Map<String,String> map1 = (Map<String,String>)dataSnapshot1.getValue();
                             AdditionalInformation tempData1 = new AdditionalInformation(map1.get("Coach Name"),map1.get("Location"));
                             additionalInformationArrayList.add(tempData1);
-                            list_of_teams.setAdapter(new TeamAdapter(ListOfTeams.this,teamInformationArrayList,additionalInformationArrayList));
+                            list_of_teams.setAdapter(new TeamAdapter(getActivity(),teamInformationArrayList,additionalInformationArrayList));
                         }
                     }
 
@@ -151,6 +164,7 @@ public class ListOfTeams extends AppCompatActivity {
         });
 
     }
+
 }
 
 class TeamAdapter extends RecyclerView.Adapter<TeamAdapter.TeamViewHolder>{
@@ -246,9 +260,10 @@ class TeamInformation{
         this.TeamThumbnail = TeamThumbnail;
     }
 }
-class AdditionalInformation{
-    String CoachName,Location;
-    AdditionalInformation(String CoachName,String Location){
+class AdditionalInformation {
+    String CoachName, Location;
+
+    AdditionalInformation(String CoachName, String Location) {
         this.CoachName = CoachName;
         this.Location = Location;
     }

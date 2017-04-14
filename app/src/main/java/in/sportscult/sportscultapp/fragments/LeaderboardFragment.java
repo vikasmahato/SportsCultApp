@@ -33,6 +33,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import in.sportscult.sportscultapp.MainDrawer;
 import in.sportscult.sportscultapp.R;
 import in.sportscult.sportscultapp.RecyclerItemClickListener;
 import in.sportscult.sportscultapp.TeamDescriprion;
@@ -287,34 +288,41 @@ class LeaderBoardAdapter extends RecyclerView.Adapter<LeaderBoardAdapter.ViewHol
         final String url = map_for_team_profile_pic_download_urls.get(data.TeamName);
 
         //Load profile pic thumbnails
-        Picasso.with(context)
-                .load(url)
-                .resize(70,70)
-                .networkPolicy(NetworkPolicy.OFFLINE)
-                .into(tempImageView, new Callback() {
-                    @Override
-                    public void onSuccess() {
+        if(url==null || url.equals("Not Set"))
+            MainDrawer.DefaultProfilePic(data.TeamName,viewHolder.LeaderboardDefaultProfilePic);
+        else {
+            (viewHolder.LeaderboardDefaultProfilePic).setText("");
+            Picasso.with(context)
+                    .load(url)
+                    .networkPolicy(NetworkPolicy.OFFLINE)
+                    .into(tempImageView, new Callback() {
+                        @Override
+                        public void onSuccess() {
 
-                    }
+                        }
 
-                    @Override
-                    public void onError() {
-                        //Try again online if cache failed
-                        Picasso.with(context)
-                                .load(url)
-                                //.error(R.drawable.common_full_open_on_phone)
-                                .into(tempImageView, new Callback() {
-                                    @Override
-                                    public void onSuccess() {
+                        /**
+                         * Loads Team pic from Url if not found in Cache
+                         */
+                        @Override
+                        public void onError() {
+                            //Try again online if cache failed
+                            Picasso.with(context)
+                                    .load(url)
+                                    //.error(R.drawable.common_full_open_on_phone)
+                                    .into(tempImageView, new Callback() {
+                                        @Override
+                                        public void onSuccess() {
 
-                                    }
+                                        }
 
-                                    @Override
-                                    public void onError() {
-                                    }
-                                });
-                    }
-                });
+                                        @Override
+                                        public void onError() {
+                                        }
+                                    });
+                        }
+                    });
+        }
     }
 
     @Override
@@ -326,6 +334,7 @@ class LeaderBoardAdapter extends RecyclerView.Adapter<LeaderBoardAdapter.ViewHol
      */
     class ViewHolder2 extends RecyclerView.ViewHolder{
         TextView player_row_for_leaderboard_team_name,player_row_for_leaderboard_matches_played,player_row_for_leaderboard_matches_won,player_row_for_leaderboard_matches_lost,player_row_for_leaderboard_points_scored;
+        TextView LeaderboardDefaultProfilePic;
         ImageView player_row_for_leaderboard_profile_pic;
 
         ViewHolder2(View v) {
@@ -336,6 +345,7 @@ class LeaderBoardAdapter extends RecyclerView.Adapter<LeaderBoardAdapter.ViewHol
             player_row_for_leaderboard_matches_lost = (TextView) v.findViewById(R.id.player_row_for_leaderboard_matches_lost);
             player_row_for_leaderboard_points_scored = (TextView) v.findViewById(R.id.player_row_for_leaderboard_points_scored);
             player_row_for_leaderboard_profile_pic = (ImageView) v.findViewById(R.id.player_row_for_leaderboard_profile_pic);
+            LeaderboardDefaultProfilePic = (TextView) v.findViewById(R.id.LeaderboardDefaultProfilePic);
         }
     }
 
