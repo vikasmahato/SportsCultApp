@@ -1,6 +1,7 @@
 package in.sportscult.sportscultapp;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
@@ -11,23 +12,28 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.RotateAnimation;
 import android.widget.ImageView;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.messaging.FirebaseMessaging;
 
+import java.util.List;
 import java.util.Stack;
 
 import in.sportscult.sportscultapp.Utils.ExpandAndCollapseViewUtil;
 import in.sportscult.sportscultapp.fragments.AboutSFLFragment;
 import in.sportscult.sportscultapp.fragments.AboutUsFragment;
 import in.sportscult.sportscultapp.fragments.HelpFragment;
+import in.sportscult.sportscultapp.fragments.ListOfTeamsFragment;
 import in.sportscult.sportscultapp.fragments.ResultsFragment;
 import in.sportscult.sportscultapp.fragments.RulesFragment;
 import in.sportscult.sportscultapp.fragments.SettingsFragment;
@@ -44,6 +50,63 @@ public class MainDrawer extends AppCompatActivity {
 
 
     private static final int DURATION = 250;
+
+    @Override
+    public void onBackPressed() {
+        String FRAGTAG = (getVisibleFragment().toString());
+        FRAGTAG = FRAGTAG.substring(0,FRAGTAG.indexOf('{'));
+        if(FRAGTAG.equals("TabFragment")){
+
+            AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
+            alertDialog.setMessage("Are you sure you want to exit the application");
+            alertDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+
+                    Intent intent = new Intent(Intent.ACTION_MAIN);
+                    intent.addCategory(Intent.CATEGORY_HOME);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
+                    finish();
+                    dialog.dismiss();
+                }
+            });
+            alertDialog.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+
+                    dialog.dismiss();
+                }
+            });
+            alertDialog.show();
+        }
+        else{
+
+            Fragment newFragment = null;
+            String tag = null;
+            newFragment = new TabFragment();
+            tag = newFragment.toString();
+            FragmentTransaction transaction = mFragmentManager.beginTransaction();
+            transaction.setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out);
+            transaction.replace(R.id.containerView, newFragment, newFragment.toString());
+            //transaction.addToBackStack(tag);
+            transaction.commit();
+            Log.d("FRAGMENT CHECK",tag);
+        }
+    }
+
+    public Fragment getVisibleFragment(){
+        FragmentManager fragmentManager = MainDrawer.this.getSupportFragmentManager();
+        List<Fragment> fragments = fragmentManager.getFragments();
+        if(fragments != null){
+            for(Fragment fragment : fragments){
+                if(fragment != null && fragment.isVisible())
+                    return fragment;
+            }
+        }
+        return null;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,6 +134,7 @@ public class MainDrawer extends AppCompatActivity {
         mFragmentTransaction.add(R.id.containerView, fragment,tag);
         mFragmentTransaction.addToBackStack(tag);
         mFragmentTransaction.commit();
+        Log.d("FRAGMENT CHECK",tag);
             // mFragmentTransaction.replace(R.id.containerView,new TabFragment()).commit();
         /**
          * Setup click events on the Navigation View Items.
@@ -86,8 +150,11 @@ public class MainDrawer extends AppCompatActivity {
 
                  if (id == R.id.nav_teams) {
 
-                     Intent teamsIntent = new Intent(getBaseContext(), ListOfTeams.class);
-                     startActivity(teamsIntent);
+                     newFragment = new ListOfTeamsFragment();
+                     tag = newFragment.toString();
+//
+//                     Intent teamsIntent = new Intent(getBaseContext(), ListOfTeams.class);
+//                     startActivity(teamsIntent);
 
                  }else if (id == R.id.nav_home) {
                      newFragment = new TabFragment();
@@ -121,8 +188,9 @@ public class MainDrawer extends AppCompatActivity {
                     FragmentTransaction transaction = mFragmentManager.beginTransaction();
                     transaction.setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out);
                     transaction.replace(R.id.containerView, newFragment, newFragment.toString());
-                  //  transaction.addToBackStack(tag);
+                    transaction.addToBackStack(tag);
                     transaction.commit();
+                    Log.d("FRAGMENT CHECK",tag);
                 }
                  return false;
             }
@@ -244,4 +312,20 @@ public class MainDrawer extends AppCompatActivity {
         editor.commit();
     }
 
+    public static void DefaultProfilePic(String TeamName,TextView textView){
+        textView.setVisibility(View.VISIBLE);
+        textView.setText(shortenName(TeamName));
+    }
+
+    private static String shortenName(String TeamName){
+        String name = "";
+        String s[] = TeamName.split(" ");
+        if(s.length==1)
+            name+=(TeamName.charAt(0));
+        else if(s.length>1){
+            for(int i=0;i<2;i++)
+                name+=s[i].charAt(0);
+        }
+        return name;
+    }
 }

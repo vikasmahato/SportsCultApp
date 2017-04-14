@@ -13,12 +13,25 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:layout_width="40dip"
-            android:layout_height="40dip"
-            android:layout_alignParentStart="true"
-            android:id="@+id/player_row_for_leaderboard_profile_pic"
-            android:src="#000"/>
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/TeamProfllePic">
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:layout_width="40dip"
+                android:layout_height="40dip"
+                android:layout_alignParentStart="true"
+                android:id="@+id/player_row_for_leaderboard_profile_pic"
+                android:src="#000"/>
+            <TextView
+                android:layout_width="40dip"
+                android:layout_height="40dip"
+                android:gravity="center"
+                android:text=""
+                android:textColor="@color/white"
+                android:textSize="20dip"
+                android:id="@+id/LeaderboardDefaultProfilePic"/>
+        </RelativeLayout>
 
         <TextView
             android:layout_width="wrap_content"
@@ -29,7 +42,7 @@
             android:paddingLeft="5dip"
             android:layout_centerVertical="true"
             android:layout_toLeftOf="@+id/player_row_for_leaderboard_matches_played"
-            android:layout_toRightOf="@+id/player_row_for_leaderboard_profile_pic"
+            android:layout_toRightOf="@+id/TeamProfllePic"
             android:id="@+id/player_row_for_leaderboard_team_name"/>
 
         <TextView

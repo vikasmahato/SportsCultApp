@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_gravity="center"
-    android:layout_marginBottom="@dimen/md_keylines">
+    android:layout_marginBottom="@dimen/md_keylines"
+    android:focusable="true">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -63,8 +64,7 @@
             android:layout_alignParentRight="true"
             style="?android:attr/borderlessButtonStyle"
             android:onClick="viewLocation"
-            android:tint="@color/button_grey"
-            android:background="#FFF"/>
+            android:tint="@android:color/white"/>
 
         <ImageButton
             android:id="@+id/directions"
@@ -76,8 +76,7 @@
             android:layout_below="@+id/favourite_card_text"
             android:layout_toLeftOf="@id/ic_location_on_black_24dp"
             style="?android:attr/borderlessButtonStyle"
-            android:tint="@color/button_grey"
-            android:background="#FFF"/>
+            android:tint="@android:color/white"/>
     </RelativeLayout>
 
 
