@@ -27,6 +27,9 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Map;
 
+import in.sportscult.sportscultapp.Animations.ExpandCollapse;
+import in.sportscult.sportscultapp.Utils.ExpandAndCollapseViewUtil;
+
 public class DetailedMatchDescription extends AppCompatActivity {
 
     private static String OpenerActivity,UniqueMatchID,AgeGroup;
@@ -39,6 +42,7 @@ public class DetailedMatchDescription extends AppCompatActivity {
     private static final int ENDOFMATCH = 1000;
     private static int selection_for_team_name;
 
+    private static final int DURATION = 250;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -109,41 +113,15 @@ public class DetailedMatchDescription extends AppCompatActivity {
         setAdapterForLineup();
     }
 
-    public void toggletimeline(View view){
-
+     public void toggletimeline(View view){
         ImageView ExpandTimeline = (ImageView)findViewById(R.id.ExpandTimeline);
-        ImageView CollapseTimeline = (ImageView)findViewById(R.id.CollapseTimeline);
-        if(ExpandTimeline.getVisibility()==View.VISIBLE){
-            ExpandTimeline.setVisibility(View.GONE);
-            CollapseTimeline.setVisibility(View.VISIBLE);
-            eventinformationrecyclerview.setVisibility(View.VISIBLE);
-        }
-        else{
-            ExpandTimeline.setVisibility(View.VISIBLE);
-            CollapseTimeline.setVisibility(View.GONE);
-            eventinformationrecyclerview.setVisibility(View.GONE);
-        }
-
+        new ExpandCollapse(eventinformationrecyclerview, ExpandTimeline);
     }
 
     public void togglelineup(View view){
-
+        LinearLayout layout_detail = (LinearLayout) findViewById(R.id.layout_detail);
         ImageView ExpandLineup = (ImageView)findViewById(R.id.ExpandLineup);
-        ImageView CollapseLineup = (ImageView)findViewById(R.id.CollapseLineup);
-        RelativeLayout lineup_team_names = (RelativeLayout)findViewById(R.id.lineup_team_names);
-        if(ExpandLineup.getVisibility()==View.VISIBLE){
-            ExpandLineup.setVisibility(View.GONE);
-            CollapseLineup.setVisibility(View.VISIBLE);
-            lineup_team_names.setVisibility(View.VISIBLE);
-            lineup_recyclerview.setVisibility(View.VISIBLE);
-        }
-        else{
-            ExpandLineup.setVisibility(View.VISIBLE);
-            CollapseLineup.setVisibility(View.GONE);
-            lineup_team_names.setVisibility(View.GONE);
-            lineup_recyclerview.setVisibility(View.GONE);
-        }
-
+        new ExpandCollapse(layout_detail, ExpandLineup);
     }
 
     private void Fetch_MatchDescription_From_Firebase() {

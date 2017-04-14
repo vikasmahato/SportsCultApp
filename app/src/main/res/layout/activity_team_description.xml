@@ -77,3 +77,4 @@
             android:id="@+id/specific_team_players_list" />
     </LinearLayout>
 </android.support.v4.widget.NestedScrollView>
+
