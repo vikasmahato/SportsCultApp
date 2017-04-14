@@ -24,7 +24,7 @@ public class ExpandCollapse {
 
 
     public ExpandCollapse(){
-
+        //required empty constructor
     }
 
     /**

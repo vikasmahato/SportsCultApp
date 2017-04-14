@@ -1,11 +1,14 @@
 package in.sportscult.sportscultapp.fragments;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -34,6 +37,7 @@ import java.util.Map;
 import in.sportscult.sportscultapp.DetailedMatchDescription;
 import in.sportscult.sportscultapp.R;
 import in.sportscult.sportscultapp.RecyclerItemClickListener;
+import in.sportscult.sportscultapp.TeamDescriprion;
 
 /**
  * Created by Vishal Gautam
@@ -528,6 +532,11 @@ class LiveMatchAdapter extends RecyclerView.Adapter<LiveMatchAdapter.Viewholder3
                                 });
                     }
                 });
+        ViewCompat.setTransitionName(viewHolder.teamA_image,arrayListForLiveMatch.get(position).TeamA);
+        ViewCompat.setTransitionName(viewHolder.teamB_image,arrayListForLiveMatch.get(position).TeamB);
+
+        ViewCompat.setTransitionName(viewHolder.teamA_name,arrayListForLiveMatch.get(position).TeamA+"_");
+        ViewCompat.setTransitionName(viewHolder.teamB_name,arrayListForLiveMatch.get(position).TeamA+"_");
     }
 
     @Override
@@ -554,6 +563,40 @@ class LiveMatchAdapter extends RecyclerView.Adapter<LiveMatchAdapter.Viewholder3
             teamA_image = (ImageView)view.findViewById(R.id.teamA_image);
             teamB_image = (ImageView)view.findViewById(R.id.teamB_image);
             group = (TextView)view.findViewById(R.id.group);
+
+            teamA_image.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(context, TeamDescriprion.class);
+                    intent.putExtra("EXTRA_TRANSITION_NAME", ViewCompat.getTransitionName(teamA_image));
+                    intent.putExtra("EXTRA_TRANSITION_NAME_", ViewCompat.getTransitionName(teamA_name));
+                    intent.putExtra("Team Name",arrayListForLiveMatch.get(getPosition()).TeamA);
+                    intent.putExtra("Age Group",group.getText());
+                    ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(
+                            (Activity) context,
+                            teamA_image,
+                            ViewCompat.getTransitionName(teamA_image));
+
+                    context.startActivity(intent, options.toBundle());
+                }
+            });
+            teamB_image.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(context,TeamDescriprion.class);
+                    intent.putExtra("EXTRA_TRANSITION_NAME", ViewCompat.getTransitionName(teamB_image));
+                    intent.putExtra("EXTRA_TRANSITION_NAME_", ViewCompat.getTransitionName(teamB_name));
+                    intent.putExtra("Team Name",arrayListForLiveMatch.get(getPosition()).TeamB);
+                    intent.putExtra("Age Group",group.getText());
+
+                    ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(
+                            (Activity) context,
+                            teamB_image,
+                            ViewCompat.getTransitionName(teamB_image));
+
+                    context.startActivity(intent, options.toBundle());
+                }
+            });
         }
     }
 

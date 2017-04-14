@@ -1,11 +1,14 @@
 package in.sportscult.sportscultapp.fragments;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -336,6 +339,12 @@ class ResultsListAdapter extends RecyclerView.Adapter<ResultsListAdapter.ViewHol
                                 });
                     }
                 });
+        ViewCompat.setTransitionName(viewHolder.teamA_image,resultsArrayList.get(position).TeamA);
+        ViewCompat.setTransitionName(viewHolder.teamB_image,resultsArrayList.get(position).TeamB);
+
+        ViewCompat.setTransitionName(viewHolder.teamA_name,resultsArrayList.get(position).TeamA+"_");
+        ViewCompat.setTransitionName(viewHolder.teamB_name,resultsArrayList.get(position).TeamA+"_");
+
     }
 
     @Override
@@ -358,23 +367,38 @@ class ResultsListAdapter extends RecyclerView.Adapter<ResultsListAdapter.ViewHol
             teamB_image = (ImageView)view.findViewById(R.id.teamB_image);
 
             include3 = (LinearLayout)view.findViewById(R.id.include3);
-            include3.setOnClickListener(new View.OnClickListener() {
+            teamA_image.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(context, TeamDescriprion.class);
+                    intent.putExtra("EXTRA_TRANSITION_NAME", ViewCompat.getTransitionName(teamA_image));
+                    intent.putExtra("EXTRA_TRANSITION_NAME_", ViewCompat.getTransitionName(teamA_name));
                     intent.putExtra("Team Name",resultsArrayList.get(getPosition()).TeamA);
                     intent.putExtra("Age Group",AGEGROUP);
-                    context.startActivity(intent);
+                    ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(
+                            (Activity) context,
+                            teamA_image,
+                            ViewCompat.getTransitionName(teamA_image));
+
+                    context.startActivity(intent, options.toBundle());
                 }
             });
-            include4 = (LinearLayout)view.findViewById(R.id.include4);
-            include4.setOnClickListener(new View.OnClickListener() {
+            include4 = (LinearLayout) view.findViewById(R.id.include4);
+            teamB_image.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(context,TeamDescriprion.class);
+                    intent.putExtra("EXTRA_TRANSITION_NAME", ViewCompat.getTransitionName(teamB_image));
+                    intent.putExtra("EXTRA_TRANSITION_NAME_", ViewCompat.getTransitionName(teamB_name));
                     intent.putExtra("Team Name",resultsArrayList.get(getPosition()).TeamB);
                     intent.putExtra("Age Group",AGEGROUP);
-                    context.startActivity(intent);
+
+                    ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(
+                            (Activity) context,
+                            teamB_image,
+                            ViewCompat.getTransitionName(teamB_image));
+
+                    context.startActivity(intent, options.toBundle());
                 }
             });
         }

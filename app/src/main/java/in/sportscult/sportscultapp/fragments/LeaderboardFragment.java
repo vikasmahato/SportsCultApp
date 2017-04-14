@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -315,6 +316,8 @@ class LeaderBoardAdapter extends RecyclerView.Adapter<LeaderBoardAdapter.ViewHol
                                 });
                     }
                 });
+        ViewCompat.setTransitionName(viewHolder.player_row_for_leaderboard_profile_pic,team_Scorecards.get(position).TeamName);
+
     }
 
     @Override
@@ -336,6 +339,8 @@ class LeaderBoardAdapter extends RecyclerView.Adapter<LeaderBoardAdapter.ViewHol
             player_row_for_leaderboard_matches_lost = (TextView) v.findViewById(R.id.player_row_for_leaderboard_matches_lost);
             player_row_for_leaderboard_points_scored = (TextView) v.findViewById(R.id.player_row_for_leaderboard_points_scored);
             player_row_for_leaderboard_profile_pic = (ImageView) v.findViewById(R.id.player_row_for_leaderboard_profile_pic);
+
+
         }
     }
 
