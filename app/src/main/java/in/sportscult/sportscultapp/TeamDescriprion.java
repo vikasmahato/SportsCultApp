@@ -69,9 +69,9 @@ public class TeamDescriprion extends AppCompatActivity {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Map<String,String> map = (Map<String,String>)dataSnapshot.getValue();
-                specific_coach_name.setText("Coach : "+map.get("Coach Name"));
+                specific_coach_name.setText(map.get("Coach Name"));
                 specific_team_name.setText(TeamName);
-                specific_team_location.setText("Location : "+map.get("Location"));
+                specific_team_location.setText(map.get("Location"));
                 DataSnapshot dataSnapshot1 = dataSnapshot.child("Players");
                 for(DataSnapshot childSnapshot : dataSnapshot1.getChildren()){
                     String text = childSnapshot.getKey();

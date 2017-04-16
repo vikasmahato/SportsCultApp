@@ -14,6 +14,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
     <Switch
+        android:visibility="gone"
         android:id="@+id/live_match"
         android:layout_width="match_parent"
         android:layout_height="2dp"
@@ -24,6 +25,7 @@
         android:text="@string/match_live" />
 
         <Switch
+            android:visibility="gone"
             android:id="@+id/live_score"
             android:layout_width="match_parent"
             android:textSize="@dimen/title"
@@ -51,7 +53,8 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
+            android:layout_weight="1"
             android:layout_height="wrap_content"
             android:text="Age Group"
             android:textColor="@color/colorPrimary"
@@ -61,7 +64,8 @@
             android:paddingRight="10dip"/>
         <Spinner
             android:id="@+id/fav_team_age_group"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
+            android:layout_weight="1"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/md_keylines" />
     </LinearLayout>
@@ -72,7 +76,8 @@
         android:orientation="horizontal">
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
+            android:layout_weight="1"
             android:layout_height="wrap_content"
             android:textColor="@color/colorPrimary"
             android:gravity="left"
@@ -82,7 +87,8 @@
             android:paddingRight="10dip"/>
         <Spinner
             android:id="@+id/fav_team_name"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
+            android:layout_weight="1"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/md_keylines" />
     </LinearLayout>

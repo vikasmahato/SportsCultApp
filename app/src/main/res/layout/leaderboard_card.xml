@@ -18,12 +18,13 @@
             android:layout_height="wrap_content"
             android:id="@+id/TeamProfllePic">
             <de.hdodenhof.circleimageview.CircleImageView
-                android:layout_width="40dip"
-                android:layout_height="40dip"
+                android:layout_width="30dip"
+                android:layout_height="30dip"
                 android:layout_alignParentStart="true"
                 android:id="@+id/player_row_for_leaderboard_profile_pic"
                 android:src="#000"/>
             <TextView
+                android:visibility="gone"
                 android:layout_width="40dip"
                 android:layout_height="40dip"
                 android:gravity="center"
@@ -48,9 +49,9 @@
         <TextView
             android:layout_width="30dip"
             android:layout_height="wrap_content"
-            android:textSize="15dip"
             android:text="P"
-            android:textColor="@color/primaryText"
+            android:textColor="@color/secondaryText"
+            android:textSize="@dimen/secondary_text_size"
             android:layout_toLeftOf="@+id/player_row_for_leaderboard_matches_won"
             android:id="@+id/player_row_for_leaderboard_matches_played"
             android:layout_centerVertical="true"
@@ -61,9 +62,9 @@
         <TextView
             android:layout_width="30dip"
             android:layout_height="wrap_content"
-            android:textSize="15dip"
             android:text="W"
-            android:textColor="@color/primaryText"
+            android:textColor="@color/secondaryText"
+            android:textSize="@dimen/secondary_text_size"
             android:layout_toLeftOf="@+id/player_row_for_leaderboard_matches_lost"
             android:layout_centerVertical="true"
             android:id="@+id/player_row_for_leaderboard_matches_won"
@@ -74,26 +75,27 @@
         <TextView
             android:layout_width="30dip"
             android:layout_height="wrap_content"
-            android:textSize="15dip"
             android:text="L"
-            android:textColor="@color/primaryText"
+            android:textColor="@color/secondaryText"
+            android:textSize="@dimen/secondary_text_size"
             android:layout_toLeftOf="@+id/player_row_for_leaderboard_points_scored"
             android:layout_centerVertical="true"
             android:id="@+id/player_row_for_leaderboard_matches_lost"
             android:gravity="center"
-            android:paddingLeft="2dip"
-            android:paddingRight="2dip"/>
+            android:paddingLeft="2dp"
+            android:paddingRight="2dp"/>
 
         <TextView
             android:layout_width="40dp"
             android:layout_height="wrap_content"
-            android:textSize="15dp"
             android:text="S"
             android:gravity="center"
             android:layout_centerVertical="true"
-            android:textColor="@color/primaryText"
+            android:textColor="@color/secondaryText"
+            android:textSize="@dimen/secondary_text_size"
             android:layout_alignParentEnd="true"
             android:id="@+id/player_row_for_leaderboard_points_scored"/>
+
     </RelativeLayout>
 
 </LinearLayout>
