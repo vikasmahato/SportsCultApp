@@ -37,8 +37,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="TEAM NAME "
-            android:textColor="@color/primaryText"
-            android:textSize="15dip"
+            android:textColor="@color/secondaryText"
+            android:textSize="@dimen/secondary_text_size"
             android:paddingLeft="5dip"
             android:layout_centerVertical="true"
             android:layout_toLeftOf="@+id/player_row_for_leaderboard_matches_played"
@@ -85,9 +85,9 @@
             android:paddingRight="2dip"/>
 
         <TextView
-            android:layout_width="40dip"
+            android:layout_width="40dp"
             android:layout_height="wrap_content"
-            android:textSize="15dip"
+            android:textSize="15dp"
             android:text="S"
             android:gravity="center"
             android:layout_centerVertical="true"

@@ -21,9 +21,10 @@
                android:layout_height="wrap_content"
                android:text="Age Group : "
                android:fontFamily="sans-serif-light"
-               android:textSize="20dip"
+               android:textSize="@dimen/title"
                android:textColor="@color/primaryText"
-               android:layout_marginRight="5dip"/>
+               android:layout_marginStart="@dimen/card_margin"
+               android:layout_marginEnd="@dimen/activity_vertical_margin"/>
 
            <Spinner
                android:layout_width="match_parent"
