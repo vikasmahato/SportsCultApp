@@ -9,9 +9,7 @@
     android:layout_marginLeft="@dimen/card_margin"
     android:layout_marginRight="@dimen/card_margin"
     android:layout_marginBottom="1dp"
-    android:foreground="?attr/selectableItemBackground"
-    android:focusable="true"
-    android:focusableInTouchMode="true">
+    android:foreground="?attr/selectableItemBackground">
 
     <RelativeLayout
         android:layout_width="match_parent"

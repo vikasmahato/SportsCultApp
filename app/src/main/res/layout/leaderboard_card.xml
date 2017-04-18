@@ -25,12 +25,12 @@
                 android:src="#000"/>
             <TextView
                 android:visibility="gone"
-                android:layout_width="40dip"
-                android:layout_height="40dip"
+                android:layout_width="30dip"
+                android:layout_height="30dip"
                 android:gravity="center"
-                android:text=""
+                android:text="DS"
                 android:textColor="@color/white"
-                android:textSize="20dip"
+                android:textSize="17dip"
                 android:id="@+id/LeaderboardDefaultProfilePic"/>
         </RelativeLayout>
 
