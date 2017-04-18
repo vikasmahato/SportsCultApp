@@ -240,6 +240,12 @@ class ResultsListAdapter extends RecyclerView.Adapter<ResultsListAdapter.ViewHol
     Context context;
     String AGEGROUP;
 
+    /**
+     * @param context The context of the calling activity
+     * @param resultsArrayList The array list to hold the objects
+     * @param map_for_team_profile_pic_download_urls Map which contains urls for downloading the profile pics
+     * @param AGEGROUP The age group of the competing teams
+     */
     public ResultsListAdapter(Context context,ArrayList<Results> resultsArrayList,Map<String,String> map_for_team_profile_pic_download_urls,String AGEGROUP){
         this.context = context;
         this.map_for_team_profile_pic_download_urls = map_for_team_profile_pic_download_urls;

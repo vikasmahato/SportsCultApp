@@ -1,124 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView  xmlns:android="http://schemas.android.com/apk/res/android"
+
+
+<android.support.v7.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/my_recycler_view"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-<LinearLayout
-    android:orientation="vertical"
-    android:layout_margin="@dimen/activity_horizontal_margin"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="@dimen/title"
-        android:fontFamily="sans-serif-light"
-        android:id="@+id/textView"
-        android:gravity="center"
-        android:textColor="@color/colorPrimaryLight"
-        android:text="About Us"/>
-
-
-
-    <View
-        android:id="@+id/line"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/colorPrimary"
-        android:layout_below="@+id/textView"/>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:orientation="horizontal"
-        android:layout_height="wrap_content">
-
-        <ImageView
-            android:layout_width="48dp"
-            android:gravity="left"
-            android:id="@+id/dot"
-            android:layout_margin="@dimen/md_keylines"
-            android:layout_below="@id/line"
-            android:layout_height="48dp"
-            android:src="@drawable/cup"/>
-
-        <com.uncopt.android.widget.text.justify.JustifiedTextView
-            android:layout_margin="@dimen/md_keylines"
-            android:id="@+id/rule1"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/rule1"/>
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:orientation="horizontal"
-        android:layout_height="wrap_content">
-
-        <ImageView
-            android:layout_width="48dp"
-            android:gravity="left"
-            android:id="@+id/dot1"
-            android:layout_margin="@dimen/md_keylines"
-            android:layout_below="@id/line"
-            android:layout_height="48dp"
-            android:src="@drawable/foot"/>
-
-        <com.uncopt.android.widget.text.justify.JustifiedTextView
-            android:layout_margin="@dimen/md_keylines"
-            android:id="@+id/rule2"
-            android:layout_below="@id/dot1"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/content_history"/>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:orientation="horizontal"
-        android:layout_height="wrap_content">
-
-        <ImageView
-            android:layout_width="48dp"
-            android:gravity="left"
-            android:layout_margin="@dimen/md_keylines"
-            android:layout_below="@id/line"
-            android:layout_height="48dp"
-            android:src="@drawable/penalty_kik"/>
-
-        <com.uncopt.android.widget.text.justify.JustifiedTextView
-            android:layout_margin="@dimen/md_keylines"
-            android:layout_below="@id/dot1"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/content_philosophy"/>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:orientation="horizontal"
-        android:layout_height="wrap_content">
-
-        <ImageView
-            android:layout_width="48dp"
-            android:gravity="left"
-            android:layout_margin="@dimen/md_keylines"
-            android:layout_below="@id/line"
-            android:layout_height="48dp"
-            android:src="@drawable/red_card"/>
-
-        <com.uncopt.android.widget.text.justify.JustifiedTextView
-            android:layout_margin="@dimen/md_keylines"
-            android:layout_below="@id/dot1"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/content_commitment"/>
-
-    </LinearLayout>
-
-</LinearLayout>
-
-</ScrollView>
+    android:layout_height="match_parent"
+    android:clipToPadding="false"
+    android:paddingBottom="@dimen/md_keylines"
+    android:paddingTop="@dimen/md_keylines"
+    android:scrollbars="vertical"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior" />

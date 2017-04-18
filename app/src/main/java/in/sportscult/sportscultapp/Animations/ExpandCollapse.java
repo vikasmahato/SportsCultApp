@@ -29,8 +29,8 @@ public class ExpandCollapse {
 
     /**
      *
-     * @param viewGroup
-     * @param imageView
+     * @param viewGroup the layout which needs to be expanded or collapsed
+     * @param imageView the imageview which indicates whether the view is in exapnded or collapsed state
      */
     public ExpandCollapse(ViewGroup viewGroup, ImageView imageView) {
         this.view = viewGroup;

@@ -96,13 +96,13 @@ public class SplashActivity extends AppCompatActivity {
                         // signed in user can be handled in the listener.
                         if (!task.isSuccessful()) {
                             Log.w(TAG, "signInAnonymously", task.getException());
-                            Toast.makeText(SplashActivity.this, "Authentication failed.",
-                                    Toast.LENGTH_SHORT).show();
+                         //   Toast.makeText(SplashActivity.this, "Authentication failed.",
+                                 //   Toast.LENGTH_SHORT).show();
                         }
 
                         if (task.isSuccessful()){
-                            Toast.makeText(SplashActivity.this, "Authenticated.",
-                                    Toast.LENGTH_SHORT).show();
+                       //     Toast.makeText(SplashActivity.this, "Authenticated.",
+                                    //Toast.LENGTH_SHORT).show();
                         }
 
                         // [START_EXCLUDE]

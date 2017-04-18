@@ -48,8 +48,6 @@ public class MainDrawer extends AppCompatActivity {
     FragmentTransaction mFragmentTransaction;
     ViewGroup linearLayoutDetails;
     ImageView imageViewExpand;
-
-
     private static final int DURATION = 250;
 
     @Override

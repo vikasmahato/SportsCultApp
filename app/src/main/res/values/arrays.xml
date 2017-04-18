@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="place_avator">
+        <item>@drawable/foot</item>
+        <item>@drawable/foul</item>
+        <item>@drawable/penalty_kik</item>
+        <item>@drawable/red_card</item>
+        <item>@drawable/fb</item>
+        <item>@drawable/basket</item>
+    </array>
+    <array name="places_picture">
+        <item>@drawable/foot</item>
+        <item>@drawable/foul</item>
+        <item>@drawable/penalty_kik</item>
+        <item>@drawable/red_card</item>
+        <item>@drawable/fb</item>
+        <item>@drawable/basket</item>
+    </array>
+
+    <array name="rules">
+        <item>All players, including substitution players are mandated to play only under their age group.</item>
+        <item>Each match will be of 45 minutes with 20 minutes for each half and 5 minutes of break.</item>
+        <item>The event is of league format. Thus, each team will play with each of the other team and points table will be maintained.</item>
+        <item>Each team can register with maximum of 12 players.</item>
+        <item>Only 3 substitutions will be allowed in each match. Each age group plays 7-a-side.</item>
+        <item>It is mandatory to play under the jerseys provided by SportsCult.</item>
+        <item>A copy of Aadhar card will be required to be submitted by each player as a proof of age.</item>
+    </array>
+    <array name="about_sfl">
+        <item>SFL provides opportunities to hundreds of players to experience real time competitive matches every Saturday from 8th April 2017 to 20th May 2017 at a prime location in Gurugram in a brand new football field.</item>
+        <item>Exposure to higher number of real-time matches.</item>
+        <item>Best players will receive a free session with the Senior coaches at SportsCult.</item>
+        <item>Motivating rewards to the top three teams.</item>
+    </array>
+    <array name="about_us">
+        <item>Founded with a Mission to ‘Make Sports a Culture’ and a belief that it’s never too early or too late to learn a sport, we deliver well-structured comprehensive programs suited for all ages and skill levels – be it amateurs, professionals or recreational and leisure. Great Quality Facilities, Standardized Training (in skill and fitness), balanced nutrition guidance and technology driven assessment process are the cornerstones of Sports Cult’s training programs.</item>
+        <item>Playing sports at any level is enjoyable and doing it regularly improves your overall personality and makes you a healthier person. Some of us take up a sport with a goal to become a champion. It is our endeavor to create a structured, scientific journey for you to reach your goal.</item>
+        <item>SportsCult is committed to excellence in all aspects of sports education that provides an inspiring environment for high performance. This commitment includes the training curriculum, well qualified trainers / coaches as well as the sporting facility.</item>
+    </array>
+    <array name="about_us_head">
+        <item>Our History</item>
+        <item>Our Philosophy</item>
+        <item>Our Commitment</item>
+    </array>
+</resources>
