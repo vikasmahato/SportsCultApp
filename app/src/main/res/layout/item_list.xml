@@ -24,7 +24,7 @@
         android:textAppearance="?attr/textAppearanceListItem"
         android:textSize="@dimen/article_subheading" />
 
-    <TextView
+    <com.uncopt.android.widget.text.justify.JustifiedTextView
         android:id="@+id/list_desc"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

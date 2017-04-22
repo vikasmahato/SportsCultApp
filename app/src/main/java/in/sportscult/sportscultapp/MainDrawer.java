@@ -162,8 +162,10 @@ public class MainDrawer extends AppCompatActivity {
                      newFragment = new RegistrationFragment();
                      tag = newFragment.toString();
                  } else if (id == R.id.nav_about) {
-                     newFragment = new AboutUsFragment();
-                     tag = newFragment.toString();
+                    // newFragment = new AboutUsFragment();
+                  //   tag = newFragment.toString();
+                     Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://sportscult.in"));
+                     startActivity(browserIntent);
                  } else if (id == R.id.nav_rules) {
                      newFragment = new RulesFragment();
                      tag = newFragment.toString();

@@ -11,7 +11,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
+import android.view.animation.AnimationUtils;
 import android.widget.Toast;
+import android.widget.ImageView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -43,6 +45,11 @@ public class SplashActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
+        /**
+         * Uncomment these lines to animate sportscult logo
+         */
+       // ImageView imageView = (ImageView) findViewById(R.id.logo);
+        //imageView.startAnimation(AnimationUtils.loadAnimation(this, R.anim.pulse));
         mAuth = FirebaseAuth.getInstance();
         if(!isNetworkAvailable()){
             Toast.makeText(this,"Your Internet isn't working.\nSome Data Might Be Obsolete.",Toast.LENGTH_LONG).show();

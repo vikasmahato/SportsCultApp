@@ -15,6 +15,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.uncopt.android.widget.text.justify.JustifiedTextView;
+
 import in.sportscult.sportscultapp.R;
 
 /**
@@ -36,11 +38,11 @@ public class RulesFragment extends Fragment {
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public ImageView avator;
-        public TextView description;
+        public JustifiedTextView description;
         public ViewHolder(LayoutInflater inflater, ViewGroup parent) {
             super(inflater.inflate(R.layout.item_list, parent, false));
             avator = (ImageView) itemView.findViewById(R.id.list_avatar);
-            description = (TextView) itemView.findViewById(R.id.list_desc);
+            description = (JustifiedTextView) itemView.findViewById(R.id.list_desc);
         }
     }
     /**
